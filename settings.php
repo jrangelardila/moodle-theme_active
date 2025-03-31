@@ -30,6 +30,26 @@ if ($hassiteconfig) {
 
     // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf
     if ($ADMIN->fulltree) {
-        // TODO: Define actual plugin settings page and add it to the tree - {@link https://docs.moodle.org/dev/Admin_settings}.
+        //Login background image
+        $name = 'theme_active/loginbackground';
+        $title = get_string('loginbackground', 'theme_active');
+        $description = get_string('loginbackgrounddesc', 'theme_active');
+        $default = '';
+        $setting = new admin_setting_configstoredfile($name, $title, $description, 'loginbackground', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.png,.jpg,.jpeg')));
+        $settings->add($setting);
+
+
+        //Login alignement
+        $name = 'theme_active/loginalignment';
+        $title = get_string('loginalignment', 'theme_active');
+        $description = get_string('loginalignment_desc', 'theme_active');
+        $choices = array(
+            'mr-auto' => get_string('left', 'theme_active'),
+            'mx-auto' => get_string('center', 'theme_active'),
+            'ml-auto' => get_string('right', 'theme_active')
+        );
+        $setting = new admin_setting_configselect($name, $title, $description, 'center', $choices);
+        $settings->add($setting);
     }
 }

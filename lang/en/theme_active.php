@@ -27,3 +27,10 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['choosereadme'] = 'Theme Active';
 $string['pluginname'] = 'Theme  Active';
+$string['loginbackground'] = "Login background image";
+$string['loginbackgrounddesc'] = "The image used to display the login background image.";
+$string['left'] = 'Left';
+$string['right'] = 'Right';
+$string['center'] = 'Center';
+$string['loginalignment'] = 'Login alignment';
+$string['loginalignment_desc'] = 'Indication of login alignment.';

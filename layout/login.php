@@ -23,20 +23,31 @@
  */
 
 
-/**
- * A login page layout for the boost theme.
- *
- * @package   theme_boost
- * @copyright 2016 Damyon Wiese
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 $bodyattributes = $OUTPUT->body_attributes();
+
+$context = context_system::instance();
+$loginbackground = get_config('theme_active', 'loginbackground');
+$backgroundurl = '';
+
+$fs = get_file_storage();
+$file = $fs->get_file($context->id, 'theme_active', 'loginbackground', 0, '/', $loginbackground);
+if ($loginbackground) {
+    $backgroundurl = moodle_url::make_pluginfile_url(
+        $context->id,
+        $file->get_component(),
+        $file->get_filearea(),
+        $file->get_itemid(),
+        $file->get_filepath(),
+        $file->get_filename()
+    );
+}
 
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
-    'bodyattributes' => $bodyattributes
+    'bodyattributes' => $bodyattributes,
+    'backgroundurl' => $backgroundurl,
+    'loginalignment' => get_config('theme_active', 'loginalignment'),
 ];
 
 $PAGE->requires->js_call_amd('theme_active/login', 'init');

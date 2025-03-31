@@ -15,17 +15,43 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ * The configuration for theme_active is defined here.
  *
  * @package     theme_active
  * @copyright   2024 Jhon Rangel <jrangelardila@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+/**
+ * Return files
+ *
+ * @param $course
+ * @param $cm
+ * @param $context
+ * @param $filearea
+ * @param $args
+ * @param $forcedownload
+ * @param array $options
+ * @return false|void
+ * @throws coding_exception|moodle_exception
+ */
+function theme_active_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options) {
+    global $CFG, $DB;
 
-$plugin->component = 'theme_active';
-$plugin->release = '0.1.0';
-$plugin->version = 2025033006;
-$plugin->requires = 2022112800;
-$plugin->maturity = MATURITY_ALPHA;
+    //Get itemid and path the file
+    $itemid = array_shift($args);
+    $relativepath = implode('/', $args);
+
+    // Ger file for file_storage
+    $fs = get_file_storage();
+    $file = $fs->get_file($context->id, 'theme_active', $filearea, $itemid, '/', $relativepath);
+
+    // If file not exists, return 404
+    if (!$file) {
+        send_file_not_found();
+    }
+
+    // Send the file
+    send_stored_file($file, 0, 0, $forcedownload, $options);
+}
+
