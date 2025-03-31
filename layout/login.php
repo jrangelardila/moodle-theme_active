@@ -39,4 +39,5 @@ $templatecontext = [
     'bodyattributes' => $bodyattributes
 ];
 
+$PAGE->requires->js_call_amd('theme_active/login', 'init');
 echo $OUTPUT->render_from_template('theme_active/login', $templatecontext);
