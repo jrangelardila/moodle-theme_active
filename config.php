@@ -40,59 +40,59 @@ $THEME->layouts = array(
     // Most backwards compatible layout without the blocks.
     // This is the layout used by default.
     'base' => array(
-        'file' => 'layout1',
+        'file' => 'drawers.php',
         'regions' => array(),
     ),
 
     // Standard layout with blocks, recommended for most pages with general information.
     'standard' => array(
-        'file' => 'layout2',
+        'file' => 'drawers.php',
         'regions' => array(),
     ),
 
     // Main course page.
     'course' => array(
-        'file' => 'layout3',
+        'file' => 'drawers.php',
         'regions' => array(),
     ),
 
     'coursecategory' => array(
-        'file' => 'layout4',
+        'file' => 'drawers.php',
         'regions' => array(),
     ),
 
     // Part of course, typical for modules. Default page layout if $cm specified in require_login().
     'incourse' => array(
-        'file' => 'layout5',
+        'file' => 'drawers.php',
         'regions' => array(),
     ),
 
     // The site home page.
     'frontpage' => array(
-        'file' => 'layout6',
+        'file' => 'drawers.php',
         'regions' => array(),
     ),
 
     // Server administration scripts.
     'admin' => array(
-        'file' => 'layout7',
+        'file' => 'drawers.php',
         'regions' => array(),
     ),
 
     // My dashboard page.
     'mydashboard' => array(
-        'file' => 'layout8',
+        'file' => 'drawers.php',
         'regions' => array(),
     ),
 
     // My public page.
     'mypublic' => array(
-        'file' => 'layout9',
+        'file' => 'drawers.php',
         'regions' => array(),
     ),
 
     'login' => array(
-        'file' => 'layout10',
+        'file' => 'login.php',
         'regions' => array(),
     ),
 
