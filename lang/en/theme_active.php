@@ -34,3 +34,4 @@ $string['right'] = 'Right';
 $string['center'] = 'Center';
 $string['loginalignment'] = 'Login alignment';
 $string['loginalignment_desc'] = 'Indication of login alignment.';
+$string['maintenance_desc'] = 'Maintenance mode';

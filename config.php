@@ -121,7 +121,7 @@ $THEME->layouts = array(
     // Used during upgrade and install, and for the 'This site is undergoing maintenance message.
     // This must not have any blocks, and it is a good idea if it does not have links to other pages.
     'maintenance' => array(
-        'file' => 'layout13',
+        'file' => 'maintenance.php',
         'regions' => array(),
         'options' => array(
             'noblocks' => true,
