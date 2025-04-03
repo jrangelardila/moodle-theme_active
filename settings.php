@@ -26,30 +26,48 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
-    $settings = new admin_settingpage('theme_active_settings', new lang_string('pluginname', 'theme_active'));
+    // dash for the configs
+    $settings = new theme_boost_admin_settingspage_tabs('themesettingactive', get_string('configtitle', 'theme_active'));
 
-    // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf
-    if ($ADMIN->fulltree) {
-        //Login background image
-        $name = 'theme_active/loginbackground';
-        $title = get_string('loginbackground', 'theme_active');
-        $description = get_string('loginbackgrounddesc', 'theme_active');
-        $default = '';
-        $setting = new admin_setting_configstoredfile($name, $title, $description, 'loginbackground', 0,
-            array('maxfiles' => 1, 'accepted_types' => array('.png,.jpg,.jpeg')));
-        $settings->add($setting);
+    // _____________________________________________________________________________Tab: Login config
+    $page = new admin_settingpage('theme_active_login', get_string('loginsettings', 'theme_active'));
+
+    // login background image
+    $name = 'theme_active/loginbackground';
+    $title = get_string('loginbackground', 'theme_active');
+    $description = get_string('loginbackgrounddesc', 'theme_active');
+    $setting = new admin_setting_configstoredfile($name, $title, $description, 'loginbackground', 0,
+        array('maxfiles' => 1, 'accepted_types' => array('.png', '.jpg', '.jpeg')));
+    $page->add($setting);
+
+    // login alignment
+    $name = 'theme_active/loginalignment';
+    $title = get_string('loginalignment', 'theme_active');
+    $description = get_string('loginalignment_desc', 'theme_active');
+    $choices = array(
+        'mr-auto' => get_string('left', 'theme_active'),
+        'mx-auto' => get_string('center', 'theme_active'),
+        'ml-auto' => get_string('right', 'theme_active')
+    );
 
 
-        //Login alignement
-        $name = 'theme_active/loginalignment';
-        $title = get_string('loginalignment', 'theme_active');
-        $description = get_string('loginalignment_desc', 'theme_active');
-        $choices = array(
-            'mr-auto' => get_string('left', 'theme_active'),
-            'mx-auto' => get_string('center', 'theme_active'),
-            'ml-auto' => get_string('right', 'theme_active')
-        );
-        $setting = new admin_setting_configselect($name, $title, $description, 'center', $choices);
-        $settings->add($setting);
-    }
+    $setting = new admin_setting_configselect($name, $title, $description, 'mx-auto', $choices);
+    $page->add($setting);
+
+    // Add login page
+    $settings->add($page);
+
+    // _____________________________________________________________________________Tab: Header config
+    $page = new admin_settingpage('theme_active_header', get_string('headersettings', 'theme_active'));
+
+
+    // Add header page
+    $settings->add($page);
+
+    // _____________________________________________________________________________Tab: Footer config
+    $page = new admin_settingpage('theme_active_footer', get_string('footersettings', 'theme_active'));
+
+
+    // Add footer page
+    $settings->add($page);
 }

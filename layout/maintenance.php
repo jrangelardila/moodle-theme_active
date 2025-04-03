@@ -30,4 +30,10 @@ $templatecontext = [
     'maintenance' => $OUTPUT->image_url('maintenance', 'theme_active'),
 ];
 
-echo $OUTPUT->render_from_template('theme_active/maintenance', $templatecontext);
+$maintenance_mode = get_config('core', 'maintenance_enabled');
+
+if ($maintenance_mode) {
+    echo $OUTPUT->render_from_template('theme_active/maintenance', $templatecontext);
+} else {
+    echo $OUTPUT->render_from_template('theme_boost/maintenance', $templatecontext);
+}
