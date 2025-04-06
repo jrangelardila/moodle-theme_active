@@ -39,3 +39,6 @@ $string['configtitle'] = 'Setting for Theme Active';
 $string['loginsettings'] = 'Login Settings';
 $string['headersettings'] = 'Header Settings';
 $string['footersettings'] = 'Footer Settings';
+$string['logo_settings'] = 'Logo for site';
+$string['logo_settingsdesc'] = 'Logo for institution';
+$string['logocompact_settings'] = 'Logo compact for site';

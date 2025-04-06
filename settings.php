@@ -60,6 +60,21 @@ if ($hassiteconfig) {
     // _____________________________________________________________________________Tab: Header config
     $page = new admin_settingpage('theme_active_header', get_string('headersettings', 'theme_active'));
 
+    //Add settings for logo, to the /admin/settings.php?section=logos
+
+    $name = 'core_admin/logo';
+    $title = get_string('logo_settings', 'theme_active');
+    $description = get_string('logo_settingsdesc', 'theme_active');
+    $setting = new admin_setting_configstoredfile($name, $title, $description, 'logo', 0,
+        array('maxfiles' => 1, 'accepted_types' => array('.png', '.jpg', '.jpeg')));
+    $page->add($setting);
+
+    $name = 'core_admin/logocompact';
+    $title = get_string('logocompact_settings', 'theme_active');
+    $description = get_string('logo_settingsdesc', 'theme_active');
+    $setting = new admin_setting_configstoredfile($name, $title, $description, 'logocompact', 0,
+        array('maxfiles' => 1, 'accepted_types' => array('.png', '.jpg', '.jpeg')));
+    $page->add($setting);
 
     // Add header page
     $settings->add($page);

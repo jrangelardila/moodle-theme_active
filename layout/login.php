@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * The configuration for theme_active is defined here.
+ * The layout/login.php for theme_active is defined here.
  *
  * @package     theme_active
  * @copyright   2024 Jhon Rangel <jrangelardila@gmail.com>
