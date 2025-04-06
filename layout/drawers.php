@@ -48,8 +48,12 @@ if ($courseindexopen) {
     $extraclasses[] = 'drawer-open-index';
 }
 
-$blockshtml = $OUTPUT->blocks('side-pre');
-$hasblocks = (strpos($blockshtml, 'data-block=') !== false || !empty($addblockbutton));
+//side-pre, blocks
+$blockshtml_side_pre = $OUTPUT->blocks('side-pre');
+$hasblocks = (str_contains($blockshtml_side_pre, 'data-block=') || !empty($addblockbutton));
+//top blocks
+$blockshtml_top = $OUTPUT->blocks('side-top');
+
 if (!$hasblocks) {
     $blockdraweropen = false;
 }
@@ -86,8 +90,9 @@ $headercontent = $header->export_for_template($renderer);
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
-    'sidepreblocks' => $blockshtml,
+    'sidepreblocks' => $blockshtml_side_pre, //right blocks
     'hasblocks' => $hasblocks,
+    'topblocks' => $blockshtml_top, //top blocks
     'bodyattributes' => $bodyattributes,
     'courseindexopen' => $courseindexopen,
     'blockdraweropen' => $blockdraweropen,
@@ -105,4 +110,4 @@ $templatecontext = [
     'addblockbutton' => $addblockbutton
 ];
 
-echo $OUTPUT->render_from_template('theme_boost/drawers', $templatecontext);
+echo $OUTPUT->render_from_template('theme_active/drawers', $templatecontext);

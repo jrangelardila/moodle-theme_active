@@ -47,48 +47,56 @@ $THEME->layouts = array(
     // Standard layout with blocks, recommended for most pages with general information.
     'standard' => array(
         'file' => 'drawers.php',
-        'regions' => array(),
+        'regions' => array('side-pre', 'side-top'),
+        'defaultregion' => 'side-pre',
     ),
 
     // Main course page.
     'course' => array(
         'file' => 'drawers.php',
-        'regions' => array(),
+        'regions' => array('side-pre', 'side-top'),
+        'defaultregion' => 'side-pre',
     ),
 
     'coursecategory' => array(
         'file' => 'drawers.php',
-        'regions' => array(),
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre',
     ),
 
     // Part of course, typical for modules. Default page layout if $cm specified in require_login().
     'incourse' => array(
         'file' => 'drawers.php',
-        'regions' => array(),
+        'regions' => array('side-pre', 'side-top'),
+        'defaultregion' => 'side-pre',
     ),
 
     // The site home page.
     'frontpage' => array(
         'file' => 'drawers.php',
-        'regions' => array(),
+        'regions' => array('side-pre', 'side-top'),
+        'defaultregion' => 'side-pre',
     ),
 
     // Server administration scripts.
     'admin' => array(
         'file' => 'drawers.php',
-        'regions' => array(),
+        'regions' => array('side-pre', 'side-top'),
+        'defaultregion' => 'side-pre',
     ),
 
     // My dashboard page.
     'mydashboard' => array(
         'file' => 'drawers.php',
-        'regions' => array(),
+        'regions' => array('side-pre', 'side-top'),
+        'defaultregion' => 'side-pre',
     ),
 
     // My public page.
     'mypublic' => array(
         'file' => 'drawers.php',
-        'regions' => array(),
+        'regions' => array('side-pre', 'side-top'),
+        'defaultregion' => 'side-pre',
     ),
 
     'login' => array(
@@ -134,7 +142,7 @@ $THEME->layouts = array(
     // Embedded pages, like iframe/object embedded in moodleform. Needs as much space as possible.
     'embedded' => array(
         'file' => 'layout14',
-        'regions' => array(),
+        'regions' => array('side-pre'),
         'options' => array(
             'nofooter' => true,
             'nonavbar' => true,
@@ -168,13 +176,14 @@ $THEME->layouts = array(
     // The page layout used for reports.
     'report' => array(
         'file' => 'layout17',
-        'regions' => array(),
+        'regions' => array('side-pre', 'side-top'),
+        'defaultregion' => 'side-pre',
     ),
 
     // The pagelayout used for safebrowser and securewindow.
     'secure' => array(
         'file' => 'layout18',
-        'regions' => array(),
+        'regions' => array('side-pre', 'side-top'),
         'options' => array(
             'nofooter' => true,
             'nonavbar' => true,
@@ -182,5 +191,6 @@ $THEME->layouts = array(
             'nologinlinks' => true,
             'nocourseheaderfooter' => true
         ),
+        'defaultregion' => 'side-pre',
     ),
 );
