@@ -166,13 +166,9 @@ function theme_active_getlogofooter()
  */
 function theme_active_get_textfooter($bg)
 {
-    $lightbackgrounds = ['bg-warning', 'bg-info', 'bg-light'];
-
-    if (in_array($bg, $lightbackgrounds)) {
-        return 'text-dark';
-    }
-
-    return 'text-white';
+    [$r, $g, $b] = sscanf(ltrim($bg, '#'), '%02x%02x%02x');
+    $luminance = (0.2126 * $r + 0.7152 * $g + 0.0722 * $b) / 255;
+    return $luminance > 0.6 ? 'text-dark' : 'text-white';
 }
 
 /**
@@ -181,14 +177,11 @@ function theme_active_get_textfooter($bg)
  * @param $bg
  * @return string
  */
-function theme_active_get_btnbg($bg)
+function theme_active_get_btnbg(string $bg): string
 {
-    $lightbackgrounds = ['bg-warning', 'bg-info', 'bg-light'];
-
-    if (in_array($bg, $lightbackgrounds)) {
-        return 'btn-outline-dark';
-    }
-
-    return 'btn-outline-light';
+    [$r, $g, $b] = sscanf(ltrim($bg, '#'), '%02x%02x%02x');
+    $luminance = (0.2126 * $r + 0.7152 * $g + 0.0722 * $b) / 255;
+    return $luminance > 0.6 ? 'btn-outline-dark' : 'btn-outline-light';
 }
+
 

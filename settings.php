@@ -121,24 +121,6 @@ if ($hassiteconfig) {
     $setting = new admin_setting_configtext($name, $title, $description, $pagedefault);
     $page->add($setting);
 
-    //Bgcolor to the footer
-    $page->add(new admin_setting_configselect(
-        'theme_active/bgcolorfooter',
-        get_string('footerbgcolor', 'theme_active'),
-        get_string('footerbgcolor_desc', 'theme_active'),
-        'bg-light',
-        [
-            'bg-primary' => get_string('bg_primary', 'theme_active'),
-            'bg-secondary' => get_string('bg_secondary', 'theme_active'),
-            'bg-success' => get_string('bg_success', 'theme_active'),
-            'bg-danger' => get_string('bg_danger', 'theme_active'),
-            'bg-warning' => get_string('bg_warning', 'theme_active'),
-            'bg-info' => get_string('bg_info', 'theme_active'),
-            'bg-light' => get_string('bg_light', 'theme_active'),
-            'bg-dark' => get_string('bg_dark', 'theme_active')
-        ]
-    ));
-
     //address
     $name = 'theme_active/institutionaddress';
     $title = get_string('institutionaddress', 'theme_active');
@@ -194,6 +176,13 @@ if ($hassiteconfig) {
 ]'
     ));
 
+    //Bgcolor to the footer
+    $page->add(new admin_setting_configcolourpicker(
+        'theme_active/bgcolorfooter',
+        get_string('footerbgcolor', 'theme_active'),
+        get_string('footerbgcolor_desc', 'theme_active'),
+        '#212529'
+    ));
 
     // Add footer page
     $settings->add($page);

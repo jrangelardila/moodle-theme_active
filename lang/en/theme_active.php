@@ -81,4 +81,6 @@ $string['customlinks_desc'] = 'Add one or more links using JSON format. Each ite
     {"name": "YouTube", "url": "https://youtube.com"},
     {"name": "GitHub", "url": "https://github.com"}
 ]';
+$string['fontcolorfooter'] = 'Footer font color';
+$string['fontcolorfooter_desc'] = 'Select the font color used in the footer area.';
 
