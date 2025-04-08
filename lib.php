@@ -35,7 +35,8 @@
  * @return false|void
  * @throws coding_exception|moodle_exception
  */
-function theme_active_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options) {
+function theme_active_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options)
+{
     global $CFG, $DB;
 
     //Get itemid and path the file
@@ -53,5 +54,141 @@ function theme_active_pluginfile($course, $cm, $context, $filearea, $args, $forc
 
     // Send the file
     send_stored_file($file, 0, 0, $forcedownload, $options);
+}
+
+/**
+ * Return social media pages
+ *
+ * @return array
+ * @throws dml_exception
+ */
+function theme_active_getsocialmedia()
+{
+    $socialmedia = [];
+
+    $btn = theme_active_get_btnbg(get_config('theme_active', 'bgcolorfooter'));
+
+    if (get_config('theme_active', 'facebook_page') != "") {
+        $obj = new stdClass();
+        $obj->url = get_config('theme_active', 'facebook_page');
+        $obj->label = 'Facebook';
+        $obj->class = 'fa-facebook';
+        $obj->btnclass = $btn;
+
+        $socialmedia[] = $obj;
+    }
+    if (get_config('theme_active', 'instagram_page') != "") {
+        $obj = new stdClass();
+        $obj->url = get_config('theme_active', 'instagram_page');
+        $obj->label = 'Instagram';
+        $obj->class = 'fa-instagram';
+        $obj->btnclass = $btn;
+
+        $socialmedia[] = $obj;
+    }
+
+    if (get_config('theme_active', 'x_page') != "") {
+        $obj = new stdClass();
+        $obj->url = get_config('theme_active', 'x_page');
+        $obj->label = 'Twitter';
+        $obj->class = 'fa-twitter';
+        $obj->btnclass = $btn;
+
+        $socialmedia[] = $obj;
+    }
+
+    if (get_config('theme_active', 'tiktok_page') != "") {
+        $obj = new stdClass();
+        $obj->url = get_config('theme_active', 'tiktok_page');
+        $obj->label = 'TikTok';
+        $obj->class = 'fa-tiktok';
+        $obj->btnclass = $btn;
+
+        $socialmedia[] = $obj;
+    }
+
+    if (get_config('theme_active', 'youtube_page') != "") {
+        $obj = new stdClass();
+        $obj->url = get_config('theme_active', 'youtube_page');
+        $obj->label = 'YouTube';
+        $obj->class = 'fa-youtube';
+        $obj->btnclass = $btn;
+
+        $socialmedia[] = $obj;
+    }
+
+    if (get_config('theme_active', 'linkedin_page') != "") {
+        $obj = new stdClass();
+        $obj->url = get_config('theme_active', 'linkedin_page');
+        $obj->label = 'LinkedIn';
+        $obj->class = 'fa-linkedin-in';
+        $obj->btnclass = $btn;
+
+        $socialmedia[] = $obj;
+    }
+
+    return $socialmedia;
+}
+
+/**
+ * Retornar logo del footer
+ *
+ * @return \core\url|string
+ * @throws dml_exception
+ */
+function theme_active_getlogofooter()
+{
+    $context = context_system::instance();
+    $loginbackground = get_config('theme_active', 'footerlogo');
+    $backgroundurl = '';
+
+    $fs = get_file_storage();
+    $file = $fs->get_file($context->id, 'theme_active', 'footerlogo', 0, '/', $loginbackground);
+    if ($loginbackground) {
+        $backgroundurl = moodle_url::make_pluginfile_url(
+            $context->id,
+            $file->get_component(),
+            $file->get_filearea(),
+            $file->get_itemid(),
+            $file->get_filepath(),
+            $file->get_filename()
+        );
+    }
+
+    return $backgroundurl;
+}
+
+/**
+ * Return color to the text footer
+ *
+ * @param $bg
+ * @return string
+ */
+function theme_active_get_textfooter($bg)
+{
+    $lightbackgrounds = ['bg-warning', 'bg-info', 'bg-light'];
+
+    if (in_array($bg, $lightbackgrounds)) {
+        return 'text-dark';
+    }
+
+    return 'text-white';
+}
+
+/**
+ * Bgcolor fot the social media buttons
+ *
+ * @param $bg
+ * @return string
+ */
+function theme_active_get_btnbg($bg)
+{
+    $lightbackgrounds = ['bg-warning', 'bg-info', 'bg-light'];
+
+    if (in_array($bg, $lightbackgrounds)) {
+        return 'btn-outline-dark';
+    }
+
+    return 'btn-outline-light';
 }
 

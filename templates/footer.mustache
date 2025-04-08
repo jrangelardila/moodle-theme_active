@@ -34,58 +34,74 @@
         }
     }
 }}
-
-<footer id="page-footer" class="footer-popover bg-white">
-    prueba footer
-    <div data-region="footer-container-popover">
-        {{#output.has_communication_links}}
-            <button onclick="window.open('{{output.communication_url}}', '_blank', 'noreferrer')" class="btn btn-icon bg-primary text-white icon-no-margin btn-footer-communication" aria-label="{{#str}}communicationroomlink, course{{/str}}">
-                {{#pix}}t/messages-o, core{{/pix}}
-            </button>
-        {{/output.has_communication_links}}
-        <button class="btn btn-icon rounded-circle bg-secondary btn-footer-popover" data-action="footer-popover" aria-label="{{#str}}showfooter, theme_boost{{/str}}">
-            {{#pix}}e/question, core{{/pix}}
-        </button>
+<footer id="page-footer"
+        class="footer-popover text-center text-lg-start w-100 m-0 p-0 {{{bgcolorfooter}}} {{{textcolorfooter}}}">
+    <div class="d-none">
+        {{{ output.standard_end_of_body_html }}}
     </div>
-    <div class="footer-content-popover container" data-region="footer-content-popover">
-        {{#output.has_communication_links}}
-            <div class="footer-section p-3 border-bottom footer-link-communication">
-                <div class="footer-support-link">{{{ output.communication_link }}}</div>
-            </div>
-        {{/output.has_communication_links}}
-        {{# output.has_popover_links }}
-            <div class="footer-section p-3 border-bottom">
-                {{# output.page_doc_link }}
-                    <div class="footer-support-link">{{{ output.page_doc_link }}}</div>
-                {{/ output.page_doc_link }}
 
-                {{# output.services_support_link }}
-                    <div class="footer-support-link">{{{ output.services_support_link }}}</div>
-                {{/ output.services_support_link }}
-
-                {{# output.supportemail }}
-                    <div class="footer-support-link">{{{ output.supportemail }}}</div>
-                {{/ output.supportemail }}
-            </div>
-        {{/ output.has_popover_links }}
-        <div class="footer-section p-3 border-bottom">
-            <div class="logininfo">
-                {{{ output.login_info }}}
-            </div>
-            <div class="tool_usertours-resettourcontainer">
-            </div>
-
-            {{{ output.standard_footer_html }}}
-            {{{ output.standard_end_of_body_html }}}
-        </div>
-        <div class="footer-section p-3">
-            <div>{{#str}}poweredbymoodle, core{{/str}}</div>
-            {{#output.moodle_release}}
-                <div>
-                    {{#str}}version, core{{/str}} {{{ output.moodle_release }}}
+    <div class="container-fluid p-4 pb-0">
+        <section>
+            <div class="row">
+                <!-- About -->
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 fw-bold">{{#str}} about_us, theme_active {{/str}}</h6>
+                    <hr>
+                    {{#footerlogo}}
+                        <img src="{{{footerlogo}}}" alt="footerlogo" class="w-100 p-4"/>
+                    {{/footerlogo}}
+                    <p class="w-100 mt-4 text-justify">
+                        {{{footerdescription}}}
+                    </p>
                 </div>
-            {{/output.moodle_release}}
-        </div>
+
+                <!-- Custom Links -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 fw-bold">{{#str}} customlinks, theme_active {{/str}}</h6>
+                    <hr>
+                    {{#customlinks}}
+                        <p>
+                            <a href="{{{url}}}" target="_blank" class="text-reset text-decoration-none"
+                               style="text-decoration: underline dotted;">
+                                {{name}}
+                            </a>
+                        </p>
+                    {{/customlinks}}
+                </div>
+
+                <!-- Contact -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 fw-bold">{{#str}} contact_us, theme_active {{/str}}</h6>
+                    <hr>
+                    <p><i class="fas fa-home me-2"></i>{{{addrescontact}}}</p>
+                    <p><i class="fas fa-envelope me-2"></i>{{{emailcontact}}}</p>
+                    <p><i class="fas fa-phone me-2"></i>{{{pbxcontact}}}</p>
+                    <a href="https://wa.me/{{{whatsappcontact}}}?text={{#str}}whatsaap_hi, theme_active{{/str}}"
+                    target="_blank">
+                    <i class="fab fa-whatsapp me-2"></i>{{{whatsappcontact}}}
+                    </a>
+                </div>
+
+                <!-- Social Media -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 fw-bold">{{#str}} follow_social_media, theme_active {{/str}}</h6>
+                    <hr>
+                    {{#socialmedia}}
+                        <a class="btn btn-floating m-1 {{btnclass}}" href="{{{url}}}" role="button"
+                           aria-label="{{{label}}}">
+                            <i class="fab {{{class}}}"></i>
+                        </a>
+                    {{/socialmedia}}
+                    <hr>
+                    {{{ output.standard_footer_html }}}
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="text-center p-3 bg-opacity-75 bg-black text-white" id="copyright">
+        © 2024 Copyright:
+        <a class="text-white text-decoration-none" href="#">jrangelardila@gmail.com</a>
     </div>
 
     <div class="footer-content-debugging footer-dark bg-dark text-light">
@@ -95,7 +111,7 @@
     </div>
 </footer>
 {{#js}}
-require(['theme_boost/footer-popover'], function(FooterPopover) {
+    require(['theme_boost/footer-popover'], function(FooterPopover) {
     FooterPopover.init();
-});
+    });
 {{/js}}

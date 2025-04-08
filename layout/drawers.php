@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/behat/lib.php');
 require_once($CFG->dirroot . '/course/lib.php');
+require_once($CFG->dirroot . '/theme/active/lib.php');
 
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
@@ -102,12 +103,23 @@ $templatecontext = [
     'mobileprimarynav' => $primarymenu['mobileprimarynav'],
     'usermenu' => $primarymenu['user'],
     'langmenu' => $primarymenu['lang'],
-    'forceblockdraweropen' => $forceblockdraweropen,
+    // 'forceblockdraweropen' => $forceblockdraweropen,
     'regionmainsettingsmenu' => $regionmainsettingsmenu,
     'hasregionmainsettingsmenu' => !empty($regionmainsettingsmenu),
     'overflow' => $overflow,
     'headercontent' => $headercontent,
-    'addblockbutton' => $addblockbutton
+    'addblockbutton' => $addblockbutton,
+    'socialmedia' => theme_active_getsocialmedia(),
+    'addrescontact' => get_config('theme_active', 'institutionaddress'),
+    'emailcontact' => get_config('theme_active', 'emailcontact'),
+    'pbxcontact' => get_config('theme_active', 'pbxcontact'),
+    'whatsappcontact' => get_config('theme_active', 'whatsappcontact'),
+    'footerlogo' => theme_active_getlogofooter(),
+    'footerdescription' => get_config('theme_active', 'footerdescription'),
+    'bgcolorfooter' => get_config('theme_active', 'bgcolorfooter'),
+    'textcolorfooter' => theme_active_get_textfooter(get_config('theme_active', 'bgcolorfooter')),
+    'customlinks' => json_decode(get_config('theme_active', 'customlinks'), true),
+
 ];
 
 echo $OUTPUT->render_from_template('theme_active/drawers', $templatecontext);
