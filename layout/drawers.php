@@ -52,8 +52,6 @@ if ($courseindexopen) {
 //side-pre, blocks
 $blockshtml_side_pre = $OUTPUT->blocks('side-pre');
 $hasblocks = (str_contains($blockshtml_side_pre, 'data-block=') || !empty($addblockbutton));
-//top blocks
-$blockshtml_top = $OUTPUT->blocks('side-top');
 
 if (!$hasblocks) {
     $blockdraweropen = false;
@@ -88,12 +86,14 @@ $regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settin
 $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
 
+$settings = new \theme_active\util\settings();
+
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
     'sidepreblocks' => $blockshtml_side_pre, //right blocks
     'hasblocks' => $hasblocks,
-    'topblocks' => $blockshtml_top, //top blocks
+    'topblocks' => $settings->get_top_blocks(), //top blocks
     'bodyattributes' => $bodyattributes,
     'courseindexopen' => $courseindexopen,
     'blockdraweropen' => $blockdraweropen,
@@ -109,17 +109,8 @@ $templatecontext = [
     'overflow' => $overflow,
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
-    'socialmedia' => theme_active_getsocialmedia(),
-    'addrescontact' => get_config('theme_active', 'institutionaddress'),
-    'emailcontact' => get_config('theme_active', 'emailcontact'),
-    'pbxcontact' => get_config('theme_active', 'pbxcontact'),
-    'whatsappcontact' => get_config('theme_active', 'whatsappcontact'),
-    'footerlogo' => theme_active_getlogofooter(),
-    'footerdescription' => get_config('theme_active', 'footerdescription'),
-    'bgcolorfooter' => get_config('theme_active', 'bgcolorfooter'),
-    'textcolorfooter' => theme_active_get_textfooter(get_config('theme_active', 'bgcolorfooter')),
-    'customlinks' => json_decode(get_config('theme_active', 'customlinks'), true),
 
 ];
 
-echo $OUTPUT->render_from_template('theme_active/drawers', $templatecontext);
+echo $OUTPUT->render_from_template('theme_active/drawers', array_merge($templatecontext, $settings->get_footer(),
+    $settings->get_navbar()));

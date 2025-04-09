@@ -83,4 +83,8 @@ $string['customlinks_desc'] = 'Add one or more links using JSON format. Each ite
 ]';
 $string['fontcolorfooter'] = 'Footer font color';
 $string['fontcolorfooter_desc'] = 'Select the font color used in the footer area.';
+$string['navbarbgcolor'] = 'Navbar background color';
+$string['navbarbgcolor_desc'] = 'Select the background color used in the navigation bar.';
+$string['secondcolornavbar'] = 'Second Navbar Color';
+$string['secondcolornavbar_desc'] = 'Select the secondary color used in the navbar (for elements such as hover, accent, etc.).';
 

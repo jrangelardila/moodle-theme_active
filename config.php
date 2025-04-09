@@ -34,6 +34,8 @@ $THEME->sheets = array(
     'stylesheet',
 );
 
+
+
 // The theme needs to be added to all Moodle layouts.
 $THEME->layouts = array(
 

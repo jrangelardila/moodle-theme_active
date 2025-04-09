@@ -76,6 +76,22 @@ if ($hassiteconfig) {
         array('maxfiles' => 1, 'accepted_types' => array('.png', '.jpg', '.jpeg')));
     $page->add($setting);
 
+    //Bgcolor to the navbar
+    $page->add(new admin_setting_configcolourpicker(
+        'theme_active/bgcolornavbar',
+        get_string('navbarbgcolor', 'theme_active'),
+        get_string('navbarbgcolor_desc', 'theme_active'),
+        '#212529'
+    ));
+
+    //Second to the navbar
+    $page->add(new admin_setting_configcolourpicker(
+        'theme_active/secondcolornavbar',
+        get_string('secondcolornavbar', 'theme_active'),
+        get_string('secondcolornavbar_desc', 'theme_active'),
+        '#ffffff'
+    ));
+
     // Add header page
     $settings->add($page);
 
@@ -184,6 +200,7 @@ if ($hassiteconfig) {
         '#212529'
     ));
 
+    $setting->set_updatedcallback('theme_reset_all_caches');
     // Add footer page
     $settings->add($page);
 }

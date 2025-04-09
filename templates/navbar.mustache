@@ -55,9 +55,45 @@
         ]
     }
 }}
+<style>
+    .primary-navigation .navigation .nav-link {
+        color: {{{textcolornavbar}}};
+    }
+
+    .navigation .nav-link:hover {
+        color: {{{hovertextcolornavbar}}};
+        background-color: {{secondcolornavbar}};
+    }
+
+    .moremenu .nav-link.active {
+        border-bottom-color: {{secondcolornavbar}};
+    }
+
+    .moremenu .nav-link.active:hover,
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+        border-bottom-color: {{secondcolornavbar}};
+        background-color: {{secondcolornavbar}};
+        color: {{{hovertextcolornavbar}}};
+    }
+
+    .moremenu .nav-link.active:hover {
+        border-bottom-color: {{{navbarbg}}};
+    }
+
+    .editmode-switch-form {
+        color: {{{textcolornavbar}}};
+    }
+
+    .navbar.fixed-top .nav-link .icon {
+        color: {{{textcolornavbar}}};
+    }
+</style>
+
 <nav class="navbar fixed-top bg-body navbar-expand" aria-label="{{#str}}sitemenubar, admin{{/str}}">
-    <div class="container-fluid">
-        <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0" data-toggler="drawers" data-action="toggle" data-target="theme_boost-drawers-primary">
+    <div class="container-fluid" style="background-color: {{{navbarbg}}}">
+        <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0" data-toggler="drawers"
+                data-action="toggle" data-target="theme_boost-drawers-primary">
             <span class="navbar-toggler-icon"></span>
             <span class="visually-hidden">{{#str}}sidepanel, core{{/str}}</span>
         </button>
@@ -82,7 +118,7 @@
             {{{ output.page_heading_menu }}}
         </ul>
 
-        <div id="usernavigation" class="navbar-nav ms-auto h-100">
+        <div id="usernavigation" class="navbar-nav ms-auto h-100 ">
             {{# output.search_box }}
                 {{{ output.search_box }}}
                 <div class="divider border-start h-75 align-self-center mx-1"></div>
@@ -91,6 +127,7 @@
                 {{> theme_boost/language_menu }}
                 <div class="divider border-start h-75 align-self-center mx-1"></div>
             {{/langmenu}}
+
             {{{ output.navbar_plugin_output }}}
             <div class="d-flex align-items-stretch usermenu-container" data-region="usermenu">
                 {{#usermenu}}
