@@ -55,3 +55,45 @@ function theme_active_pluginfile($course, $cm, $context, $filearea, $args, $forc
     // Send the file
     send_stored_file($file, 0, 0, $forcedownload, $options);
 }
+
+/**
+ * Devuelve el SCSS principal del tema.
+ */
+function theme_active_get_main_scss_content($theme) {
+    return '';
+}
+
+/**
+ * Devuelve SCSS que se incluye antes del SCSS base de Boost.
+ */
+function theme_active_get_pre_scss($theme) {
+    return '';
+}
+
+/**
+ * Devuelve SCSS que se incluye después del SCSS principal.
+ */
+function theme_active_get_extra_scss($theme) {
+    return '';
+}
+
+/**
+ * Modifica la navegación global (menú principal).
+ */
+function theme_active_extend_navigation(global_navigation $nav) {
+    // Intencionalmente vacío.
+}
+
+/**
+ * Se ejecuta cuando se inicializa una página.
+ */
+function theme_active_page_init(moodle_page $page) {
+    // Intencionalmente vacío.
+}
+
+/**
+ * Recupera ajustes del tema.
+ */
+function theme_active_get_setting($setting, $format = true) {
+    return null;
+}
