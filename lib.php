@@ -59,41 +59,111 @@ function theme_active_pluginfile($course, $cm, $context, $filearea, $args, $forc
 /**
  * Devuelve el SCSS principal del tema.
  */
-function theme_active_get_main_scss_content($theme) {
+function theme_active_get_main_scss_content($theme)
+{
     return '';
 }
 
 /**
  * Devuelve SCSS que se incluye antes del SCSS base de Boost.
  */
-function theme_active_get_pre_scss($theme) {
-    return '';
+function theme_active_get_pre_scss($theme)
+{
+
+    $settings = new \theme_active\util\settings();
+    $ctx = $settings->get_navbar();
+    return <<<SCSS
+\$primary: {$ctx['navbarbg']};
+\$second: {$ctx['secondcolornavbar']};
+
+// Navbar container background
+.navbar > .container,
+.navbar > .container-fluid,
+.navbar > .container-sm,
+.navbar > .container-md,
+.navbar > .container-lg,
+.navbar > .container-xl,
+.navbar > .container-xxl {
+    background-color: {$ctx['navbarbg']};
 }
+
+// Primary nav links
+.primary-navigation .navigation .nav-link {
+    color: {$ctx['textcolornavbar']} !important;
+}
+
+// Hover on nav links
+.navigation .nav-link:hover {
+    color: {$ctx['hovertextcolornavbar']} !important;
+    background-color: {$ctx['secondcolornavbar']} !important;
+}
+
+// Active links hover and dropdowns
+.moremenu .nav-link.active:hover,
+.dropdown-item:hover,
+.dropdown-item:focus {
+    border-bottom-color: {$ctx['navbarbg']} !important;
+    background-color: {$ctx['secondcolornavbar']} !important;
+    color: {$ctx['textcolornavbar']} !important;
+}
+
+// Active nav link
+.nav-link.active {
+    border-bottom-color: {$ctx['secondcolornavbar']} !important;
+}
+
+// General link styling
+.nav-link,
+.a,
+a {
+    color: {$ctx['navbarbg']};
+    border-bottom-color: {$ctx['secondcolornavbar']} !important;
+}
+
+// Edit mode label
+.editmode-switch-form {
+    color: {$ctx['textcolornavbar']} !important;
+}
+
+// Icons, labels and toggle
+.me-2.mb-0.form-check-label,
+.navbar.fixed-top .nav-link .icon,
+#user-menu-toggle {
+    color: {$ctx['textcolornavbar']} !important;
+}
+SCSS;
+
+}
+
 
 /**
  * Devuelve SCSS que se incluye después del SCSS principal.
  */
-function theme_active_get_extra_scss($theme) {
+function theme_active_get_extra_scss($theme)
+{
     return '';
 }
 
 /**
  * Modifica la navegación global (menú principal).
  */
-function theme_active_extend_navigation(global_navigation $nav) {
+function theme_active_extend_navigation(global_navigation $nav)
+{
     // Intencionalmente vacío.
 }
 
 /**
  * Se ejecuta cuando se inicializa una página.
  */
-function theme_active_page_init(moodle_page $page) {
+function theme_active_page_init(moodle_page $page)
+{
     // Intencionalmente vacío.
 }
 
 /**
  * Recupera ajustes del tema.
  */
-function theme_active_get_setting($setting, $format = true) {
+function theme_active_get_setting($setting, $format = true)
+{
     return null;
 }

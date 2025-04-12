@@ -30,10 +30,17 @@ $THEME->parents = array(
     'boost',
 );
 
-$THEME->sheets = array(
-    'stylesheet',
-);
 
+
+$THEME->scss = function ($theme) {
+    $pre = theme_active_get_pre_scss($theme);
+    $main = theme_boost_get_main_scss_content($theme);
+    $custommain = theme_active_get_main_scss_content($theme);
+
+    $extra = theme_active_get_extra_scss($theme);
+
+    return $pre . "\n" .$main  . "\n" . $custommain . "\n" . $extra;
+};
 
 
 // The theme needs to be added to all Moodle layouts.

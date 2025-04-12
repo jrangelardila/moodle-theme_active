@@ -55,43 +55,9 @@
         ]
     }
 }}
-<style>
-    .primary-navigation .navigation .nav-link {
-        color: {{{textcolornavbar}}};
-    }
-
-    .navigation .nav-link:hover {
-        color: {{{hovertextcolornavbar}}};
-        background-color: {{secondcolornavbar}};
-    }
-
-    .moremenu .nav-link.active {
-        border-bottom-color: {{secondcolornavbar}};
-    }
-
-    .moremenu .nav-link.active:hover,
-    .dropdown-item:hover,
-    .dropdown-item:focus {
-        border-bottom-color: {{secondcolornavbar}};
-        background-color: {{secondcolornavbar}};
-        color: {{{hovertextcolornavbar}}};
-    }
-
-    .moremenu .nav-link.active:hover {
-        border-bottom-color: {{{navbarbg}}};
-    }
-
-    .editmode-switch-form {
-        color: {{{textcolornavbar}}};
-    }
-
-    .navbar.fixed-top .nav-link .icon {
-        color: {{{textcolornavbar}}};
-    }
-</style>
 
 <nav class="navbar fixed-top bg-body navbar-expand" aria-label="{{#str}}sitemenubar, admin{{/str}}">
-    <div class="container-fluid" style="background-color: {{{navbarbg}}}">
+    <div class="container-fluid">
         <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0" data-toggler="drawers"
                 data-action="toggle" data-target="theme_boost-drawers-primary">
             <span class="navbar-toggler-icon"></span>

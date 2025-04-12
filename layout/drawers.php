@@ -112,5 +112,4 @@ $templatecontext = [
 
 ];
 
-echo $OUTPUT->render_from_template('theme_active/drawers', array_merge($templatecontext, $settings->get_footer(),
-    $settings->get_navbar()));
+echo $OUTPUT->render_from_template('theme_active/drawers', array_merge($templatecontext, $settings->get_footer()));
