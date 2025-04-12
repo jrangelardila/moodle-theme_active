@@ -31,15 +31,10 @@ $THEME->parents = array(
 );
 
 
-
 $THEME->scss = function ($theme) {
-    $pre = theme_active_get_pre_scss($theme);
+    $pre = theme_active_get_scss($theme);
     $main = theme_boost_get_main_scss_content($theme);
-    $custommain = theme_active_get_main_scss_content($theme);
-
-    $extra = theme_active_get_extra_scss($theme);
-
-    return $pre . "\n" .$main  . "\n" . $custommain . "\n" . $extra;
+    return $pre . "\n" . $main;
 };
 
 

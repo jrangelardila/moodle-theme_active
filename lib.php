@@ -56,18 +56,14 @@ function theme_active_pluginfile($course, $cm, $context, $filearea, $args, $forc
     send_stored_file($file, 0, 0, $forcedownload, $options);
 }
 
-/**
- * Devuelve el SCSS principal del tema.
- */
-function theme_active_get_main_scss_content($theme)
-{
-    return '';
-}
 
 /**
- * Devuelve SCSS que se incluye antes del SCSS base de Boost.
+ * Return scss
+ *
+ * @param $theme
+ * @return string
  */
-function theme_active_get_pre_scss($theme)
+function theme_active_get_scss($theme)
 {
 
     $settings = new \theme_active\util\settings();
@@ -75,6 +71,12 @@ function theme_active_get_pre_scss($theme)
     return <<<SCSS
 \$primary: {$ctx['navbarbg']};
 \$second: {$ctx['secondcolornavbar']};
+
+.drawer {
+    background-color: mix(white, \$primary, 90%) !important;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.25);
+}
+
 
 // Navbar container background
 .navbar > .container,
@@ -133,37 +135,4 @@ a {
 }
 SCSS;
 
-}
-
-
-/**
- * Devuelve SCSS que se incluye después del SCSS principal.
- */
-function theme_active_get_extra_scss($theme)
-{
-    return '';
-}
-
-/**
- * Modifica la navegación global (menú principal).
- */
-function theme_active_extend_navigation(global_navigation $nav)
-{
-    // Intencionalmente vacío.
-}
-
-/**
- * Se ejecuta cuando se inicializa una página.
- */
-function theme_active_page_init(moodle_page $page)
-{
-    // Intencionalmente vacío.
-}
-
-/**
- * Recupera ajustes del tema.
- */
-function theme_active_get_setting($setting, $format = true)
-{
-    return null;
 }
