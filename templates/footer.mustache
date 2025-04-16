@@ -62,7 +62,8 @@
                     <hr>
                     {{#customlinks}}
                         <p>
-                            <a href="{{{url}}}" target="_blank" class="text-reset text-decoration-none {{{textcolorfooter}}}"
+                            <a href="{{{url}}}" target="_blank"
+                               class="text-reset text-decoration-none {{{textcolorfooter}}}"
                                style="text-decoration: underline dotted;">
                                 {{name}}
                             </a>
@@ -94,7 +95,9 @@
                         </a>
                     {{/socialmedia}}
                     <hr>
-                    {{{ output.standard_footer_html }}}
+                    <div class="d-none">
+                        {{{ output.standard_footer_html }}}
+                    </div>
                 </div>
             </div>
         </section>

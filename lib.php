@@ -120,7 +120,7 @@ function theme_active_get_scss($theme)
 
 // Active nav link
 .nav-link.active {
-    border-bottom-color: {$ctx['secondcolornavbar']} !important;
+    border-bottom-color: \$primary !important;
 }
 
 // General link styling
