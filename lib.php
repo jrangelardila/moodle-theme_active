@@ -130,11 +130,16 @@ function theme_active_get_scss($theme)
 }
 
 // General link styling
-.nav-link,
-.a,
-a {
+.nav-link:not(.login),
+.a:not(.login),
+a:not(.login):not(.btn_social_media) {
     color: {$ctx['navbarbg']};
     border-bottom-color: \$secondary !important;
+}
+
+// The login color a
+.login a{
+color: {$ctx['textcolornavbar']} !important;
 }
 
 // Edit mode label
