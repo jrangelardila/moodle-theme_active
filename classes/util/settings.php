@@ -186,6 +186,12 @@ class settings
         return $socialmedia;
     }
 
+    /**
+     * Return navbar config
+     *
+     * @return array
+     * @throws \dml_exception
+     */
     public function get_navbar()
     {
         $templatecontext = [

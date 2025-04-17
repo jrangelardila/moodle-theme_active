@@ -32,9 +32,7 @@ $THEME->parents = array(
 
 
 $THEME->scss = function ($theme) {
-    $pre = theme_active_get_scss($theme);
-    $main = theme_boost_get_main_scss_content($theme);
-    return $pre . "\n" . $main;
+    return theme_active_get_main_scss_content($theme);
 };
 
 

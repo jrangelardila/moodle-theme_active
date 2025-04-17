@@ -57,129 +57,59 @@ function theme_active_pluginfile($course, $cm, $context, $filearea, $args, $forc
 }
 
 /**
- * Return scss
+ * Return pre scss
  *
  * @param $theme
  * @return string
  * @throws dml_exception
  */
-/**
- * Return scss
- *
- * @param $theme
- * @return string
- * @throws dml_exception
- */
-function theme_active_get_scss($theme)
+function theme_active_get_pre_scss($theme)
 {
-
+    $scss = '';
     $settings = new \theme_active\util\settings();
     $ctx = $settings->get_navbar();
-    $primary = get_config("theme_active", "primarycolor");
-    $second = get_config("theme_active", "secondarycolor");
 
-    return <<<SCSS
-\$primary: {$primary};
-\$secondary: {$second};
+    $configurable = [
+        'primarycolor' => ['primary'],
+        'secondarycolor' => ['secondary'],
+        'navbarbg' => ['navbarbg'],
+        'textcolornavbar' => ['textcolornavbar'],
+        'hovertextcolornavbar' => ['hovertextcolornavbar'],
+    ];
 
-//Drawer div
-.drawer {
-    background-color: mix(white, \$primary, 90%) !important;
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.25);
+    foreach ($configurable as $configkey => $targets) {
+        $value = $theme->settings->{$configkey} ?? $ctx[$configkey] ?? get_config('theme_active', $configkey);
+
+        if (empty($value)) {
+            continue;
+        }
+
+        array_map(function ($target) use (&$scss, $value, $configkey) {
+            $scss .= '$' . $target . ': ' . $value . ";\n";
+        }, (array)$targets);
+    }
+
+    if (!empty($theme->settings->scsspre)) {
+        $scss .= $theme->settings->scsspre;
+    }
+
+    return $scss;
 }
 
-.drawer-toggles .drawer-toggler .btn{
-    background-color: {$ctx['navbarbg']} !important;
-    color: {$ctx['textcolornavbar']} !important;
-}
-
-// Navbar container background
-.navbar > .container,
-.navbar > .container-fluid,
-.navbar > .container-sm,
-.navbar > .container-md,
-.navbar > .container-lg,
-.navbar > .container-xl,
-.navbar > .container-xxl {
-    background-color: {$ctx['navbarbg']};
-}
-
-// Primary nav links
-.primary-navigation .navigation .nav-link {
-    color: {$ctx['textcolornavbar']} !important;
-}
-
-// Hover on nav links
-.navigation .nav-link:hover {
-    color: {$ctx['hovertextcolornavbar']} !important;
-    background-color: \$secondary !important;
-}
-
-// Active links hover and dropdowns
-.moremenu .nav-link.active:hover,
-.dropdown-item:hover,
-.dropdown-item:focus {
-    border-bottom-color: {$ctx['navbarbg']} !important;
-    background-color: \$secondary !important;
-    color: {$ctx['navbarbg']} !important;
-}
-
-// Active nav link
-.nav-link.active {
-    border-bottom-color: \$primary !important;
-}
-
-// General link styling
-.nav-link:not(.login),
-.a:not(.login),
-a:not(.login):not(.btn_social_media):not(.btn-primary){
-    color: {$ctx['navbarbg']};
-    border-bottom-color: \$secondary !important;
-}
-
-//a with .btn-primary
-a .btn-primary{
- color: {$ctx['textcolornavbar']};
-}
-
-// The login color a
-.login a{
-color: {$ctx['textcolornavbar']} !important;
-}
-
-// Edit mode label
-.editmode-switch-form {
-    color: {$ctx['textcolornavbar']} !important;
-}
-
-// Icons, labels and toggle
-.me-2.mb-0.form-check-label,
-.navbar.fixed-top .nav-link .icon,
-#user-menu-toggle {
-    color: {$ctx['textcolornavbar']} !important;
-}
-
-//Headering title
-.headering-title {
-    background-color: {$ctx['navbarbg']} !important;
-    color: {$ctx['textcolornavbar']} !important;
-}
-
-//Navbar links route
-.breadcrumb{
-   background-color: \$secondary !important;
-   padding-right: 1rem !important;
-   padding-left: 1rem !important;
-   border-radius: 0.375rem !important;
-   margin: 0px !important;
-}
-.breadcrumb .breadcrumb-item{
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-}
-
-SCSS;
-
+/**
+ * Get main scss
+ *
+ * @param $theme
+ * @return string
+ * @throws dml_exception
+ */
+function theme_active_get_main_scss_content($theme)
+{
+    global $CFG;
+    $scss = theme_active_get_pre_scss($theme);
+    $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/active.scss');
+    $scss .= theme_boost_get_main_scss_content($theme);
+    return $scss;
 }
 
 
