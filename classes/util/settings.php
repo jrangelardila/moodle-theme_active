@@ -195,14 +195,10 @@ class settings
         [$r, $g, $b] = sscanf(ltrim($templatecontext['navbarbg'], '#'), '%02x%02x%02x');
         $luminance = (0.2126 * $r + 0.7152 * $g + 0.0722 * $b) / 255;
         $templatecontext['textcolornavbar'] = $luminance > 0.6 ? '#000000' : '#ffffff';
-        //secondcolor navbar
-        $templatecontext['secondcolornavbar'] = get_config('theme_active', 'secondcolornavbar');
-        //hovercolornavbar
-        [$r, $g, $b] = sscanf(ltrim($templatecontext['secondcolornavbar'], '#'), '%02x%02x%02x');
+        //hovertextcolornavbar
+        [$r, $g, $b] = sscanf(ltrim(get_config("theme_active", "secondarycolor"), '#'), '%02x%02x%02x');
         $luminance = (0.2126 * $r + 0.7152 * $g + 0.0722 * $b) / 255;
         $templatecontext['hovertextcolornavbar'] = $luminance > 0.6 ? '#000000' : '#ffffff';
-
-
 
 
         return $templatecontext;

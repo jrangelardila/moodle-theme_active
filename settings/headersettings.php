@@ -52,14 +52,5 @@ $setting = new admin_setting_configcolourpicker(
 $setting->set_updatedcallback('theme_reset_all_caches');
 $page->add($setting);
 
-//Second to the navbar
-$setting = new admin_setting_configcolourpicker(
-    'theme_active/secondcolornavbar',
-    get_string('secondcolornavbar', 'theme_active'),
-    get_string('secondcolornavbar_desc', 'theme_active'),
-    '#ffffff');
-$setting->set_updatedcallback('theme_reset_all_caches');
-$page->add($setting);
-
 // Add header page
 $settings->add($page);

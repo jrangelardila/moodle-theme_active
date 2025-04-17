@@ -56,7 +56,13 @@ function theme_active_pluginfile($course, $cm, $context, $filearea, $args, $forc
     send_stored_file($file, 0, 0, $forcedownload, $options);
 }
 
-
+/**
+ * Return scss
+ *
+ * @param $theme
+ * @return string
+ * @throws dml_exception
+ */
 /**
  * Return scss
  *
@@ -74,7 +80,7 @@ function theme_active_get_scss($theme)
 
     return <<<SCSS
 \$primary: {$primary};
-\$second: {$second};
+\$secondary: {$second};
 
 //Drawer div
 .drawer {
@@ -106,7 +112,7 @@ function theme_active_get_scss($theme)
 // Hover on nav links
 .navigation .nav-link:hover {
     color: {$ctx['hovertextcolornavbar']} !important;
-    background-color: {$ctx['secondcolornavbar']} !important;
+    background-color: \$secondary !important;
 }
 
 // Active links hover and dropdowns
@@ -114,8 +120,8 @@ function theme_active_get_scss($theme)
 .dropdown-item:hover,
 .dropdown-item:focus {
     border-bottom-color: {$ctx['navbarbg']} !important;
-    background-color: {$ctx['secondcolornavbar']} !important;
-    color: {$ctx['textcolornavbar']} !important;
+    background-color: \$secondary !important;
+    color: {$ctx['navbarbg']} !important;
 }
 
 // Active nav link
@@ -128,7 +134,7 @@ function theme_active_get_scss($theme)
 .a,
 a {
     color: {$ctx['navbarbg']};
-    border-bottom-color: {$ctx['secondcolornavbar']} !important;
+    border-bottom-color: \$secondary !important;
 }
 
 // Edit mode label
@@ -145,3 +151,6 @@ a {
 SCSS;
 
 }
+
+
+
