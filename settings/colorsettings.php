@@ -32,7 +32,7 @@ $setting = new admin_setting_configcolourpicker(
     'theme_active/primarycolor',
     get_string('primarycolor', 'theme_active'),
     get_string('primarycolor_desc', 'theme_active'),
-    '#920020');
+    '#4d2433');
 $setting->set_updatedcallback('theme_reset_all_caches');
 $page->add($setting);
 
@@ -41,7 +41,7 @@ $setting = new admin_setting_configcolourpicker(
     'theme_active/secondarycolor',
     get_string('secondarycolor', 'theme_active'),
     get_string('secondarycolor_desc', 'theme_active'),
-    '#ffffff');
+    '#e7e7e7');
 $setting->set_updatedcallback('theme_reset_all_caches');
 $page->add($setting);
 

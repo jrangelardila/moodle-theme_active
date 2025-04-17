@@ -130,7 +130,7 @@ $setting = new admin_setting_configcolourpicker(
     'theme_active/bgcolorfooter',
     get_string('footerbgcolor', 'theme_active'),
     get_string('footerbgcolor_desc', 'theme_active'),
-    '#212529'
+    '#323232'
 );
 $setting->set_updatedcallback('theme_reset_all_caches');
 $page->add($setting);

@@ -48,7 +48,7 @@ $setting = new admin_setting_configcolourpicker(
     'theme_active/bgcolornavbar',
     get_string('navbarbgcolor', 'theme_active'),
     get_string('navbarbgcolor_desc', 'theme_active'),
-    '#212529');
+    '#4d2433');
 $setting->set_updatedcallback('theme_reset_all_caches');
 $page->add($setting);
 
