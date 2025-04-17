@@ -132,9 +132,14 @@ function theme_active_get_scss($theme)
 // General link styling
 .nav-link:not(.login),
 .a:not(.login),
-a:not(.login):not(.btn_social_media) {
+a:not(.login):not(.btn_social_media):not(.btn-primary){
     color: {$ctx['navbarbg']};
     border-bottom-color: \$secondary !important;
+}
+
+//a with .btn-primary
+a .btn-primary{
+ color: {$ctx['textcolornavbar']};
 }
 
 // The login color a
@@ -158,6 +163,19 @@ color: {$ctx['textcolornavbar']} !important;
 .headering-title {
     background-color: {$ctx['navbarbg']} !important;
     color: {$ctx['textcolornavbar']} !important;
+}
+
+//Navbar links route
+.breadcrumb{
+   background-color: \$secondary !important;
+   padding-right: 1rem !important;
+   padding-left: 1rem !important;
+   border-radius: 0.375rem !important;
+   margin: 0px !important;
+}
+.breadcrumb .breadcrumb-item{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 SCSS;
