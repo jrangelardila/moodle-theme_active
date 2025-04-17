@@ -62,7 +62,7 @@
         {{< theme_active/drawer }}
             {{$id}}theme_boost-drawers-courseindex{{/id}}
             {{$drawerheadercontent}}
-                {{> theme_boost/courseindexdrawercontrols}}
+                {{> theme_active/courseindexdrawercontrols}}
             {{/drawerheadercontent}}
             {{$drawerclasses}}drawer drawer-left {{#courseindexopen}}show{{/courseindexopen}}{{/drawerclasses}}
             {{$drawercontent}}
@@ -75,7 +75,7 @@
         {{/ theme_active/drawer}}
     {{/courseindex}}
     {{#hasblocks}}
-        {{< theme_boost/drawer }}
+        {{< theme_active/drawer }}
             {{$id}}theme_boost-drawers-blocks{{/id}}
             {{$drawerclasses}}drawer drawer-right{{#blockdraweropen}} show{{/blockdraweropen}}{{/drawerclasses}}
             {{$drawercontent}}
@@ -90,7 +90,7 @@
             {{$tooltipplacement}}left{{/tooltipplacement}}
             {{$drawercloseonresize}}1{{/drawercloseonresize}}
             {{$closebuttontext}}{{#str}}closeblockdrawer, core{{/str}}{{/closebuttontext}}
-        {{/ theme_boost/drawer}}
+        {{/ theme_active/drawer}}
     {{/hasblocks}}
     <div id="page" data-region="mainpage" data-usertour="scroller"
          class="drawers {{#courseindexopen}}show-drawer-left{{/courseindexopen}} {{#blockdraweropen}}show-drawer-right{{/blockdraweropen}} drag-container">

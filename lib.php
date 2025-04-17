@@ -148,6 +148,13 @@ a {
 #user-menu-toggle {
     color: {$ctx['textcolornavbar']} !important;
 }
+
+//Headering title
+.headering-title {
+    background-color: {$ctx['navbarbg']} !important;
+    color: {$ctx['textcolornavbar']} !important;
+}
+
 SCSS;
 
 }
