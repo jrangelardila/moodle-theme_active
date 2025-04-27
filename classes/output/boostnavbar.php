@@ -21,36 +21,10 @@
  * @copyright   2024 Jhon Rangel <jrangelardila@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 namespace theme_active\output;
-
-use core\exception\moodle_exception;
-use moodle_url;
-use html_writer;
-use get_string;
 
 defined('MOODLE_INTERNAL') || die;
 
-/**
- * Renderers to align Moodle's HTML with that expected by Bootstrap
- *
- * @package    theme_active
- * @copyright  2012 Bas Brands, www.basbrands.nl
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class core_renderer extends \core_renderer
-{
-
-    /**
-     * Renders the "breadcrumb" for all pages in boost.
-     *
-     * @return string the HTML for the navbar.
-     * @throws moodle_exception
-     */
-    public function navbar(): string
-    {
-        $newnav = new boostnavbar($this->page);
-        return $this->render_from_template('core/navbar', $newnav);
-    }
+class boostnavbar extends \theme_boost\boostnavbar {
 
 }

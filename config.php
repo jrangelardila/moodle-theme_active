@@ -30,6 +30,7 @@ $THEME->parents = array(
     'boost',
 );
 
+$THEME->rendererfactory = 'theme_overridden_renderer_factory';
 
 $THEME->scss = function ($theme) {
     return theme_active_get_main_scss_content($theme);
