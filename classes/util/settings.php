@@ -59,6 +59,7 @@ class settings
      */
     public function get_footer()
     {
+        global $CFG;
         $templatecontext = [
             'addrescontact' => get_config('theme_active', 'institutionaddress'),
             'emailcontact' => get_config('theme_active', 'emailcontact'),
@@ -94,6 +95,15 @@ class settings
         $templatecontext['textcolorfooter'] = $luminance > 0.6 ? 'text-dark' : 'text-white';
         //socialmedia
         $templatecontext['socialmedia'] = $this->get_socialmedia_footer();
+        //btn moodle url
+        $templatecontext['development_btn'] =get_string('development_btn','theme_active');
+        $templatecontext['build_version'] = get_string('versioninfo', 'theme_active', [
+            'release' => $CFG->release
+        ]);
+        $templatecontext['support_site'] = get_string('support_site', 'theme_active', [
+            'url' => new moodle_url('/user/contactsitesupport.php')
+        ]);
+
 
         return $templatecontext;
     }

@@ -90,4 +90,6 @@ $string['primarycolor'] = 'Primary color';
 $string['primarycolor_desc'] = 'The main brand color used across the theme.';
 $string['secondarycolor'] = 'Secondary color';
 $string['secondarycolor_desc'] = 'A complementary color used for highlights or accents.';
-
+$string['development_btn'] = '<i class="fa-solid fa-code"></i> Development for<a target="_blank" href="https://moodle.com/">&nbsp;Moodle</a>';
+$string['versioninfo'] = '<i class="fa-solid fa-code-compare"></i> Version {$a->release}';
+$string['support_site'] = '<a href="{$a->url}"> <i class="fa-solid fa-headset"></i> Contact site support</a>';
