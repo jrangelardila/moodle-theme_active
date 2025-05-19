@@ -97,7 +97,7 @@ $THEME->layouts = array(
 
     // My public page.
     'mypublic' => array(
-        'file' => 'drawers.php',
+        'file' => 'profile.php',
         'regions' => array('side-pre', 'side-top'),
         'defaultregion' => 'side-pre',
     ),

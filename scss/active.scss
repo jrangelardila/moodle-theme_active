@@ -21,8 +21,10 @@
 }
 
 //User message in profile
+.btn-group > :not(.btn-check:first-child) + .btn, .btn-group > .btn-group:not(:first-child),
 .btn-group > .btn:not(:last-child):not(.dropdown-toggle), .btn-group > .btn.dropdown-toggle-split:first-child, .btn-group > .btn-group:not(:last-child) > .btn {
   background-color: $textcolornavbar;
+  margin: 2px;
 }
 
 // Active nav link
