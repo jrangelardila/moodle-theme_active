@@ -4,7 +4,7 @@
   box-shadow: 0 0 60px rgba(0, 0, 0, 0.25);
 }
 
-.drawer-toggles .drawer-toggler .btn{
+.drawer-toggles .drawer-toggler .btn {
   background-color: $navbarbg !important;
   color: $textcolornavbar !important;
 }
@@ -18,6 +18,11 @@
 .navbar > .container-xl,
 .navbar > .container-xxl {
   background-color: $navbarbg;
+}
+
+//User message in profile
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle), .btn-group > .btn.dropdown-toggle-split:first-child, .btn-group > .btn-group:not(:last-child) > .btn {
+  background-color: $textcolornavbar;
 }
 
 // Active nav link
@@ -50,18 +55,18 @@
 // General link styling
 .nav-link:not(.login),
 .a:not(.login),
-a:not(.login):not(.btn_social_media):not(.btn-primary){
+a:not(.login):not(.btn_social_media):not(.btn-primary) {
   color: $navbarbg;
   border-bottom-color: $secondary;
 }
 
 //a with .btn-primary
-a .btn-primary{
+a .btn-primary {
   color: $textcolornavbar;
 }
 
 // The login color a
-.login a{
+.login a {
   color: $textcolornavbar !important;
 }
 
@@ -84,14 +89,15 @@ a .btn-primary{
 }
 
 //Navbar links route
-.breadcrumb{
+.breadcrumb {
   background-color: $secondary !important;
   padding-right: 1rem !important;
   padding-left: 1rem !important;
   border-radius: 0.375rem !important;
   margin: 0px !important;
 }
-.breadcrumb .breadcrumb-item{
+
+.breadcrumb .breadcrumb-item {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
