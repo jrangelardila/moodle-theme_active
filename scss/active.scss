@@ -90,6 +90,14 @@ a .btn-primary {
   color: $textcolornavbar !important;
 }
 
+//Fixed set_title for secion in edit mode
+.headering-title {
+    a {
+      color: $secondary !important;
+      background-color: $navbarbg !important;
+    }
+}
+
 //Navbar links route
 .breadcrumb {
   background-color: $secondary !important;
