@@ -1,5 +1,5 @@
 {{!
-    This file is part of Moodle - http://moodle.org/
+    This file is part of Moodle - https://moodle.org/
 
     Moodle is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -12,20 +12,22 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 }}
 {{!
     @template theme_active/login
 
-    Login page template
+    Login page template for theme_active.
 
     Example context (json):
     {
+        "sitename": "My LMS",
+        "bodyattributes": "",
         "output": {
             "doctype": "<!DOCTYPE html>",
-            "page_title": "Login page",
+            "page_title": "Login",
             "favicon": "favicon.ico",
-            "main_content": "<h1>Headers keep HTML validators happy</h1>"
+            "main_content": "<h1>Login</h1>"
         }
     }
 }}
@@ -38,22 +40,62 @@
 
     {{{ output.standard_top_of_body_html }}}
 
-    <div id="page" class="container-fluid pt-5 mt-0"  style="background: url('{{{backgroundurl}}}') no-repeat center center; background-size: cover;">
+    <div id="page" class="container-fluid pt-5 mt-0">
         <div id="page-content" class="row">
             <div id="region-main-box" class="col-12">
-                <div id="region-main" class="col-12 h-100">
-                    <div class="login-wrapper">
-                        <div class="login-container {{loginalignment}}">
+                <section id="region-main" class="col-12 h-100" aria-label="{{#str}}content{{/str}}">
+                    <div class="login-wrapper {{ loginpositionclass }}">
+                        <div class="login-container">
                             {{{ output.main_content }}}
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
         </div>
     </div>
+
     {{> theme_boost/footer }}
 </div>
 
 </body>
 </html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+  M.util.js_complete('theme_boost/loader');
+});
 
+
+var username = document.getElementById('username');
+if (username) {
+    var wrapU = document.createElement('div');
+    wrapU.style.cssText = 'position:relative;display:flex;align-items:center;';
+    username.parentElement.insertBefore(wrapU, username);
+    wrapU.appendChild(username);
+    username.style.flex = '1';
+}
+
+var input = document.getElementById('password');
+if (input) {
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative;display:flex;align-items:center;';
+    input.parentElement.insertBefore(wrap, input);
+    wrap.appendChild(input);
+    input.style.paddingRight = '2.5rem';
+    input.style.flex = '1';
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Toggle password visibility');
+    btn.style.cssText = 'position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);' +
+        'background:none;border:none;padding:0;cursor:pointer;color:#6c757d;line-height:1;z-index:10;';
+    btn.innerHTML = '<i class="fa fa-eye" aria-hidden="true"></i>';
+    btn.addEventListener('click', function() {
+        var show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        btn.querySelector('i').className = show ? 'fa fa-eye-slash' : 'fa fa-eye';
+        input.focus();
+    });
+    wrap.appendChild(btn);
+}
+{{/js}}

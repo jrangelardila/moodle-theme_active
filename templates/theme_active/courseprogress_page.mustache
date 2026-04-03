@@ -1,0 +1,256 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_active/courseprogress_page
+
+    Full-page course progress landing for students.
+    Displays progress overview, activity checklist by section,
+    teacher contact info, and an export/print button.
+
+    @package theme_active
+}}
+<div class="tal-cp-page">
+
+    <div class="tal-cp-hero {{#hascourseimage}}tal-cp-hero--withimg{{/hascourseimage}}">
+        {{#hascourseimage}}
+            <div class="tal-cp-hero-bg" style="background-image: url('{{courseimageurl}}')"></div>
+        {{/hascourseimage}}
+        <div class="tal-cp-hero-overlay"></div>
+        <div class="tal-cp-hero-content">
+            <div class="tal-cp-hero-left">
+                <span class="badge badge-light tal-cp-badge-course mb-2">{{{courseshortname}}}</span>
+                <h1 class="tal-cp-hero-title">{{{coursename}}}</h1>
+                <p class="tal-cp-hero-subtitle">
+                    <i class="fa fa-chart-line mr-1"></i> {{lbl_courseprogress}}
+                </p>
+            </div>
+            <div class="tal-cp-hero-right d-print-none">
+                <a href="{{courseurl}}" class="btn btn-outline-light btn-sm mr-2">
+                    <i class="fa fa-arrow-left mr-1"></i> {{lbl_backtocourse}}
+                </a>
+                {{^isprint}}
+                    <button type="button" class="btn btn-light btn-sm" onclick="window.print(); return false;">
+                        <i class="fa fa-file-export mr-1"></i> {{lbl_exportprint}}
+                    </button>
+                {{/isprint}}
+            </div>
+        </div>
+    </div>
+    <div class="tal-cp-summary">
+        <div class="tal-cp-summary-card">
+            <div class="tal-cp-student-info">
+                <img src="{{studentavatarurl}}" alt="" class="tal-cp-student-avatar">
+                <div class="tal-cp-student-text">
+                    <span class="tal-cp-student-label">{{lbl_student}}</span>
+                    <span class="tal-cp-student-name">{{{studentname}}}</span>
+                    <span class="tal-cp-report-date">
+                        <i class="fa fa-calendar-day fa-xs"></i> {{lbl_generatedon}} {{reportdate}}
+                    </span>
+                </div>
+            </div>
+            <div class="tal-cp-ring-wrapper">
+                <div class="tal-cp-ring {{#iscomplete}}tal-cp-ring--done{{/iscomplete}}"
+                     data-percent="{{progresspercent}}">
+                    <svg viewBox="0 0 120 120" class="tal-cp-ring-svg">
+                        <circle class="tal-cp-ring-track" cx="60" cy="60" r="52"/>
+                        <circle class="tal-cp-ring-fill" cx="60" cy="60" r="52"
+                                stroke-dasharray="326.73"
+                                stroke-dashoffset="326.73"/>
+                    </svg>
+                    <div class="tal-cp-ring-text">
+                        <span class="tal-cp-ring-percent">{{progresspercent}}%</span>
+                    </div>
+                </div>
+                <div class="tal-cp-ring-label">{{progressof}}</div>
+            </div>
+        </div>
+    </div>
+
+    {{#hasteachers}}
+        <div class="tal-cp-teachers">
+            <h2 class="tal-cp-section-title">
+                <i class="fa fa-chalkboard-user mr-2"></i>{{lbl_teachers}}
+            </h2>
+            <div class="tal-cp-teachers-grid">
+                {{#teachers}}
+                    <div class="tal-cp-teacher-card">
+                        <div class="tal-cp-teacher-banner">
+                            <div class="tal-cp-teacher-banner-pattern"></div>
+                        </div>
+                        <div class="tal-cp-teacher-avatar-wrap">
+                            <img src="{{avatarurl}}" alt="{{{fullname}}}" class="tal-cp-teacher-avatar">
+                            <span class="tal-cp-teacher-badge">
+                        <i class="fa fa-chalkboard-user"></i>
+                    </span>
+                        </div>
+                        <div class="tal-cp-teacher-body">
+                            <h4 class="tal-cp-teacher-name">{{{fullname}}}</h4>
+                            <span class="tal-cp-teacher-role">{{lbl_instructor}}</span>
+                            <a href="mailto:{{email}}" class="tal-cp-teacher-email">
+                                <i class="fa fa-envelope"></i> {{email}}
+                            </a>
+                        </div>
+                        <div class="tal-cp-teacher-actions d-print-none">
+                            <a href="{{profileurl}}" class="tal-cp-teacher-action" title="{{lbl_viewprofile}}">
+                                <i class="fa fa-user"></i>
+                                <span>{{lbl_viewprofile}}</span>
+                            </a>
+                            <a href="{{messageurl}}" class="tal-cp-teacher-action tal-cp-teacher-action--primary"
+                               title="{{lbl_sendmessage}}">
+                                <i class="fa fa-paper-plane"></i>
+                                <span>{{lbl_sendmessage}}</span>
+                            </a>
+                        </div>
+                    </div>
+                {{/teachers}}
+            </div>
+        </div>
+    {{/hasteachers}}
+
+    {{#hassections}}
+        <div class="tal-cp-sections">
+            <h2 class="tal-cp-section-title">
+                <i class="fa fa-list-check mr-2"></i>{{lbl_activitylist}}
+            </h2>
+
+            {{#sections}}
+                <div class="tal-cp-section-card">
+                    <div class="tal-cp-section-header">
+                        <div class="tal-cp-section-header-left">
+                            {{#sectioncomplete}}
+                                <span class="tal-cp-section-icon tal-cp-section-icon--done">
+                            <i class="fa fa-circle-check"></i>
+                        </span>
+                            {{/sectioncomplete}}
+                            {{^sectioncomplete}}
+                                <span class="tal-cp-section-icon">
+                            <i class="fa fa-folder-open"></i>
+                        </span>
+                            {{/sectioncomplete}}
+                            <h3 class="tal-cp-section-name">{{{sectionname}}}</h3>
+                        </div>
+                        <div class="tal-cp-section-header-right">
+                            <span class="tal-cp-section-count">{{sectionprogress}}</span>
+                            <div class="progress tal-cp-section-bar">
+                                <div class="progress-bar {{#sectioncomplete}}tal-cp-bar--done{{/sectioncomplete}}"
+                                     role="progressbar"
+                                     style="width: {{sectionpercent}}%"
+                                     aria-valuenow="{{sectionpercent}}"
+                                     aria-valuemin="0"
+                                     aria-valuemax="100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tal-cp-activities">
+                        {{#activities}}
+                            <div class="tal-cp-activity {{#isdone}}tal-cp-activity--done{{/isdone}} {{#isfailed}}tal-cp-activity--failed{{/isfailed}} {{#isoverdue}}tal-cp-activity--overdue{{/isoverdue}} {{#isrestricted}}tal-cp-activity--restricted{{/isrestricted}}">
+
+                                <div class="tal-cp-activity-status">
+                                    {{#isdone}}
+                                        <span class="tal-cp-status tal-cp-status--done"><i
+                                                class="fa fa-circle-check"></i></span>
+                                    {{/isdone}}
+                                    {{#isfailed}}
+                                        <span class="tal-cp-status tal-cp-status--failed"><i
+                                                class="fa fa-circle-xmark"></i></span>
+                                    {{/isfailed}}
+                                    {{#ispending}}
+                                        <span class="tal-cp-status tal-cp-status--pending"><i class="fa fa-circle"></i></span>
+                                    {{/ispending}}
+                                </div>
+
+                                <div class="tal-cp-activity-content">
+                                    <div class="tal-cp-activity-header">
+                                        <img src="{{iconurl}}" alt="" class="tal-cp-activity-icon" width="22"
+                                             height="22">
+                                        {{#url}}
+                                            <a href="{{url}}" class="tal-cp-activity-name">{{{name}}}</a>
+                                        {{/url}}
+                                        {{^url}}
+                                            <span class="tal-cp-activity-name">{{{name}}}</span>
+                                        {{/url}}
+                                        <span class="badge badge-light tal-cp-activity-type">{{{modname}}}</span>
+                                        {{#isrestricted}}
+                                            <span class="badge badge-warning tal-cp-badge-restricted">
+                                    <i class="fa fa-lock fa-xs"></i> {{lbl_restricted}}
+                                </span>
+                                        {{/isrestricted}}
+                                        {{#isoverdue}}
+                                            <span class="badge badge-danger">{{lbl_overdue}}</span>
+                                        {{/isoverdue}}
+                                    </div>
+
+                                    {{#isrestricted}}
+                                        {{#restrictioninfo}}
+                                            <div class="tal-cp-restriction">
+                                                <i class="fa fa-lock fa-xs"></i>
+                                                {{{restrictioninfo}}}
+                                            </div>
+                                        {{/restrictioninfo}}
+                                    {{/isrestricted}}
+
+                                    {{#hasrequirements}}
+                                        <div class="tal-cp-reqs">
+                                            {{#requirements}}
+                                                <div class="tal-cp-req {{#reqcomplete}}tal-cp-req--done{{/reqcomplete}} {{#reqfailed}}tal-cp-req--failed{{/reqfailed}} {{#reqpending}}tal-cp-req--pending{{/reqpending}}">
+                                                    {{#reqcomplete}}<i class="fa fa-check fa-xs"></i>{{/reqcomplete}}
+                                                    {{#reqfailed}}<i class="fa fa-xmark fa-xs"></i>{{/reqfailed}}
+                                                    {{#reqpending}}
+                                                        <i class="fa fa-hourglass-half fa-xs"></i>{{/reqpending}}
+                                                    <span>{{description}}</span>
+                                                </div>
+                                            {{/requirements}}
+                                        </div>
+                                    {{/hasrequirements}}
+
+                                    {{#hasdates}}
+                                        <div class="tal-cp-dates">
+                                            {{#dates}}
+                                                <span class="tal-cp-date {{#ispast}}tal-cp-date--overdue{{/ispast}}">
+                                <i class="fa fa-clock fa-xs"></i>
+                                                    {{label}} {{datestr}}
+                            </span>
+                                            {{/dates}}
+                                        </div>
+                                    {{/hasdates}}
+                                </div>
+                            </div>
+                        {{/activities}}
+                    </div>
+                </div>
+            {{/sections}}
+        </div>
+    {{/hassections}}
+
+</div>
+{{#js}}
+    require(['jquery'], function($) {
+    var $ring = $('.tal-cp-ring');
+    if (!$ring.length) return;
+
+    var percent  = parseInt($ring.data('percent'), 10) || 0;
+    var circumference = 2 * Math.PI * 52; // r=52
+    var offset = circumference - (percent / 100) * circumference;
+
+    // Small delay so the CSS transition is visible.
+    setTimeout(function() {
+    $ring.find('.tal-cp-ring-fill').css('stroke-dashoffset', offset);
+    }, 200);
+    });
+{{/js}}

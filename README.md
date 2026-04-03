@@ -1,8 +1,8 @@
-# Theme  Active #
+# Theme Active #
 
-TODO Describe the plugin shortly here.
+TO-DO Describe the plugin shortly here.
 
-TODO Provide more detailed description here.
+TO-DO Provide more detailed description here.
 
 ## Installing via uploaded ZIP file ##
 

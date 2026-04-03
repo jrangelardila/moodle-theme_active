@@ -15,39 +15,42 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin administration pages are defined here.
+ * Branding settings tab.
  *
  * @package     theme_active
- * @category    admin
  * @copyright   2024 Jhon Rangel <jrangelardila@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$page = new admin_settingpage('theme_active_login', get_string('loginsettings', 'theme_active'));
+$page = new admin_settingpage('theme_active_branding', get_string('brandingsettings', 'theme_active'));
 
-// login background image
-$setting = new admin_setting_configstoredfile('theme_active/loginbackground',
-    get_string('loginbackground', 'theme_active'),
-    get_string('loginbackgrounddesc', 'theme_active'),
-    'loginbackground', 0,
-    array('maxfiles' => 1, 'accepted_types' => array('.png', '.jpg', '.jpeg')));
+// Favicon
+$setting = new admin_setting_configstoredfile('core_admin/favicon',
+    get_string('favicon', 'theme_active'),
+    get_string('favicon_desc', 'theme_active'),
+    'favicon', 0,
+    ['maxfiles' => 1, 'accepted_types' => ['.ico', '.png']]);
 $setting->set_updatedcallback('theme_reset_all_caches');
 $page->add($setting);
 
-// login alignment
-$choices = array(
-    'mr-auto' => get_string('left', 'theme_active'),
-    'mx-auto' => get_string('center', 'theme_active'),
-    'ml-auto' => get_string('right', 'theme_active')
-);
-$setting = new admin_setting_configselect('theme_active/loginalignment',
-    get_string('loginalignment', 'theme_active'),
-    get_string('loginalignment_desc', 'theme_active'),
-    'mx-auto', $choices);
+// Logo
+$setting = new admin_setting_configstoredfile('core_admin/logocompact',
+    get_string('logo', 'theme_active'),
+    get_string('logo_desc', 'theme_active'),
+    'logocompact', 0,
+    ['maxfiles' => 1, 'accepted_types' => ['.png', '.jpg', '.gif', '.svg', '.webp']]);
 $setting->set_updatedcallback('theme_reset_all_caches');
 $page->add($setting);
 
-// Add login page
+// Login logo
+$setting = new admin_setting_configstoredfile('core_admin/logo',
+    get_string('loginlogo', 'theme_active'),
+    get_string('loginlogo_desc', 'theme_active'),
+    'logo', 0,
+    ['maxfiles' => 1, 'accepted_types' => ['.png', '.jpg', '.gif', '.svg', '.webp']]);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$page->add($setting);
+
 $settings->add($page);

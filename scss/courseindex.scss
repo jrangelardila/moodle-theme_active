@@ -1,0 +1,468 @@
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * Book chapter navigation styles for theme_active.
+ *
+ * @package    theme_active
+ * @copyright  2026 Jhon Rangel <jrangelardila@gmail.com>
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+// ── Design tokens ──
+$ci-primary: $primary;
+$ci-green: #10b981;
+$ci-green-lt: #d1fae5;
+$ci-red: #ef4444;
+$ci-red-lt: #fee2e2;
+$ci-gray: #d1d5db;
+$ci-gray-dk: #9ca3af;
+$ci-node-size: 20px;
+$ci-line-w: 2px;
+$ci-radius: 10px;
+$ci-card-r: 8px;
+$ci-speed: 200ms;
+$ci-bounce: cubic-bezier(.34, 1.56, .64, 1);
+$ci-smooth: cubic-bezier(.22, 1, .36, 1);
+
+//  Root container
+.tal-ci {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-size: .8125rem;
+  line-height: 1.35;
+  overflow: hidden;
+}
+
+//  Quick nav (prev / next)  —  pill-style
+.tal-ci-qnav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px 4px;
+  flex-shrink: 0;
+}
+
+.tal-ci-qnav-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: $ci-primary;
+  background: rgba($ci-primary, .06);
+  text-decoration: none;
+  transition: all $ci-speed ease;
+  overflow: hidden;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: rgba($ci-primary, .14);
+    text-decoration: none;
+    color: $ci-primary;
+    transform: translateX(2px);
+  }
+
+  &.is-off {
+    opacity: .2;
+    pointer-events: none;
+  }
+}
+
+.tal-ci-qnav-text {
+  font-size: .75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+//  Scrollable area
+.tal-ci-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 8px 20px;
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, .1);
+    border-radius: 3px;
+  }
+}
+
+//  Section
+.tal-ci-sec {
+  margin-bottom: 6px;
+
+  &.is-cur > .tal-ci-sec-hd .tal-ci-sec-node::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid $ci-primary;
+    opacity: .3;
+    animation: tal-ci-ring-pulse 2s ease-in-out infinite;
+  }
+}
+
+@keyframes tal-ci-ring-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: .3;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+
+// ── Section header ──
+.tal-ci-sec-hd {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 8px;
+  border-radius: $ci-radius;
+  color: $body-color;
+  text-decoration: none;
+  transition: background $ci-speed ease;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover, &:focus {
+    background: rgba(0, 0, 0, .04);
+    text-decoration: none;
+    color: $body-color;
+  }
+}
+
+// Section node (ring or dot).
+.tal-ci-sec-node {
+  position: relative;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tal-ci-sec-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: $ci-gray;
+  transition: background $ci-speed;
+
+  .tal-ci-sec-hd:hover & {
+    background: $ci-primary;
+  }
+}
+
+// Progress ring.
+.tal-ci-ring {
+  transform: rotate(-90deg);
+}
+
+.tal-ci-ring-v {
+  stroke: $ci-green;
+  transition: stroke-dasharray 600ms $ci-smooth;
+}
+
+.tal-ci-ring-pct {
+  position: absolute;
+  font-size: .5rem;
+  font-weight: 700;
+  color: $ci-green;
+  pointer-events: none;
+}
+
+// Section label block.
+.tal-ci-sec-lbl {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tal-ci-sec-name {
+  font-weight: 600;
+  font-size: .8125rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tal-ci-sec-meta {
+  font-size: .6875rem;
+  color: $ci-gray-dk;
+  margin-top: 1px;
+}
+
+// Chevron arrow.
+.tal-ci-sec-arr {
+  flex-shrink: 0;
+  color: $ci-gray-dk;
+  transition: transform $ci-speed ease, color $ci-speed;
+
+  .tal-ci-sec-hd:not(.collapsed) & {
+    transform: rotate(90deg);
+  }
+
+  .tal-ci-sec-hd:hover & {
+    color: $ci-primary;
+  }
+}
+
+//  Timeline
+.tal-ci-timeline {
+  position: relative;
+  padding: 4px 0 8px 20px;
+  margin-left: 12px;
+}
+
+// Vertical connecting line.
+.tal-ci-timeline::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 0;
+  bottom: 0;
+  width: $ci-line-w;
+  background: $ci-gray;
+  opacity: .35;
+  border-radius: 1px;
+}
+
+
+//  Timeline item - single
+.tal-ci-tm-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 5px 0;
+  transition: opacity $ci-speed;
+
+  // Colored segment of the line behind completed nodes.
+  &.is-done::before {
+    content: '';
+    position: absolute;
+    left: -11px;
+    top: 0;
+    bottom: 0;
+    width: $ci-line-w;
+    background: $ci-green;
+    z-index: 1;
+  }
+
+  // Last done item: cut the green line at center of node.
+  &.is-done + :not(.is-done)::before {
+    display: none;
+  }
+
+  &.is-dim {
+    opacity: .45;
+  }
+}
+
+// ── Node (left column) ──
+.tal-ci-tm-node {
+  position: relative;
+  flex-shrink: 0;
+  width: $ci-node-size;
+  height: $ci-node-size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  margin-left: -($ci-node-size / 2) - 11px; // center on the vertical line
+}
+
+// Empty dot (incomplete, no tracking).
+.tal-ci-tm-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  border: $ci-line-w solid $ci-gray;
+  transition: all $ci-speed;
+
+  .tal-ci-tm-item:hover & {
+    border-color: $ci-primary;
+    background: rgba($ci-primary, .1);
+  }
+
+  .tal-ci-tm-item.is-active & {
+    border-color: $ci-primary;
+    background: $ci-primary;
+    box-shadow: 0 0 0 4px rgba($ci-primary, .2);
+    animation: tal-ci-node-pulse 2s ease-in-out infinite;
+  }
+}
+
+@keyframes tal-ci-node-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba($ci-primary, .2);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba($ci-primary, 0);
+  }
+}
+
+// Completion check.
+.tal-ci-check-bg {
+  fill: $ci-green;
+}
+
+.tal-ci-check-mark {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  animation: tal-ci-draw-check .5s ease-out .1s forwards;
+}
+
+@keyframes tal-ci-draw-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+// Module icon (when no completion tracking).
+.tal-ci-tm-icon {
+  width: 16px;
+  height: 16px;
+  opacity: .5;
+  background: #fff;
+  border-radius: 3px;
+
+  .tal-ci-tm-item:hover & {
+    opacity: .85;
+  }
+
+  .tal-ci-tm-item.is-active & {
+    opacity: 1;
+  }
+}
+
+
+//  Card right column
+.tal-ci-tm-card {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border-radius: $ci-card-r;
+  background: rgba(0, 0, 0, .02);
+  border: 1px solid transparent;
+  color: $body-color;
+  text-decoration: none;
+  transition: all $ci-speed ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, .05);
+    border-color: rgba(0, 0, 0, .06);
+    transform: translateX(2px);
+    text-decoration: none;
+    color: $ci-primary;
+  }
+
+  // ── Active state: highlighted card ──
+  .tal-ci-tm-item.is-active & {
+    background: rgba($ci-primary, .07);
+    border-color: rgba($ci-primary, .18);
+    box-shadow: 0 2px 8px rgba($ci-primary, .08);
+
+    .tal-ci-tm-name {
+      color: $ci-primary;
+      font-weight: 600;
+    }
+  }
+
+  // ── Completed: subtle ──
+  .tal-ci-tm-item.is-done & {
+    .tal-ci-tm-name {
+      color: $ci-gray-dk;
+    }
+  }
+
+  // ── Fail ──
+  .tal-ci-tm-item.is-fail & {
+    border-color: rgba($ci-red, .15);
+    background: rgba($ci-red, .03);
+  }
+
+  // ── Locked ──
+  .tal-ci-tm-item.is-lock & {
+    .tal-ci-tm-name {
+      font-style: italic;
+    }
+  }
+}
+
+.tal-ci-tm-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .8125rem;
+  transition: color $ci-speed;
+}
+
+.tal-ci-tm-lock {
+  flex-shrink: 0;
+  color: $ci-gray-dk;
+  opacity: .6;
+}
+
+
+//  Auto-scroll
+.tal-ci-tm-item.is-active {
+  scroll-margin-top: 80px;
+}
+
+//  Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// ==========================================================================
+//  Responsive
+// ==========================================================================
+@media (max-width: 768px) {
+  .tal-ci-tm-card {
+    padding: 6px 8px;
+  }
+  .tal-ci-qnav-text {
+    display: none;
+  }
+}

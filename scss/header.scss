@@ -1,0 +1,731 @@
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * Page header styles for theme_active.
+ *
+ * @package    theme_active
+ * @copyright  2026 Jhon Rangel <jrangelardila@gmail.com>
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+// theme_active — Page header (full_header override)
+.tal-header {
+    margin-bottom: 0;
+    position: relative;
+}
+
+// Gradient background with title + actions
+.tal-header-banner {
+    background: linear-gradient(135deg, $primary 0%, mix($primary, $secondary, 65%) 50%, $secondary 100%);
+    padding: 1.5rem 1.5rem 1.25rem;
+    position: relative;
+    overflow: hidden;
+
+    // Decorative geometric shapes
+    &::before {
+        content: '';
+        position: absolute;
+        top: -30px;
+        right: -20px;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: rgba(#fff, .07);
+        pointer-events: none;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -40px;
+        right: 100px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: rgba(#fff, .04);
+        pointer-events: none;
+    }
+
+    .tal-header-banner-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        z-index: 1;
+        gap: 1rem;
+    }
+
+    // Course image as background.
+    &--hasimage {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        // Dark overlay to keep text readable.
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(#000, .5);
+            border-radius: 0;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            right: 0;
+        }
+
+        &::after {
+            display: none;
+        }
+    }
+}
+
+//  Title area  ─────────────────────────────
+.tal-header-title-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 0;
+    flex: 1;
+}
+
+// Floating icon accent
+.tal-header-icon-accent {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: rgba(#fff, .18);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(#fff, .25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.3rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .1);
+    transition: transform .3s cubic-bezier(.34, 1.56, .64, 1),
+                box-shadow .3s ease;
+
+    &:hover {
+        transform: scale(1.08) rotate(-3deg);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
+    }
+}
+
+// Title content
+.tal-header-content {
+    min-width: 0;
+    flex: 1;
+}
+.tal-header-banner {
+    color: #fff;
+
+    // All text elements
+    h1, h2, h3, h4, h5, h6,
+    .h1, .h2, .h3, .h4, .h5, .h6,
+    p, span, label, small, .small {
+        color: #fff !important;
+    }
+
+    // Links inside the banner
+    a:not(.btn) {
+        color: rgba(#fff, .9);
+        text-decoration: underline;
+        text-decoration-color: rgba(#fff, .3);
+        transition: color .2s, text-decoration-color .2s;
+
+        &:hover {
+            color: #fff;
+            text-decoration-color: rgba(#fff, .7);
+        }
+    }
+
+    // Icons (Font Awesome, Moodle pix, etc.)
+    i, .icon, [class*="fa-"] {
+        color: #fff !important;
+    }
+
+    // Muted text helpers
+    .text-muted {
+        color: rgba(#fff, .7) !important;
+    }
+}
+
+// Context header override (page title + avatar inside banner)
+.tal-context-header {
+    .page-context-header {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+
+        .page-header-image {
+            flex-shrink: 0;
+
+            .userpicture {
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                border: 2px solid rgba(#fff, .4);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+                transition: transform .3s ease, border-color .3s ease;
+
+                &:hover {
+                    transform: scale(1.08);
+                    border-color: rgba(#fff, .7);
+                }
+            }
+        }
+
+        .page-header-headings {
+            min-width: 0;
+
+            h2, .h2 {
+                font-size: 1.45rem;
+                font-weight: 700;
+                letter-spacing: -.01em;
+                line-height: 1.3;
+                margin: 0;
+                text-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                // Remove any inherited ::before accents
+                &::before {
+                    display: none;
+                }
+            }
+
+            // Small text below title
+            small, .small {
+                color: rgba(#fff, .75) !important;
+                font-weight: 400;
+            }
+        }
+    }
+}
+
+// Welcome message override (dashboard)
+.tal-welcome {
+    .welcome_message {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: -.01em;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+        margin: 0;
+
+        .welcome_area {
+            padding-left: 0;
+
+            // Remove inherited accent bar
+            &::before {
+                display: none;
+            }
+        }
+    }
+}
+
+//  Action buttons ──────────────────────────────────────────
+.tal-header-actions {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+
+    .tal-header-action,
+    > div {
+        .btn {
+            background: rgba(#fff, .18);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(#fff, .25);
+            color: #fff;
+            border-radius: .6rem;
+            font-weight: 600;
+            font-size: .82rem;
+            padding: .45rem 1rem;
+            transition: all .2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+            text-shadow: none;
+
+            &:hover {
+                background: rgba(#fff, .3);
+                border-color: rgba(#fff, .4);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 14px rgba(0, 0, 0, .12);
+                color: #fff;
+            }
+
+            // Primary action variant
+            &.btn-primary {
+                background: #fff;
+                color: $primary;
+                border-color: #fff;
+
+                &:hover {
+                    background: rgba(#fff, .9);
+                    color: darken($primary, 8%);
+                }
+            }
+        }
+    }
+}
+
+//  Teacher avatars in banner ──────────────────────────────
+.tal-header-teachers {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.tal-header-teacher-link {
+    position: relative;
+    margin-left: -10px;
+    transition: transform .25s cubic-bezier(.34, 1.56, .64, 1), z-index 0s;
+    z-index: 1;
+
+    &:first-child {
+        margin-left: 0;
+    }
+
+    &:hover {
+        transform: scale(1.18);
+        z-index: 10;
+
+        .tal-header-teacher-avatar {
+            border-color: rgba(#fff, .95);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .25);
+        }
+    }
+}
+
+.tal-header-teacher-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 3px solid rgba(#fff, .5);
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+    transition: border-color .25s ease, box-shadow .25s ease;
+    display: block;
+}
+
+// Course header area
+.tal-course-header {
+    margin-top: .75rem;
+    position: relative;
+    z-index: 1;
+    color: rgba(#fff, .9);
+}
+
+// Polygon chevron breadcrumbs
+.tal-breadcrumb-wrapper {
+    margin: 1rem 1.5rem 0;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 6px 12px -2px rgba($secondary, .5);
+}
+
+.tal-breadcrumb-bar {
+    position: relative;
+    z-index: 100;
+
+    .tal-breadcrumb-inner {
+        display: flex;
+        align-items: center;
+        padding: 0;
+    }
+}
+
+.tal-breadcrumb-nav {
+    flex: 1;
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+
+    .breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: nowrap;
+        list-style: none;
+        align-items: center;
+        overflow-x: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            position: relative;
+            // Solapar exactamente el ancho de la flecha para que encajen
+            margin-left: -18px;
+
+            &::before {
+                display: none !important;
+                content: none !important;
+                padding: 0 !important;
+            }
+
+            a,
+            > span:not(.separator) {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 38px;
+                padding: 0 30px;
+                font-weight: 600;
+                font-size: .8rem;
+                letter-spacing: .02em;
+                color: #fff;
+                text-decoration: none;
+                background-color: $secondary;
+                white-space: nowrap;
+                position: relative;
+                transition: filter .2s ease, background-color .2s ease;
+            }
+
+            &:first-child {
+                margin-left: 0;
+
+                a,
+                > span:not(.separator) {
+                    padding-left: 16px;
+                    clip-path: polygon(
+                        0 0,
+                        calc(100% - 18px) 0,
+                        100% 50%,
+                        calc(100% - 18px) 100%,
+                        0 100%
+                    );
+                }
+            }
+            &:not(:first-child) {
+                a,
+                > span:not(.separator) {
+                    padding-left: 30px;
+                    clip-path: polygon(
+                        0 0,
+                        18px 50%,
+                        0 100%,
+                        calc(100% - 18px) 100%,
+                        100% 50%,
+                        calc(100% - 18px) 0
+                    );
+                }
+            }
+            &:last-child {
+                a,
+                > span:not(.separator) {
+                    background-color: $primary;
+                    font-weight: 700;
+                }
+
+                &:first-child {
+                    a,
+                    > span:not(.separator) {
+                        padding: 0 18px;
+                        clip-path: none;
+                        border-radius: 6px;
+                    }
+                }
+            }
+            &:not(:last-child):hover {
+                a {
+                    filter: brightness(1.15);
+                }
+            }
+            @for $i from 1 through 15 {
+                &:nth-child(#{$i}) {
+                    z-index: #{15 - $i};
+                }
+            }
+        }
+    }
+}
+
+// Bulk actions button — solid background so it's visible over course images.
+.bulkEnable.btn {
+    background-color: $secondary !important;
+    color: color-yiq($secondary) !important;
+    border: none;
+    border-radius: .35rem;
+    padding: .25rem .6rem;
+    font-size: .8rem;
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+
+    &:hover,
+    &:focus {
+        background-color: darken($secondary, 10%) !important;
+        color: color-yiq($secondary) !important;
+    }
+}
+
+// SECONDARY NAVIGATION — Redesigned as pill tabs
+.secondary-navigation {
+    border: none;
+    background-color: inherit;
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+    padding: .25rem 1rem;
+
+    .moremenu {
+        box-shadow: none;
+        background: transparent;
+
+        .nav-tabs {
+            border: none;
+            gap: .25rem;
+
+            .nav-link {
+                font-weight: 500;
+                font-size: .78rem;
+                color: #666;
+                border: none;
+                border-radius: .35rem;
+                padding: .25rem .55rem;
+                transition: all .25s cubic-bezier(.25, .8, .25, 1);
+                background: transparent;
+                line-height: 1.3;
+
+                &:hover,
+                &:focus {
+                    color: $primary;
+                    background: rgba($primary, .08);
+                }
+
+                &.active {
+                    color: #fff;
+                    background: linear-gradient(135deg, $primary, mix($primary, $secondary, 65%));
+                    font-weight: 600;
+                    box-shadow: 0 1px 4px rgba($primary, .2);
+                }
+            }
+        }
+    }
+}
+
+// MOBILE RESPONSIVE
+@media (max-width: 767.98px) {
+    .tal-header-banner {
+        padding: 1rem;
+
+        &::before,
+        &::after {
+            display: none;
+        }
+
+        .tal-header-banner-inner {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: .75rem;
+        }
+    }
+
+    .tal-header-icon-accent {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        font-size: 1rem;
+    }
+
+    .tal-context-header .page-context-header {
+        .page-header-headings {
+            h2, .h2 {
+                font-size: 1.15rem;
+            }
+        }
+
+        .page-header-image .userpicture {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    .tal-welcome .welcome_message {
+        font-size: 1.2rem;
+    }
+
+    .tal-header-teachers {
+        order: -1;
+        width: 100%;
+    }
+
+    .tal-header-teacher-link {
+        margin-left: -8px;
+
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+
+    .tal-header-teacher-avatar {
+        width: 36px;
+        height: 36px;
+        border-width: 2px;
+    }
+
+    .tal-header-actions {
+        width: 100%;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: .4rem;
+    }
+
+    .tal-breadcrumb-wrapper {
+        margin: .5rem .75rem 0;
+        padding: .5rem .75rem;
+        margin-bottom: .75rem;
+    }
+
+    .tal-breadcrumb-bar .tal-breadcrumb-inner {
+        padding: 0;
+    }
+
+    .tal-breadcrumb-nav .breadcrumb {
+        flex-wrap: wrap;
+        gap: .35rem;
+        overflow-x: visible;
+
+        .breadcrumb-item {
+            margin-left: 0;
+
+            a,
+            > span:not(.separator) {
+                clip-path: none;
+                border-radius: 1rem;
+                padding: .3rem .75rem;
+                height: auto;
+                min-height: 30px;
+                font-size: .72rem;
+                white-space: nowrap;
+            }
+
+            &:first-child {
+                margin-left: 0;
+
+                a,
+                > span:not(.separator) {
+                    clip-path: none;
+                    padding-left: .75rem;
+                }
+            }
+
+            &:not(:first-child) {
+                a,
+                > span:not(.separator) {
+                    clip-path: none;
+                    padding-left: .75rem;
+                }
+            }
+
+            &:last-child {
+                a,
+                > span:not(.separator) {
+                    border-radius: 1rem;
+                }
+
+                &:first-child {
+                    a,
+                    > span:not(.separator) {
+                        padding: .3rem .75rem;
+                        border-radius: 1rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .tal-breadcrumb-icon {
+        display: none;
+    }
+
+    .secondary-navigation {
+        padding: .2rem .5rem;
+
+        .moremenu .nav-tabs .nav-link {
+            font-size: .78rem;
+            padding: .3rem .75rem;
+        }
+    }
+}
+
+// TABLET RESPONSIVE
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .tal-breadcrumb-nav .breadcrumb .breadcrumb-item {
+        margin-left: -12px;
+
+        a,
+        > span:not(.separator) {
+            padding: 0 20px;
+            font-size: .75rem;
+            height: 34px;
+        }
+
+        &:first-child {
+            margin-left: 0;
+
+            a,
+            > span:not(.separator) {
+                padding-left: 14px;
+                clip-path: polygon(
+                    0 0,
+                    calc(100% - 12px) 0,
+                    100% 50%,
+                    calc(100% - 12px) 100%,
+                    0 100%
+                );
+            }
+        }
+
+        &:not(:first-child) {
+            a,
+            > span:not(.separator) {
+                padding-left: 22px;
+                clip-path: polygon(
+                    0 0,
+                    12px 50%,
+                    0 100%,
+                    calc(100% - 12px) 100%,
+                    100% 50%,
+                    calc(100% - 12px) 0
+                );
+            }
+        }
+
+        &:last-child:first-child {
+            a,
+            > span:not(.separator) {
+                padding: 0 14px;
+                clip-path: none;
+            }
+        }
+    }
+
+    .tal-breadcrumb-wrapper {
+        margin: .75rem 1rem 0;
+        margin-bottom: .75rem;
+    }
+}

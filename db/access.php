@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * The layout/maintenance.php for theme_active is defined here.
+ * Theme capabilities are defined here.
  *
  * @package     theme_active
  * @copyright   2024 Jhon Rangel <jrangelardila@gmail.com>
@@ -24,16 +24,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$templatecontext = [
-    'sitename' => format_string($SITE->shortname, true, ["escape" => false]),
-    'output' => $OUTPUT,
-    'maintenance' => $OUTPUT->image_url('maintenance', 'theme_active'),
+$capabilities = [
+    'theme/active:changesettings' => [
+        'riskbitmask' => RISK_CONFIG,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => [
+            'manager' => CAP_ALLOW,
+        ],
+    ],
 ];
-
-$maintenance_mode = get_config('core', 'maintenance_enabled');
-
-if ($maintenance_mode) {
-    echo $OUTPUT->render_from_template('theme_active/maintenance', $templatecontext);
-} else {
-    echo $OUTPUT->render_from_template('theme_boost/maintenance', $templatecontext);
-}

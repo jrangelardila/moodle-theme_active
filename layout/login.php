@@ -15,40 +15,34 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * The layout/login.php for theme_active is defined here.
+ * Login page layout for theme_active.
  *
  * @package     theme_active
  * @copyright   2024 Jhon Rangel <jrangelardila@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
+$theme = theme_config::load('active');
+$loginposition  = $theme->settings->loginposition ?? 'center';
+$loginimageurl  = $theme->setting_file_url('loginimage', 'loginimage');
+
+$positionclass = [
+    'left'  => 'd-flex justify-content-start',
+    'right' => 'd-flex justify-content-end',
+    'center' => '',
+][$loginposition] ?? '';
 
 $bodyattributes = $OUTPUT->body_attributes();
 
-$context = context_system::instance();
-$loginbackground = get_config('theme_active', 'loginbackground');
-$backgroundurl = '';
-
-$fs = get_file_storage();
-$file = $fs->get_file($context->id, 'theme_active', 'loginbackground', 0, '/', $loginbackground);
-if ($loginbackground) {
-    $backgroundurl = moodle_url::make_pluginfile_url(
-        $context->id,
-        $file->get_component(),
-        $file->get_filearea(),
-        $file->get_itemid(),
-        $file->get_filepath(),
-        $file->get_filename()
-    );
-}
-
 $templatecontext = [
-    'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
-    'output' => $OUTPUT,
-    'bodyattributes' => $bodyattributes,
-    'backgroundurl' => $backgroundurl,
-    'loginalignment' => get_config('theme_active', 'loginalignment'),
+    'sitename'           => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), 'escape' => false]),
+    'output'             => $OUTPUT,
+    'bodyattributes'     => $bodyattributes,
+    'loginpositionclass' => $positionclass,
+    'loginimageurl'      => $loginimageurl ?: '',
+    'hasloginimage'      => !empty($loginimageurl),
 ];
 
-$PAGE->requires->js_call_amd('theme_active/login', 'init');
 echo $OUTPUT->render_from_template('theme_active/login', $templatecontext);

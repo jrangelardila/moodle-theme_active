@@ -15,13 +15,16 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * The layout/drawers.php for theme_active is defined here.
+ * Drawer-based layout for theme_active.
+ *
+ * Extends Boost's drawers layout and injects the footer template context
+ * so that the overridden footer.mustache can render social links, app
+ * buttons and site information from theme settings.
  *
  * @package     theme_active
  * @copyright   2024 Jhon Rangel <jrangelardila@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -29,7 +32,6 @@ require_once($CFG->libdir . '/behat/lib.php');
 require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->dirroot . '/theme/active/lib.php');
 
-// Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
 
 if (isloggedin()) {
@@ -49,20 +51,41 @@ if ($courseindexopen) {
     $extraclasses[] = 'drawer-open-index';
 }
 
-//side-pre, blocks
-$blockshtml_side_pre = $OUTPUT->blocks('side-pre');
-$hasblocks = (str_contains($blockshtml_side_pre, 'data-block=') || !empty($addblockbutton));
+$blockshtml = $OUTPUT->blocks('side-pre');
+$hasblocks = (strpos($blockshtml, 'data-block=') !== false || !empty($addblockbutton));
 
+$coursetopblockshtml = $OUTPUT->blocks('course-top');
+$coursetopaddblockbutton = $OUTPUT->addblockbutton('course-top');
+$hascoursetopblocks = strpos($coursetopblockshtml, 'data-block=') !== false || !empty($coursetopaddblockbutton);
 if (!$hasblocks) {
     $blockdraweropen = false;
 }
-$courseindex = core_course_drawer();
+// Use our custom course index that shows ALL activities (stealth + restricted)
+// except teacher-hidden ones. Falls back to Moodle's default if not in a course.
+$courseindex = '';
+if (!empty($COURSE->id) && $COURSE->id != SITEID && isloggedin()) {
+    $courseindex = theme_active_build_course_index((int) $COURSE->id, $PAGE);
+    if (!empty($courseindex)) {
+        $PAGE->requires->js_call_amd('theme_active/courseindex_controls', 'init');
+    }
+}
+if (empty($courseindex)) {
+    $courseindex = core_course_drawer();
+}
 if (!$courseindex) {
     $courseindexopen = false;
 }
 
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
-//$forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
+$forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
+
+// Don't force-open the block drawer on book pages (theme_active has its own TOC navigation).
+if ($PAGE->pagetype === 'mod-book-view') {
+    $forceblockdraweropen = false;
+}
+
+// Calendar date-based color coding (past=red, today=orange, future=green).
+$PAGE->requires->js_call_amd('theme_active/calendar_colors', 'init');
 
 $secondarynavigation = false;
 $overflow = '';
@@ -79,21 +102,24 @@ if ($PAGE->has_secondary_navigation()) {
 $primary = new core\navigation\output\primary($PAGE);
 $renderer = $PAGE->get_renderer('core');
 $primarymenu = $primary->export_for_template($renderer);
-$buildregionmainsettings = !$PAGE->include_region_main_settings_in_header_actions() && !$PAGE->has_secondary_navigation();
-// If the settings menu will be included in the header then don't add it here.
+$buildregionmainsettings = !$PAGE->include_region_main_settings_in_header_actions()
+    && !$PAGE->has_secondary_navigation();
 $regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settings_menu() : false;
 
 $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
 
-$settings = new \theme_active\util\settings();
-
 $templatecontext = [
-    'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
+    'sitename' => format_string(
+        $SITE->shortname,
+        true,
+        ['context' => context_course::instance(SITEID), 'escape' => false]
+    ),
     'output' => $OUTPUT,
-    'sidepreblocks' => $blockshtml_side_pre, //right blocks
+    'navbar' => $OUTPUT->navbar(),
+    'hasnavbar' => $PAGE->has_navbar(),
+    'sidepreblocks' => $blockshtml,
     'hasblocks' => $hasblocks,
-    'topblocks' => $settings->get_top_blocks(), //top blocks
     'bodyattributes' => $bodyattributes,
     'courseindexopen' => $courseindexopen,
     'blockdraweropen' => $blockdraweropen,
@@ -103,13 +129,24 @@ $templatecontext = [
     'mobileprimarynav' => $primarymenu['mobileprimarynav'],
     'usermenu' => $primarymenu['user'],
     'langmenu' => $primarymenu['lang'],
-    // 'forceblockdraweropen' => $forceblockdraweropen,
+    'forceblockdraweropen' => $forceblockdraweropen,
     'regionmainsettingsmenu' => $regionmainsettingsmenu,
     'hasregionmainsettingsmenu' => !empty($regionmainsettingsmenu),
     'overflow' => $overflow,
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
-
+    'coursetopblocks' => $coursetopblockshtml,
+    'hascoursetopblocks' => $hascoursetopblocks,
+    'coursetopaddblockbutton' => $coursetopaddblockbutton,
 ];
 
-echo $OUTPUT->render_from_template('theme_active/drawers', array_merge($templatecontext, $settings->get_footer()));
+// inject footer data into the context
+$templatecontext = array_merge($templatecontext, theme_active_get_footer_context());
+
+// inject course completion progress for students
+$templatecontext = array_merge($templatecontext, theme_active_get_course_progress_context());
+
+// inject custom activity navigation
+$templatecontext['tal_activity_nav'] = theme_active_get_activity_navigation($PAGE, $OUTPUT);
+
+echo $OUTPUT->render_from_template('theme_boost/drawers', $templatecontext);

@@ -1,0 +1,68 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_active/course_progress
+
+    Course completion progress bar for enrolled students.
+    Shows a compact progress bar with a link to the full progress landing page.
+
+    Context variables required for this template:
+    * hasprogress - boolean
+    * progresspercent - int 0-100
+    * progresslabel - string
+    * progressof - string
+    * iscomplete - boolean
+    * progressurl - string URL to the full progress landing page
+}}
+{{#hasprogress}}
+<div class="tal-progress-wrapper d-print-none">
+    <div class="tal-progress-container">
+        <div class="tal-progress-info">
+            <div class="tal-progress-left">
+                {{#iscomplete}}
+                    <span class="tal-progress-icon tal-progress-icon--done">
+                        <i class="fa fa-circle-check"></i>
+                    </span>
+                {{/iscomplete}}
+                {{^iscomplete}}
+                    <span class="tal-progress-icon">
+                        <i class="fa fa-chart-simple"></i>
+                    </span>
+                {{/iscomplete}}
+                <span class="tal-progress-label">{{{progresslabel}}}</span>
+            </div>
+            <div class="tal-progress-right">
+                <span class="tal-progress-detail">{{{progressof}}}</span>
+                <span class="tal-progress-percent {{#iscomplete}}tal-progress-percent--done{{/iscomplete}}">{{progresspercent}}%</span>
+                <a href="{{progressurl}}" class="btn btn-sm btn-outline-primary tal-progress-link ml-2" title="{{lbl_viewdetails}}">
+                    <i class="fa fa-list-check mr-1"></i>{{lbl_viewdetails}}
+                </a>
+            </div>
+        </div>
+        <div class="progress tal-progress-bar-track">
+            <div class="progress-bar {{#iscomplete}}tal-progress-bar--done{{/iscomplete}}"
+                 role="progressbar"
+                 style="width: {{progresspercent}}%"
+                 aria-valuenow="{{progresspercent}}"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 aria-label="{{{progresslabel}}}: {{progresspercent}}%">
+            </div>
+        </div>
+    </div>
+</div>
+{{/hasprogress}}

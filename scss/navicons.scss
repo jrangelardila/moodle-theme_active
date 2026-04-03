@@ -1,0 +1,144 @@
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * FontAwesome icons for all navigation links.
+ *
+ * Covers primary navigation (top navbar), secondary navigation
+ * (course, module, category, admin) and the "more" dropdown menus.
+ * Uses data-key attributes on nav items to inject icons via CSS ::before.
+ *
+ * @package    theme_active
+ * @copyright  2026 Jhon Rangel <jrangelardila@gmail.com>
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+// Base style: all moremenu nav icons
+.moremenu .nav-item[data-key] > a::before,
+.moremenu .dropdown-menu a[data-key]::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.4em;
+    font-size: 0.85em;
+    display: inline-block;
+}
+
+// Compact primary navigation
+.primary-navigation .navigation .nav-link {
+    padding: 0 0.5rem !important;
+    font-size: 0.82rem !important;
+}
+
+.primary-navigation .moremenu .nav-item[data-key] > a::before {
+    margin-right: 0.2em;
+    font-size: 0.78em;
+}
+
+// Complete icon map: data-key → FontAwesome unicode.
+$nav-icons: (
+    // ── Primary navigation
+    "home":              "\f015",
+    "myhome":            "\f0e4",
+    "mycourses":         "\f19d",
+    "siteadminnode":     "\f3ed",
+
+    // ── Course secondary navigation
+    "coursehome":        "\f015",
+    "participants":      "\f0c0",
+    "grades":            "\f080",
+    "badgesview":        "\f559",
+    "competencies":      "\f19d",
+    "communication":     "\f075",
+    "contentbank":       "\f1c0",
+
+    // ── Course admin
+    "editsettings":      "\f013",
+    "review":            "\f06e",
+    "manageinstances":   "\f1de",
+    "groups":            "\f500",
+    "override":          "\f509",
+    "roles":             "\f505",
+    "permissions":       "\f084",
+    "otherusers":        "\f234",
+    "gradebooksetup":    "\f085",
+    "gradeadmin":        "\f085",
+    "outcomes":          "\f091",
+    "coursecompletion":   "\f058",
+    "coursebadges":      "\f5a2",
+    "newbadge":          "\f055",
+    "filtermanagement":  "\f0b0",
+    "unenrolself":       "\f2f5",
+    "coursetags":        "\f02c",
+    "download":          "\f019",
+    "contextlocking":    "\f023",
+    "coursereports":     "\f200",
+    "questionbank":      "\f059",
+    "users":             "\f0c0",
+
+    // ── Course reuse
+    "coursereuse":       "\f021",
+    "backup":            "\f0c7",
+    "restore":           "\f1da",
+    "import":            "\f56f",
+    "copy":              "\f0c5",
+    "reset":             "\f2ea",
+
+    // ── Module
+    "modulepage":        "\f06e",
+    "modedit":           "\f044",
+    "advgrading":        "\f0cb",
+    "logreport":         "\f15c",
+    "roleassign":        "\f007",
+    "filtermanage":      "\f0b0",
+    "roleoverride":      "\f2c1",
+    "rolecheck":         "\f2c2",
+    "competencybreakdown": "\f19d",
+    "sendtomoodlenet":   "\f0ee",
+
+    // ── Category navigation
+    "categorymain":      "\f07b",
+    "edit":              "\f044",
+    "addsubcat":         "\f65e",
+    "cohort":            "\f0c0",
+    "filters":           "\f0b0",
+    "restorecourse":     "\f1da",
+
+    // ── Admin secondary navigation (tabs) ──
+    "siteadministration": "\f3ed",
+    "root":              "\f013",
+    "users":             "\f0c0",
+    "courses":           "\f19d",
+    "grades":            "\f080",
+    "competencies":      "\f19d",
+    "modules":           "\f12e",
+    "appearance":        "\f53f",
+    "server":            "\f233",
+    "reports":           "\f200",
+    "development":       "\f121",
+);
+
+// Generate rules for nav items
+@each $key, $icon in $nav-icons {
+    .moremenu .nav-item[data-key="#{$key}"] > a::before {
+        content: $icon;
+    }
+}
+
+// Generate rules for items inside
+@each $key, $icon in $nav-icons {
+    .moremenu .dropdown-menu a[data-key="#{$key}"]::before {
+        content: $icon;
+    }
+}

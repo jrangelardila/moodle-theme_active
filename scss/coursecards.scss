@@ -1,0 +1,205 @@
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * Course card grid styles for theme_active.
+ *
+ * @package    theme_active
+ * @copyright  2026 Jhon Rangel <jrangelardila@gmail.com>
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+// Course card grid — theme_active category view.
+
+.tal-course-grid {
+    margin-top: 1rem;
+}
+
+.tal-course-card {
+    border: none;
+    border-radius: .75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+    transition: box-shadow .2s ease, transform .2s ease;
+    overflow: hidden;
+
+    &:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, .14);
+        transform: translateY(-3px);
+    }
+
+    &.tal-course-dimmed {
+        opacity: .55;
+        border: 2px dashed rgba(0, 0, 0, .2);
+    }
+}
+
+.tal-course-hidden-badge {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    z-index: 3;
+    font-size: .75rem;
+}
+
+.tal-course-img-wrap {
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; // 16:9 → shorter cards
+    position: relative;
+    overflow: hidden;
+}
+
+.tal-course-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tal-course-img-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, lighten($primary, 8%) 0%, darken($primary, 12%) 100%);
+    color: rgba(255, 255, 255, .85);
+    text-align: center;
+
+    .fa {
+        opacity: .6;
+    }
+}
+
+.tal-placeholder-shortname {
+    font-size: .95rem;
+    font-weight: 600;
+    color: #fff;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+}
+
+.tal-course-shortname {
+    font-size: .78rem;
+    font-weight: 500;
+    color: $text-muted;
+    background-color: darken(#f8f9fa, 2%);
+    border: 1px solid rgba(0,0,0,.06);
+}
+
+
+.tal-course-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $primary;
+
+    &:hover {
+        text-decoration: none;
+        color: darken($primary, 10%);
+    }
+
+    &.dimmed {
+        color: $text-muted;
+    }
+}
+
+.tal-course-summary {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+// Teacher avatars ────────────────────────────────────────
+.tal-teachers {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: auto;
+    padding-top: .5rem;
+}
+
+.tal-teacher-link {
+    position: relative;
+    z-index: 2;
+    margin-right: -6px;
+    transition: transform .2s ease, z-index 0s;
+
+    &:hover {
+        transform: scale(1.15);
+        z-index: 10;
+    }
+}
+
+.tal-teacher-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .12);
+    object-fit: cover;
+}
+
+// MOBILE RESPONSIVE
+@media (max-width: 767.98px) {
+    .tal-course-card {
+        border-radius: .5rem;
+
+        &:hover {
+            transform: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+        }
+    }
+
+    .tal-course-img-wrap {
+        padding-bottom: 50%;
+    }
+
+    .tal-course-title {
+        font-size: .9rem;
+    }
+
+    .tal-course-summary {
+        font-size: .8rem;
+    }
+
+    .tal-course-shortname {
+        font-size: .72rem;
+    }
+
+    .tal-teacher-avatar {
+        width: 28px;
+        height: 28px;
+    }
+
+    .tal-teacher-link:hover {
+        transform: none;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .tal-course-img-wrap {
+        padding-bottom: 45%;
+    }
+
+    .tal-course-title {
+        font-size: .85rem;
+    }
+}

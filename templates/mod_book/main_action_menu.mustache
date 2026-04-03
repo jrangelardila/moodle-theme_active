@@ -1,0 +1,217 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_book/main_action_menu
+
+    Enhanced book chapter navigation for theme_active.
+    Premium design with progress bar, TOC sidebar panel, and bottom navigation.
+
+    Example context (json):
+    {
+        "hasprevious": true,
+        "hasnext": true,
+        "previous": {"url": "#", "chaptername": "Introduction"},
+        "next": {"url": "#", "chaptername": "Conclusion"},
+        "currenttitle": "Main Content",
+        "position": 2,
+        "totalchapters": 5,
+        "progresspercent": 40,
+        "hastoc": true,
+        "bookname": "My Book",
+        "toc": []
+    }
+}}
+<div class="tal-booknav" id="tal-booknav-top">
+    <div class="tal-booknav-header">
+        <div class="tal-booknav-header-left">
+            <button class="tal-booknav-toc-toggle" data-action="tal-toggle-toc" aria-label="Table of contents"
+                    title="Table of contents">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </button>
+            <div class="tal-booknav-meta">
+                <span class="tal-booknav-bookname">
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                    {{{bookname}}}
+                </span>
+                <span class="tal-booknav-chapter-title">{{{currenttitle}}}</span>
+            </div>
+        </div>
+        <div class="tal-booknav-header-right">
+            <span class="tal-booknav-counter">{{position}} / {{totalchapters}}</span>
+        </div>
+    </div>
+    <div class="tal-booknav-segments">
+        <div class="tal-booknav-segments-track">
+            {{#toc}}
+                <a href="{{url}}#mod_book-chapter"
+                   class="tal-booknav-seg {{#ispast}}tal-booknav-seg--done{{/ispast}} {{#iscurrent}}tal-booknav-seg--active{{/iscurrent}} {{#isfuture}}tal-booknav-seg--pending{{/isfuture}} {{#issubchapter}}tal-booknav-seg--sub{{/issubchapter}}"
+                   title="{{position}}. {{{title}}}"
+                   data-position="{{position}}">
+                    <span class="tal-booknav-seg-inner"></span>
+                </a>
+            {{/toc}}
+        </div>
+        <span class="tal-booknav-segments-pct">{{progresspercent}}%</span>
+    </div>
+
+    <div class="tal-booknav-controls">
+        <div class="tal-booknav-side">
+            {{#hasprevious}}
+                <a href="{{previous.url}}#mod_book-chapter" class="tal-booknav-btn tal-booknav-btn--prev">
+                    <span class="tal-booknav-btn-arrow">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    </span>
+                    <span class="tal-booknav-btn-text">
+                        <small class="tal-booknav-btn-label">{{#str}}navprev, mod_book{{/str}}</small>
+                        <span class="tal-booknav-btn-name">
+                            {{#previous.issubchapter}}<i class="fa fa-level-up fa-rotate-90 tal-booknav-sub"
+                                                         aria-hidden="true"></i>{{/previous.issubchapter}}
+                            {{{previous.chaptername}}}
+                        </span>
+                    </span>
+                </a>
+            {{/hasprevious}}
+        </div>
+
+        <div class="tal-booknav-side tal-booknav-side--right">
+            {{#hasnext}}
+                <a href="{{next.url}}#mod_book-chapter" class="tal-booknav-btn tal-booknav-btn--next">
+                    <span class="tal-booknav-btn-text tal-booknav-btn-text--right">
+                        <small class="tal-booknav-btn-label">{{#str}}navnext, mod_book{{/str}}</small>
+                        <span class="tal-booknav-btn-name">
+                            {{{next.chaptername}}}
+                            {{#next.issubchapter}}<i class="fa fa-level-up fa-rotate-90 tal-booknav-sub"
+                                                     aria-hidden="true"></i>{{/next.issubchapter}}
+                        </span>
+                    </span>
+                    <span class="tal-booknav-btn-arrow">
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </span>
+                </a>
+            {{/hasnext}}
+        </div>
+    </div>
+</div>
+
+{{#hastoc}}
+    <div class="tal-booknav-toc-overlay" id="tal-booknav-toc-overlay" aria-hidden="true"></div>
+    <aside class="tal-booknav-toc-panel" id="tal-booknav-toc-panel" aria-hidden="true">
+        <div class="tal-booknav-toc-panel-header">
+            <div class="tal-booknav-toc-panel-title">
+                <i class="fa fa-book" aria-hidden="true"></i>
+                <span>{{bookname}}</span>
+            </div>
+            <button class="tal-booknav-toc-close" data-action="tal-close-toc" aria-label="Close">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="tal-booknav-toc-progress-info">
+            <div class="tal-booknav-toc-segments-mini">
+                {{#toc}}
+                    <span class="tal-booknav-toc-seg-mini {{#ispast}}tal-booknav-toc-seg-mini--done{{/ispast}} {{#iscurrent}}tal-booknav-toc-seg-mini--active{{/iscurrent}}"></span>
+                {{/toc}}
+            </div>
+            <span class="tal-booknav-toc-progress-label">{{progresspercent}}% &middot; {{position}}
+                / {{totalchapters}}</span>
+        </div>
+        <nav class="tal-booknav-toc-list-wrap">
+            <ol class="tal-booknav-toc-list">
+                {{#toc}}
+                    <li class="tal-booknav-toc-item {{#issubchapter}}tal-booknav-toc-item--sub{{/issubchapter}} {{#iscurrent}}tal-booknav-toc-item--current{{/iscurrent}} {{#ispast}}tal-booknav-toc-item--past{{/ispast}}">
+                        {{#iscurrent}}
+                            <span class="tal-booknav-toc-link tal-booknav-toc-link--active">
+                            <span class="tal-booknav-toc-bullet">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </span>
+                            <span class="tal-booknav-toc-text">{{{title}}}</span>
+                            <span class="tal-booknav-toc-badge">{{#str}}now{{/str}}</span>
+                        </span>
+                        {{/iscurrent}}
+                        {{^iscurrent}}
+                            <a href="{{url}}#mod_book-chapter" class="tal-booknav-toc-link">
+                            <span class="tal-booknav-toc-bullet">
+                                {{#ispast}}<i class="fa fa-check" aria-hidden="true"></i>{{/ispast}}
+                                {{#isfuture}}<span class="tal-booknav-toc-num">{{position}}</span>{{/isfuture}}
+                            </span>
+                                <span class="tal-booknav-toc-text">{{{title}}}</span>
+                            </a>
+                        {{/iscurrent}}
+                    </li>
+                {{/toc}}
+            </ol>
+        </nav>
+    </aside>
+{{/hastoc}}
+
+{{#js}}
+    (function() {
+    // TOC panel open/close.
+    var overlay = document.getElementById('tal-booknav-toc-overlay');
+    var panel = document.getElementById('tal-booknav-toc-panel');
+
+    function openToc() {
+    if (!overlay || !panel) return;
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('tal-booknav-toc-overlay--open');
+    panel.setAttribute('aria-hidden', 'false');
+    panel.classList.add('tal-booknav-toc-panel--open');
+    document.body.style.overflow = 'hidden';
+    }
+    function closeToc() {
+    if (!overlay || !panel) return;
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.classList.remove('tal-booknav-toc-overlay--open');
+    panel.setAttribute('aria-hidden', 'true');
+    panel.classList.remove('tal-booknav-toc-panel--open');
+    document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('[data-action="tal-toggle-toc"]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) { e.preventDefault(); openToc(); });
+    });
+    document.querySelectorAll('[data-action="tal-close-toc"]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) { e.preventDefault(); closeToc(); });
+    });
+    if (overlay) {
+    overlay.addEventListener('click', closeToc);
+    }
+    document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeToc();
+    });
+
+    // Scroll current TOC item into view.
+    var current = panel ? panel.querySelector('.tal-booknav-toc-item--current') : null;
+    if (current) {
+    setTimeout(function() { current.scrollIntoView({block: 'center', behavior: 'instant'}); }, 100);
+    }
+
+    // Clone bottom navigation after chapter content.
+    var topNav = document.getElementById('tal-booknav-top');
+    var chapterBox = document.getElementById('mod_book-chapter');
+    if (topNav && chapterBox) {
+    var bottomNav = topNav.cloneNode(true);
+    bottomNav.id = 'tal-booknav-bottom';
+    bottomNav.classList.add('tal-booknav--bottom');
+    // Remove the TOC toggle and header from the bottom clone (keep only controls).
+    var header = bottomNav.querySelector('.tal-booknav-header');
+    var progress = bottomNav.querySelector('.tal-booknav-progress');
+    if (header) header.remove();
+    if (progress) progress.remove();
+    chapterBox.parentNode.insertBefore(bottomNav, chapterBox.nextSibling);
+    }
+    })();
+{{/js}}

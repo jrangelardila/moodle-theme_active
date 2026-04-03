@@ -25,71 +25,97 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['choosereadme'] = 'Theme Active';
-$string['pluginname'] = 'Theme  Active';
-$string['loginbackground'] = "Login background image";
-$string['loginbackgrounddesc'] = "The image used to display the login background image.";
-$string['left'] = 'Left';
-$string['right'] = 'Right';
-$string['center'] = 'Center';
-$string['loginalignment'] = 'Login alignment';
-$string['loginalignment_desc'] = 'Indication of login alignment.';
-$string['maintenance_desc'] = 'Maintenance mode';
-$string['configtitle'] = 'Setting for Theme Active';
-$string['loginsettings'] = 'Login Settings';
-$string['headersettings'] = 'Header Settings';
-$string['footersettings'] = 'Footer Settings';
-$string['logo_settings'] = 'Logo for site';
-$string['logo_settingsdesc'] = 'Logo for institution';
-$string['logocompact_settings'] = 'Logo compact for site';
-$string['facebook_page'] = 'Facebook page';
-$string['instagram_page'] = 'Instagram page';
-$string['tiktok_page'] = 'Tiktok page';
-$string['page_desc_footer'] = 'Page for the institution';
-$string['x_page'] = 'X page';
-$string['youtube_page'] = 'Youtube page';
-$string['linkedin_page'] = 'LinkedIn page';
-$string['footerbgcolor'] = 'Background color';
-$string['footerbgcolor_desc'] = 'Choose a Bootstrap background class to apply to the page.';
-$string['bg_primary'] = 'Primary (blue)';
-$string['bg_secondary'] = 'Secondary (gray)';
-$string['bg_success'] = 'Success (green)';
-$string['bg_danger'] = 'Danger (red)';
-$string['bg_warning'] = 'Warning (yellow)';
-$string['bg_info'] = 'Info (teal)';
-$string['bg_light'] = 'Light (white/gray)';
-$string['bg_dark'] = 'Dark (black)';
-$string['follow_social_media'] = 'Follow Us';
-$string['contact_us'] = 'Contact Us';
-$string['institutionaddress'] = 'Institution address';
-$string['institutionaddress_desc'] = 'Physical address of the institution. This will be displayed in the footer.';
-$string['emailcontact'] = 'Institution email';
-$string['emailcontact_desc'] = 'Main contact email address of the institution. Shown in the footer.';
-$string['pbxcontact'] = 'Institution PBX';
-$string['pbxcontact_desc'] = 'Telephone PBX or main phone number for contacting the institution. Appears in the footer.';
-$string['whatsappcontact'] = 'Institution WhatsApp';
-$string['whatsappcontact_desc'] = 'Official WhatsApp number of the institution. This will be displayed in the footer and can be used for direct communication.';
-$string['whatsaap_hi'] = 'Good morning!';
-$string['about_us'] = 'About Us';
-$string['footerlogo'] = 'Footer logo';
-$string['footerlogo_desc'] = 'Upload a logo to be displayed in the footer of the site.';
-$string['footerdescription'] = 'Footer description';
-$string['footerdescription_desc'] = 'Custom HTML content that will appear in the footer. You can use this area for a short description, slogan, or other relevant information about the institution.';
-$string['customlinks'] = 'Custom links';
-$string['customlinks_desc'] = 'Add one or more links using JSON format. Each item should include a name and a URL. Example:
-[
-    {"name": "YouTube", "url": "https://youtube.com"},
-    {"name": "GitHub", "url": "https://github.com"}
-]';
-$string['fontcolorfooter'] = 'Footer font color';
-$string['fontcolorfooter_desc'] = 'Select the font color used in the footer area.';
-$string['navbarbgcolor'] = 'Navbar background color';
-$string['navbarbgcolor_desc'] = 'Select the background color used in the navigation bar.';
-$string['colorsettings'] = 'Color settings';
+$string['pluginname'] = 'Theme Active';
+$string['active:changesettings'] = 'Change theme settings';
+$string['configtitle'] = 'Theme Active';
+$string['generalsettings'] = 'General';
+
+// Branding.
+$string['brandingsettings'] = 'Branding';
+$string['favicon'] = 'Favicon';
+$string['favicon_desc'] = 'Upload a favicon (.ico or .png) shown in the browser tab.';
+$string['logo'] = 'Logo';
+$string['logo_desc'] = 'Upload the site logo displayed in the navbar.';
+$string['loginlogo'] = 'Login logo';
+$string['loginlogo_desc'] = 'Upload a logo shown on the login page. If empty, the main logo is used.';
+
+// Login.
+$string['loginsettings'] = 'Login';
+$string['loginposition'] = 'Form position';
+$string['loginposition_desc'] = 'Horizontal position of the login form on desktop. On mobile it is always centered.';
+$string['loginposition_left'] = 'Left';
+$string['loginposition_center'] = 'Center';
+$string['loginposition_right'] = 'Right';
+$string['loginimage'] = 'Login image';
+$string['loginimage_desc'] = 'Logo or image displayed above the login form.';
+
+// Layout.
+$string['contentwidth'] = 'Content width';
+$string['contentwidth_desc'] = 'Maximum width of the main content area (60% to 100%).';
+
+// Colors.
 $string['primarycolor'] = 'Primary color';
-$string['primarycolor_desc'] = 'The main brand color used across the theme.';
+$string['primarycolor_desc'] = 'The main brand color used throughout the site (buttons, links, etc.).';
 $string['secondarycolor'] = 'Secondary color';
-$string['secondarycolor_desc'] = 'A complementary color used for highlights or accents.';
-$string['development_btn'] = '<i class="fa-solid fa-code"></i> Development for<a target="_blank" href="https://moodle.com/">&nbsp;Moodle</a>';
-$string['versioninfo'] = '<i class="fa-solid fa-code-compare"></i> Version {$a->release}';
-$string['support_site'] = '<a href="{$a->url}"> <i class="fa-solid fa-headset"></i> Contact site support</a>';
+$string['secondarycolor_desc'] = 'The secondary color used for secondary buttons and accents.';
+
+// Footer.
+$string['footersettings'] = 'Footer';
+$string['footersettings_desc'] = 'Configure the links and social media icons displayed in the site footer.';
+
+$string['facebook_url'] = 'Facebook';
+$string['facebook_url_desc'] = 'Full URL to your Facebook page (e.g. https://facebook.com/yourpage).';
+$string['twitter_url'] = 'Twitter / X';
+$string['twitter_url_desc'] = 'Full URL to your Twitter/X profile (e.g. https://x.com/yourprofile).';
+$string['instagram_url'] = 'Instagram';
+$string['instagram_url_desc'] = 'Full URL to your Instagram profile.';
+$string['linkedin_url'] = 'LinkedIn';
+$string['linkedin_url_desc'] = 'Full URL to your LinkedIn page.';
+$string['youtube_url'] = 'YouTube';
+$string['youtube_url_desc'] = 'Full URL to your YouTube channel.';
+$string['tiktok_url'] = 'TikTok';
+$string['tiktok_url_desc'] = 'Full URL to your TikTok profile.';
+
+$string['moodleapp_android_url'] = 'Moodle app — Android (Google Play)';
+$string['moodleapp_android_url_desc'] = 'URL to the Moodle app on Google Play Store.';
+$string['moodleapp_ios_url'] = 'Moodle app — iOS (App Store)';
+$string['moodleapp_ios_url_desc'] = 'URL to the Moodle app on the Apple App Store.';
+// Footer labels.
+$string['follow_social_media'] = 'Follow us';
+$string['downloadapp'] = 'Download the app';
+$string['information'] = 'Information';
+$string['moodleapp_android'] = 'Google Play';
+$string['moodleapp_ios'] = 'App Store';
+$string['privacy'] = 'Privacy policy';
+
+// Course progress.
+$string['courseprogress'] = 'Course progress';
+$string['progressof'] = '{$a->completed} of {$a->total} activities completed';
+$string['activitylist'] = 'Activity checklist';
+$string['viewdetails'] = 'View details';
+$string['overdue'] = 'Overdue';
+$string['manualcompletion'] = 'Mark as done manually';
+$string['backtocourse'] = 'Back to course';
+$string['exportprint'] = 'Export / Print';
+$string['teacherscontact'] = 'Course instructors';
+$string['sendmessage'] = 'Send message';
+$string['viewprofile'] = 'View profile';
+$string['generatedon'] = 'Generated on';
+$string['student'] = 'Student';
+$string['instructor'] = 'Instructor';
+$string['restricted'] = 'Restricted';
+
+// Forum discussion navigation.
+$string['forumnav_aria'] = 'Discussion navigation';
+$string['forumnav_prev'] = 'Previous discussion';
+$string['forumnav_next'] = 'Next discussion';
+
+// Calendar date-based color coding.
+$string['calendar_past'] = 'Overdue';
+$string['calendar_today'] = 'Today';
+$string['calendar_future'] = 'Upcoming';
+
+// Profile course listing.
+$string['showallcourses'] = 'Show all courses ({$a} hidden)';
+$string['showvisibleonly'] = 'Show visible only';
+$string['coursehidden'] = 'Hidden';

@@ -1,5 +1,5 @@
 {{!
-    This file is part of Moodle - http://moodle.org/
+    This file is part of Moodle - https://moodle.org/
 
     Moodle is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -12,57 +12,78 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 }}
 {{!
     @template core/full_header
-
-    This template renders the header.
-
-    Example context (json):
-    {
-        "contextheader": "context_header_html",
-        "hasnavbar": false,
-        "navbar": "navbar_if_available",
-        "courseheader": "course_header_html",
-        "welcomemessage": "welcomemessage"
-    }
+    theme_active — Redesigned page header with breadcrumbs.
 }}
-<header id="page-header" class="row">
-    <div class="col-12 pt-3 pb-3">
-        <div class="card {{^contextheader}}border-0 bg-transparent{{/contextheader}}">
-            <div class="card-body {{^contextheader}}p-1{{/contextheader}}">
-                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
-                    <div class="w-auto p-2 rounded-4 headering-title">
-                        {{{contextheader}}}
-                    </div>
-                    <div class="d-flex flex-wrap gap-2 header-actions-container" data-region="header-actions-container">
-                        {{#headeractions}}
-                            <div class="header-action">{{{.}}}</div>
-                        {{/headeractions}}
-                    </div>
+<header id="page-header" class="tal-header d-print-none">
+    <div class="tal-header-banner {{#courseimageurl}}tal-header-banner--hasimage{{/courseimageurl}}"
+         {{#courseimageurl}}style="background-image: url('{{courseimageurl}}');"{{/courseimageurl}}>
+        <div class="tal-header-banner-inner">
+            <div class="tal-header-title-area">
+                <div class="tal-header-icon-accent">
+                    <i class="fa fa-layer-group"></i>
                 </div>
-                <div class="d-flex flex-wrap mt-3">
-                    {{#hasnavbar}}
-                        <div id="page-navbar">
-                            {{{navbar}}}
+                <div class="tal-header-content">
+                    {{#welcomemessage}}
+                        <div class="tal-welcome">
+                            {{{welcomemessage}}}
                         </div>
-                    {{/hasnavbar}}
-                    <div class="ms-auto d-flex">
-                        {{{pageheadingbutton}}}
-                    </div>
-                    <div id="course-header">
-                        {{{courseheader}}}
-                    </div>
+                    {{/welcomemessage}}
+                    {{^welcomemessage}}
+                        {{#contextheader}}
+                            <div class="tal-context-header">
+                                {{{contextheader}}}
+                            </div>
+                        {{/contextheader}}
+                    {{/welcomemessage}}
                 </div>
+            </div>
+
+            {{#hasheaderteachers}}
+                <div class="tal-header-teachers">
+                    {{#headerteachers}}
+                        <a href="{{profileurl}}" class="tal-header-teacher-link" title="{{{fullname}}}">
+                            <img src="{{avatarurl}}" alt="{{{fullname}}}" class="tal-header-teacher-avatar">
+                        </a>
+                    {{/headerteachers}}
+                </div>
+            {{/hasheaderteachers}}
+
+            <div class="tal-header-actions">
+                {{#headeractions}}
+                    <div class="tal-header-action">{{{.}}}</div>
+                {{/headeractions}}
+                {{{pageheadingbutton}}}
             </div>
         </div>
-        {{#welcomemessage}}
-            <div class="card border-0 mt-3">
-                <div class="card-body py-0">
-                    {{> core/welcome }}
-                </div>
+
+        {{#courseheader}}
+            <div class="tal-course-header">
+                {{{courseheader}}}
             </div>
-        {{/welcomemessage}}
+        {{/courseheader}}
     </div>
+    <div id="tal-breadcrumb-wrapper" class="tal-breadcrumb-wrapper" style="display:none;">
+        <div class="tal-breadcrumb-bar">
+            <div class="tal-breadcrumb-inner">
+                <nav id="page-navbar" class="tal-breadcrumb-nav">
+                    {{#navbar}}
+                        {{{ navbar }}}
+                    {{/navbar}}
+                </nav>
+            </div>
+        </div>
+    </div>
+    {{#js}}
+        (function() {
+            var w = document.getElementById('tal-breadcrumb-wrapper');
+            if (w && w.querySelector('.breadcrumb-item')) {
+                w.style.display = '';
+            }
+        })();
+    {{/js}}
+
 </header>

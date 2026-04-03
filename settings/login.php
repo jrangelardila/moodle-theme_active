@@ -15,35 +15,36 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin administration pages are defined here.
+ * Login settings tab.
  *
  * @package     theme_active
- * @category    admin
  * @copyright   2024 Jhon Rangel <jrangelardila@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$page = new admin_settingpage('theme_active_colors', get_string('colorsettings', 'theme_active'));
+$page = new admin_settingpage('theme_active_login', get_string('loginsettings', 'theme_active'));
 
-// Primary color
-$setting = new admin_setting_configcolourpicker(
-    'theme_active/primarycolor',
-    get_string('primarycolor', 'theme_active'),
-    get_string('primarycolor_desc', 'theme_active'),
-    '#4d2433');
+// Login form position.
+$name = 'theme_active/loginposition';
+$title = get_string('loginposition', 'theme_active');
+$description = get_string('loginposition_desc', 'theme_active');
+$choices = [
+    'left'   => get_string('loginposition_left', 'theme_active'),
+    'center' => get_string('loginposition_center', 'theme_active'),
+    'right'  => get_string('loginposition_right', 'theme_active'),
+];
+$setting = new admin_setting_configselect($name, $title, $description, 'center', $choices);
+$page->add($setting);
+
+// Login image.
+$name = 'theme_active/loginimage';
+$title = get_string('loginimage', 'theme_active');
+$description = get_string('loginimage_desc', 'theme_active');
+$setting = new admin_setting_configstoredfile($name, $title, $description, 'loginimage', 0,
+    ['maxfiles' => 1, 'accepted_types' => 'web_image']);
 $setting->set_updatedcallback('theme_reset_all_caches');
 $page->add($setting);
 
-// Secondary color
-$setting = new admin_setting_configcolourpicker(
-    'theme_active/secondarycolor',
-    get_string('secondarycolor', 'theme_active'),
-    get_string('secondarycolor_desc', 'theme_active'),
-    '#e7e7e7');
-$setting->set_updatedcallback('theme_reset_all_caches');
-$page->add($setting);
-
-// Add colors page to settings
 $settings->add($page);
