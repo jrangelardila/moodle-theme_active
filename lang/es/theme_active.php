@@ -25,71 +25,112 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['choosereadme'] = 'Tema Active';
 $string['pluginname'] = 'Tema Active';
-$string['loginbackground'] = "Imagen de fondo del inicio de sesión";
-$string['loginbackgrounddesc'] = "La imagen utilizada como fondo en la página de inicio de sesión.";
-$string['left'] = 'Izquierda';
-$string['right'] = 'Derecha';
-$string['center'] = 'Centro';
-$string['loginalignment'] = 'Alineación del inicio de sesión';
-$string['loginalignment_desc'] = 'Indicación de la alineación del inicio de sesión.';
-$string['maintenance_desc'] = 'Modo de mantenimiento';
-$string['configtitle'] = 'Configuraciones del tema Active';
-$string['loginsettings'] = 'Ajustes de inicio de sesión';
-$string['headersettings'] = 'Ajustes de cabecera';
-$string['footersettings'] = 'Ajustes de pie de página';
-$string['logo_settings'] = 'Logo del sitio';
-$string['logo_settingsdesc'] = 'Logo de la institución';
-$string['logocompact_settings'] = 'Logo compacto del sitio';
-$string['facebook_page'] = 'Página de Facebook';
-$string['instagram_page'] = 'Página de Instagram';
-$string['tiktok_page'] = 'Página de TikTok';
-$string['page_desc_footer'] = 'Página de la institución';
-$string['x_page'] = 'Página de X';
-$string['youtube_page'] = 'Página de YouTube';
-$string['linkedin_page'] = 'Página de LinkedIn';
-$string['footerbgcolor'] = 'Color de fondo';
-$string['footerbgcolor_desc'] = 'Selecciona una clase de fondo Bootstrap para aplicar en el pie de página.';
-$string['bg_primary'] = 'Primario (azul)';
-$string['bg_secondary'] = 'Secundario (gris)';
-$string['bg_success'] = 'Éxito (verde)';
-$string['bg_danger'] = 'Peligro (rojo)';
-$string['bg_warning'] = 'Advertencia (amarillo)';
-$string['bg_info'] = 'Información (teal)';
-$string['bg_light'] = 'Claro (blanco/gris)';
-$string['bg_dark'] = 'Oscuro (negro)';
-$string['follow_social_media'] = 'Síguenos';
-$string['contact_us'] = 'Contáctanos';
-$string['institutionaddress'] = 'Dirección de la institución';
-$string['institutionaddress_desc'] = 'Dirección física de la institución. Se mostrará en el pie de página.';
-$string['emailcontact'] = 'Correo institucional';
-$string['emailcontact_desc'] = 'Correo electrónico principal de contacto de la institución. Se mostrará en el pie de página.';
-$string['pbxcontact'] = 'PBX de la institución';
-$string['pbxcontact_desc'] = 'Número de PBX o teléfono principal de la institución. Se mostrará en el pie de página.';
-$string['whatsappcontact'] = 'WhatsApp institucional';
-$string['whatsappcontact_desc'] = 'Número oficial de WhatsApp de la institución. Se mostrará en el pie de página y se podrá usar para comunicación directa.';
-$string['whatsaap_hi'] = '¡Buenos días!';
-$string['about_us'] = 'Sobre nosotros';
-$string['footerlogo'] = 'Logo del pie de página';
-$string['footerlogo_desc'] = 'Sube un logo para mostrar en el pie de página del sitio.';
-$string['footerdescription'] = 'Descripción del pie de página';
-$string['footerdescription_desc'] = 'Contenido HTML personalizado que aparecerá en el pie de página. Puede usarse para una breve descripción, eslogan u otra información relevante sobre la institución.';
-$string['customlinks'] = 'Enlaces personalizados';
-$string['customlinks_desc'] = 'Agrega uno o más enlaces en formato JSON. Cada elemento debe incluir un nombre y una URL. Ejemplo:
-[
-    {"name": "YouTube", "url": "https://youtube.com"},
-    {"name": "GitHub", "url": "https://github.com"}
-]';
-$string['fontcolorfooter'] = 'Color de fuente del pie de página';
-$string['fontcolorfooter_desc'] = 'Selecciona el color de la fuente que se usará en el pie de página.';
-$string['navbarbgcolor'] = 'Color de fondo de la barra de navegación';
-$string['navbarbgcolor_desc'] = 'Selecciona el color de fondo para la barra de navegación.';
-$string['colorsettings'] = 'Ajustes de colores';
+$string['active:changesettings'] = 'Cambiar ajustes del tema';
+$string['configtitle'] = 'Tema Active';
+$string['generalsettings'] = 'General';
+
+// Branding.
+$string['brandingsettings'] = 'Identidad de marca';
+$string['favicon'] = 'Favicon';
+$string['favicon_desc'] = 'Sube un favicon (.ico o .png) que se mostrará en la pestaña del navegador.';
+$string['logo'] = 'Logotipo';
+$string['logo_desc'] = 'Sube el logotipo del sitio que se mostrará en la barra de navegación.';
+$string['loginlogo'] = 'Logotipo de inicio de sesión';
+$string['loginlogo_desc'] = 'Sube un logotipo que se mostrará en la página de inicio de sesión. Si se deja vacío, se usará el logotipo principal.';
+
+// Login.
+$string['loginsettings'] = 'Inicio de sesión';
+$string['loginposition'] = 'Posición del formulario';
+$string['loginposition_desc'] = 'Posición horizontal del formulario de inicio de sesión en escritorio. En móvil siempre se centra.';
+$string['loginposition_left'] = 'Izquierda';
+$string['loginposition_center'] = 'Centro';
+$string['loginposition_right'] = 'Derecha';
+$string['loginimage'] = 'Imagen de inicio de sesión';
+$string['loginimage_desc'] = 'Logotipo o imagen que se muestra encima del formulario de inicio de sesión.';
+
+// Layout.
+$string['contentwidth'] = 'Ancho del contenido';
+$string['contentwidth_desc'] = 'Ancho máximo del área de contenido principal (del 60 % al 100 %).';
+
+// Colors.
 $string['primarycolor'] = 'Color primario';
-$string['primarycolor_desc'] = 'El color principal de la marca utilizado en todo el tema.';
+$string['primarycolor_desc'] = 'Color principal de la marca utilizado en todo el sitio (botones, enlaces, etc.).';
 $string['secondarycolor'] = 'Color secundario';
-$string['secondarycolor_desc'] = 'Un color complementario usado para resaltar o acentos.';
-$string['development_btn'] = '<i class="fa-solid fa-code"></i> Desarrollo para <a target="_blank" href="https://moodle.com/">&nbsp;Moodle</a>';
-$string['versioninfo'] = '<i class="fa-solid fa-code-compare"></i> Versión {$a->release}';
-$string['support_site'] = '<a href="{$a->url}"> <i class="fa-solid fa-headset"></i> Contactar soporte del sitio</a>';
+$string['secondarycolor_desc'] = 'Color secundario utilizado para botones secundarios y acentos.';
+
+// Footer.
+$string['footersettings'] = 'Pie de página';
+$string['footersettings_desc'] = 'Configura los enlaces e iconos de redes sociales que se muestran en el pie de página del sitio.';
+
+$string['facebook_url'] = 'Facebook';
+$string['facebook_url_desc'] = 'URL completa de tu página de Facebook (ej. https://facebook.com/tupagina).';
+$string['twitter_url'] = 'Twitter / X';
+$string['twitter_url_desc'] = 'URL completa de tu perfil de Twitter/X (ej. https://x.com/tuperfil).';
+$string['instagram_url'] = 'Instagram';
+$string['instagram_url_desc'] = 'URL completa de tu perfil de Instagram.';
+$string['linkedin_url'] = 'LinkedIn';
+$string['linkedin_url_desc'] = 'URL completa de tu página de LinkedIn.';
+$string['youtube_url'] = 'YouTube';
+$string['youtube_url_desc'] = 'URL completa de tu canal de YouTube.';
+$string['tiktok_url'] = 'TikTok';
+$string['tiktok_url_desc'] = 'URL completa de tu perfil de TikTok.';
+
+$string['moodleapp_android_url'] = 'App Moodle — Android (Google Play)';
+$string['moodleapp_android_url_desc'] = 'URL de la app Moodle en Google Play Store.';
+$string['moodleapp_ios_url'] = 'App Moodle — iOS (App Store)';
+$string['moodleapp_ios_url_desc'] = 'URL de la app Moodle en la Apple App Store.';
+// Footer labels.
+$string['follow_social_media'] = 'Síguenos';
+$string['downloadapp'] = 'Descarga la app';
+$string['information'] = 'Información';
+$string['moodleapp_android'] = 'Google Play';
+$string['moodleapp_ios'] = 'App Store';
+$string['privacy'] = 'Política de privacidad';
+
+// Course progress.
+$string['courseprogress'] = 'Progreso del curso';
+$string['progressof'] = '{$a->completed} de {$a->total} actividades completadas';
+$string['activitylist'] = 'Lista de actividades';
+$string['viewdetails'] = 'Ver detalles';
+$string['overdue'] = 'Atrasada';
+$string['manualcompletion'] = 'Marcar como hecha manualmente';
+$string['backtocourse'] = 'Volver al curso';
+$string['exportprint'] = 'Exportar / Imprimir';
+$string['teacherscontact'] = 'Docentes del curso';
+$string['sendmessage'] = 'Enviar mensaje';
+$string['viewprofile'] = 'Ver perfil';
+$string['generatedon'] = 'Generado el';
+$string['student'] = 'Estudiante';
+$string['instructor'] = 'Docente';
+$string['restricted'] = 'Restringida';
+
+// Forum discussion navigation.
+$string['forumnav_aria'] = 'Navegación de la discusión';
+$string['forumnav_prev'] = 'Discusión anterior';
+$string['forumnav_next'] = 'Discusión siguiente';
+
+// Calendar date-based color coding.
+$string['calendar_past'] = 'Atrasada';
+$string['calendar_today'] = 'Hoy';
+$string['calendar_future'] = 'Próxima';
+
+// Profile course listing.
+$string['showallcourses'] = 'Mostrar todos los cursos ({$a} ocultos)';
+$string['showvisibleonly'] = 'Mostrar solo los visibles';
+$string['coursehidden'] = 'Oculto';
+
+// Quick links (dashboard).
+$string['quicklinks'] = 'Accesos rápidos';
+$string['quicklinks_desc'] = 'Configura los botones de acceso rápido que se muestran en el tablero. Deja la etiqueta y la URL vacías para ocultar un espacio.';
+$string['quicklink_number'] = 'Enlace {$a}';
+$string['quicklink_label'] = 'Etiqueta';
+$string['quicklink_label_desc'] = 'Texto mostrado en el botón.';
+$string['quicklink_url'] = 'URL';
+$string['quicklink_url_desc'] = 'URL completa a la que apunta el botón.';
+$string['quicklink_icon'] = 'Icono';
+$string['quicklink_icon_desc'] = 'Clase de FontAwesome sin el prefijo "fa-" (ej. "graduation-cap", "book", "globe"). Consulta los iconos en <a href="https://fontawesome.com/v4/icons/" target="_blank">fontawesome.com/v4/icons</a>.';
+$string['quicklink_target'] = 'Abrir en';
+$string['quicklink_target_desc'] = 'Dónde se debe abrir el enlace.';
+$string['quicklink_target_blank'] = 'Nueva pestaña';
+$string['quicklink_target_self'] = 'Misma ventana';

@@ -99,11 +99,22 @@
     {{/hasblocks}}
     <div id="page" data-region="mainpage" data-usertour="scroller" class="drawers {{#courseindexopen}}show-drawer-left{{/courseindexopen}} {{#blockdraweropen}}show-drawer-right{{/blockdraweropen}} drag-container">
         <div id="topofscroll" class="main-inner">
+            {{! SVG clip-paths for smooth pentagon drawer toggles }}
+            <svg width="0" height="0" style="position:absolute">
+                <defs>
+                    <clipPath id="tal-clip-left" clipPathUnits="objectBoundingBox">
+                        <path d="M0,0.06 C0,0.02 0.02,0 0.06,0 L0.58,0 C0.62,0 0.66,0.02 0.68,0.05 L0.97,0.44 C1.01,0.48 1.01,0.52 0.97,0.56 L0.68,0.95 C0.66,0.98 0.62,1 0.58,1 L0.06,1 C0.02,1 0,0.98 0,0.94 Z"/>
+                    </clipPath>
+                    <clipPath id="tal-clip-right" clipPathUnits="objectBoundingBox">
+                        <path d="M1,0.06 C1,0.02 0.98,0 0.94,0 L0.42,0 C0.38,0 0.34,0.02 0.32,0.05 L0.03,0.44 C-0.01,0.48 -0.01,0.52 0.03,0.56 L0.32,0.95 C0.34,0.98 0.38,1 0.42,1 L0.94,1 C0.98,1 1,0.98 1,0.94 Z"/>
+                    </clipPath>
+                </defs>
+            </svg>
             <div class="drawer-toggles d-flex">
                 {{#courseindex}}
                     <div class="drawer-toggler drawer-left-toggle open-nav d-print-none">
                         <button
-                            class="btn icon-no-margin"
+                            class="btn tal-drawer-btn tal-drawer-btn--left"
                             data-toggler="drawers"
                             data-action="toggle"
                             data-target="theme_boost-drawers-courseindex"
@@ -112,24 +123,23 @@
                             title="{{#str}}opendrawerindex, core{{/str}}"
                         >
                             <span class="sr-only">{{#str}}opendrawerindex, core{{/str}}</span>
-                            {{#pix}} t/index_drawer, moodle {{/pix}}
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                         </button>
                     </div>
                 {{/courseindex}}
                 {{#hasblocks}}
                     <div class="drawer-toggler drawer-right-toggle ml-auto d-print-none">
                         <button
-                            class="btn icon-no-margin"
+                            class="btn tal-drawer-btn tal-drawer-btn--right"
                             data-toggler="drawers"
                             data-action="toggle"
                             data-target="theme_boost-drawers-blocks"
                             data-toggle="tooltip"
-                            data-placement="right"
+                            data-placement="left"
                             title="{{#str}}opendrawerblocks, core{{/str}}"
                         >
                             <span class="sr-only">{{#str}}opendrawerblocks, core{{/str}}</span>
-                            <span class="dir-rtl-hide">{{#pix}}t/blocks_drawer, core{{/pix}}</span>
-                            <span class="dir-ltr-hide">{{#pix}}t/blocks_drawer_rtl, core{{/pix}}</span>
+                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
                         </button>
                     </div>
                 {{/hasblocks}}

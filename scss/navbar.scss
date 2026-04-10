@@ -166,11 +166,17 @@ $navbar-height: 70px;
       .icon {
         font-size: 1.15rem;
         color: #666;
-        transition: color .2s ease;
+        transition: color .3s ease,
+                    transform .35s cubic-bezier(.34, 1.56, .64, 1);
       }
 
       &:hover .icon {
         color: $primary;
+        transform: scale(1.2) rotate(-10deg);
+      }
+
+      &:active .icon {
+        transform: scale(0.9);
       }
 
       // Pulse animation on badge count.
@@ -192,12 +198,19 @@ $navbar-height: 70px;
         height: 36px;
         border-radius: 50%;
         border: 2px solid rgba($primary, .2);
-        transition: border-color .2s ease, transform .2s ease;
+        transition: border-color .3s ease,
+                    transform .35s cubic-bezier(.34, 1.56, .64, 1),
+                    box-shadow .3s ease;
       }
 
       &:hover .userpicture {
         border-color: $primary;
-        transform: scale(1.05);
+        transform: scale(1.12) rotate(5deg);
+        box-shadow: 0 2px 10px rgba($primary, .2);
+      }
+
+      &:active .userpicture {
+        transform: scale(0.95);
       }
     }
 
@@ -208,10 +221,19 @@ $navbar-height: 70px;
         color: #fff;
         border: none;
         border-radius: 0 .5rem .5rem 0;
-        transition: box-shadow .2s ease;
+        transition: box-shadow .3s ease,
+                    transform .3s cubic-bezier(.34, 1.56, .64, 1);
+
+        .icon {
+          transition: transform .35s cubic-bezier(.34, 1.56, .64, 1);
+        }
 
         &:hover {
           box-shadow: 0 2px 8px rgba($primary, .3);
+
+          .icon {
+            transform: scale(1.15) rotate(15deg);
+          }
         }
       }
 
@@ -304,11 +326,188 @@ $navbar-height: 70px;
   }
 }
 
-//  EDIT SWITCH ──────────────────────────────────────────
-.editmode-switch-form {
-  .custom-control-input:checked ~ .custom-control-label::before {
-    background: linear-gradient(135deg, $primary, $secondary);
-    border-color: $primary;
+//  EDIT SWITCH — PREMIUM MODERN ────────────────────────
+
+@keyframes tal-pulse-white {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+@keyframes tal-shimmer-fast {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+@keyframes tal-pencil-write {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-12deg) scale(1.1); }
+  75%  { transform: rotate(12deg) scale(1.1); }
+  100% { transform: rotate(0deg); }
+}
+
+.tal-edit-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0;
+
+  .tal-edit-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba($primary, 0.3), transparent 70%);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    filter: blur(15px);
+    z-index: -1;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .tal-edit-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .tal-edit-label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 3px 12px 3px 3px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.02),
+      0 1px 2px rgba(0, 0, 0, 0.04);
+    user-select: none;
+    overflow: hidden;
+
+    &:hover {
+      background: #ffffff;
+      border-color: rgba(0, 0, 0, 0.15);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+      
+      .tal-edit-icon {
+        background: rgba($primary, 0.05);
+        color: $primary;
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .tal-edit-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: #f1f5f9;
+    color: #64748b;
+    border-radius: 50%;
+    font-size: 0.72rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+  }
+
+  .tal-edit-text {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #334155;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    transition: all 0.4s ease;
+  }
+
+  .tal-edit-indicator {
+    width: 6px;
+    height: 6px;
+    background: #cbd5e1;
+    border-radius: 50%;
+    transition: all 0.4s ease;
+  }
+
+  &.is-active,
+  &:has(.tal-edit-input:checked) {
+    
+    .tal-edit-glow {
+      transform: translate(-50%, -50%) scale(1.3);
+      opacity: 0.8;
+    }
+
+    .tal-edit-label {
+      background: linear-gradient(135deg, $primary 0%, $secondary 100%);
+      border-color: transparent;
+      padding: 3px 3px 3px 12px;
+      flex-direction: row-reverse;
+      box-shadow: 0 6px 15px -3px rgba($primary, 0.4);
+
+      // Efecto brillo premium
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.25),
+          transparent
+        );
+        transition: 0.6s;
+      }
+
+      &:hover::before {
+        animation: tal-shimmer-fast 0.8s forwards;
+      }
+
+      &:hover {
+        transform: translateY(-1px) scale(1.02);
+        box-shadow: 0 12px 28px -5px rgba($primary, 0.5);
+      }
+    }
+
+    .tal-edit-icon {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: tal-pencil-write 2s infinite ease-in-out;
+    }
+
+    .tal-edit-text {
+      color: #ffffff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    }
+
+    .tal-edit-indicator {
+      background: #ffffff;
+      box-shadow: 0 0 12px #ffffff;
+      animation: tal-pulse-white 2s infinite;
+    }
+  }
+}
+
+
+// ── Responsive ──
+@media (max-width: 767.98px) {
+  .tal-edit-toggle .tal-edit-label {
+    padding: 0.38rem 0.55rem;
+    gap: 0;
+
+    .tal-edit-text,
+    .tal-edit-indicator {
+      @include sr-only();
+    }
   }
 }
 

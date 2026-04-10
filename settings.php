@@ -64,5 +64,6 @@ if ($ADMIN->fulltree) {
 
     require_once('settings/branding.php');
     require_once('settings/login.php');
+    require_once('settings/quicklinks.php');
     require_once('settings/footer.php');
 }

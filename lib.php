@@ -85,6 +85,7 @@ function theme_active_get_main_scss_content($theme) {
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/layout.scss');
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/navicons.scss');
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/calendar.scss');
+    $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/tables.scss');
 
     return $scss;
 }
@@ -674,4 +675,40 @@ function theme_active_build_course_index(int $courseid, \moodle_page $page): str
     ];
 
     return $OUTPUT->render_from_template('theme_active/courseindex', $data);
+}
+
+/**
+ * Build the template context for the dashboard quick links.
+ *
+ * Reads up to 6 quick-link slots from theme settings and returns only
+ * those that have both a label and a URL configured.
+ *
+ * @return array Template context with 'hasquicklinks' and 'quicklinks'.
+ */
+function theme_active_get_quicklinks_context(): array {
+    $theme = \theme_config::load('active');
+    $links = [];
+
+    for ($i = 1; $i <= 6; $i++) {
+        $label  = trim($theme->settings->{"quicklink{$i}_label"} ?? '');
+        $url    = trim($theme->settings->{"quicklink{$i}_url"} ?? '');
+        $icon   = trim($theme->settings->{"quicklink{$i}_icon"} ?? '');
+        $target = trim($theme->settings->{"quicklink{$i}_target"} ?? '_blank');
+
+        if ($label === '' || $url === '') {
+            continue;
+        }
+
+        $links[] = [
+            'label'  => $label,
+            'url'    => $url,
+            'icon'   => $icon !== '' ? $icon : 'link',
+            'target' => $target,
+        ];
+    }
+
+    return [
+        'hasquicklinks' => !empty($links),
+        'quicklinks'    => $links,
+    ];
 }

@@ -79,6 +79,13 @@ class core_renderer extends \theme_boost\output\core_renderer {
         // course overview image for header background
         $header->courseimageurl = $this->get_course_header_image();
 
+        // Quick links on dashboard only.
+        if ($this->page->pagelayout === 'mydashboard') {
+            $qlctx = theme_active_get_quicklinks_context();
+            $header->hasquicklinks = $qlctx['hasquicklinks'];
+            $header->quicklinks = $qlctx['quicklinks'];
+        }
+
         return $this->render_from_template('core/full_header', $header);
     }
 

@@ -119,3 +119,18 @@ $string['calendar_future'] = 'Upcoming';
 $string['showallcourses'] = 'Show all courses ({$a} hidden)';
 $string['showvisibleonly'] = 'Show visible only';
 $string['coursehidden'] = 'Hidden';
+
+// Quick links (dashboard).
+$string['quicklinks'] = 'Quick links';
+$string['quicklinks_desc'] = 'Configure shortcut buttons displayed on the dashboard. Leave label and URL empty to hide a slot.';
+$string['quicklink_number'] = 'Link {$a}';
+$string['quicklink_label'] = 'Label';
+$string['quicklink_label_desc'] = 'Text displayed on the button.';
+$string['quicklink_url'] = 'URL';
+$string['quicklink_url_desc'] = 'Full URL the button links to.';
+$string['quicklink_icon'] = 'Icon';
+$string['quicklink_icon_desc'] = 'FontAwesome class without the "fa-" prefix (e.g. "graduation-cap", "book", "globe"). Browse icons at <a href="https://fontawesome.com/v4/icons/" target="_blank">fontawesome.com/v4/icons</a>.';
+$string['quicklink_target'] = 'Open in';
+$string['quicklink_target_desc'] = 'Where the link should open.';
+$string['quicklink_target_blank'] = 'New tab';
+$string['quicklink_target_self'] = 'Same window';

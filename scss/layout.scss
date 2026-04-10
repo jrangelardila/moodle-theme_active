@@ -23,9 +23,60 @@
 
 // Layout overrides — theme_active.
 
-// Course index drawer: shadow with secondary color.
+// Course index drawer: shadow with secondary color + slide-in animation.
+@keyframes tal-drawer-slide-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes tal-drawer-slide-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes tal-drawer-content-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .drawer.drawer-left {
     box-shadow: 8px 0 30px rgba($secondary, .2);
+}
+
+// Drawer open animations.
+#page.drawers.show-drawer-left .drawer.drawer-left {
+    animation: tal-drawer-slide-left 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+    .drawercontent {
+        animation: tal-drawer-content-fade 0.35s ease 0.15s both;
+    }
+}
+
+#page.drawers.show-drawer-right .drawer.drawer-right {
+    animation: tal-drawer-slide-right 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    box-shadow: -8px 0 30px rgba($secondary, .2);
+
+    .drawercontent {
+        animation: tal-drawer-content-fade 0.35s ease 0.15s both;
+    }
 }
 
 // Global Primary Button: Use header banner gradient background only.
@@ -63,4 +114,141 @@ body {
 #region-main-box {
     border-radius: .5rem;
     padding: 1rem;
+}
+
+//  DRAWER TOGGLE BUTTONS — Arrow tabs ──────────────────
+
+.drawer-toggles {
+
+  .drawer-toggler {
+    position: fixed;
+    top: calc(#{$navbar-height} + 5rem);
+    z-index: 2;
+
+    .btn.tal-drawer-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 64px;
+      padding: 0;
+      border: none;
+      border-radius: 0;
+      background: linear-gradient(180deg, $primary, $secondary);
+      color: #fff;
+      font-size: 0.85rem;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      filter: drop-shadow(0 3px 6px rgba($secondary, 0.35));
+
+      // Hide Moodle default pix icons.
+      .icon { display: none; }
+
+      .fa {
+        position: relative;
+        z-index: 1;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      &:hover {
+        filter: drop-shadow(0 4px 12px rgba($secondary, 0.5));
+
+        .fa {
+          transform: scale(1.25);
+        }
+      }
+
+      &:active {
+        filter: drop-shadow(0 2px 4px rgba($secondary, 0.3));
+        .fa {
+          transform: scale(0.9);
+        }
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  // ── Left — pentagon pointing right (smooth) ──
+  .drawer-left-toggle {
+    left: 0;
+
+    .tal-drawer-btn--left {
+      clip-path: url(#tal-clip-left);
+      width: 40px;
+      height: 68px;
+      padding: 0 12px 0 8px;
+
+      .fa {
+        margin-left: -2px;
+      }
+
+      &:hover {
+        width: 48px;
+      }
+    }
+  }
+
+  // ── Right — pentagon pointing left (smooth) ──
+  .drawer-right-toggle {
+    right: 0;
+
+    .tal-drawer-btn--right {
+      clip-path: url(#tal-clip-right);
+      width: 40px;
+      height: 68px;
+      padding: 0 8px 0 12px;
+
+      .fa {
+        margin-right: -2px;
+      }
+
+      &:hover {
+        width: 48px;
+      }
+    }
+  }
+}
+
+// Hide when drawer is open.
+#page.drawers.show-drawer-left .drawer-left-toggle {
+  display: none;
+}
+#page.drawers.show-drawer-right .drawer-right-toggle {
+  display: none;
+}
+
+// ── Mobile ──
+@media (max-width: 767.98px) {
+  .drawer-toggles {
+    z-index: 100;
+
+    .drawer-toggler {
+      top: auto;
+      bottom: 5rem;
+    }
+
+    .drawer-toggler .btn.tal-drawer-btn {
+      width: 36px;
+      height: 58px;
+    }
+
+    .drawer-left-toggle { left: 0; }
+    .drawer-right-toggle { right: 0; }
+  }
+
+  #page.drawers.scroll-down {
+    .drawer-right-toggle {
+      transform: translateX(150%);
+      visibility: hidden;
+    }
+    .drawer-left-toggle {
+      transform: translateX(-150%);
+      visibility: hidden;
+    }
+  }
 }

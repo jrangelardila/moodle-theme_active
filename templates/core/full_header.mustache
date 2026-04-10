@@ -86,4 +86,19 @@
         })();
     {{/js}}
 
+    {{#hasquicklinks}}
+    <div class="tal-quicklinks-section">
+        <div class="tal-quicklinks-bar">
+            {{#quicklinks}}
+                <a href="{{url}}" target="{{target}}" rel="noopener" class="tal-quicklink">
+                    <span class="tal-quicklink-icon">
+                        <i class="fa fa-{{icon}}" aria-hidden="true"></i>
+                    </span>
+                    <span class="tal-quicklink-label">{{label}}</span>
+                </a>
+            {{/quicklinks}}
+        </div>
+    </div>
+    {{/hasquicklinks}}
+
 </header>
