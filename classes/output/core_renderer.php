@@ -79,6 +79,19 @@ class core_renderer extends \theme_boost\output\core_renderer {
         // course overview image for header background
         $header->courseimageurl = $this->get_course_header_image();
 
+        // Back to course button on the calendar view inside a course.
+        global $COURSE;
+        $header->hasbacktocourse = false;
+        if ($this->page->pagetype === 'calendar-view'
+            && !empty($COURSE->id)
+            && $COURSE->id != SITEID) {
+            $header->hasbacktocourse = true;
+            $header->backtocourseurl = (new \moodle_url('/course/view.php', [
+                'id' => $COURSE->id,
+            ]))->out(false);
+            $header->backtocourselabel = get_string('backtocourse', 'theme_active');
+        }
+
         // Quick links on dashboard only.
         if ($this->page->pagelayout === 'mydashboard') {
             $qlctx = theme_active_get_quicklinks_context();

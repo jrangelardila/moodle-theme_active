@@ -266,12 +266,17 @@ function theme_active_get_course_progress_context(): array {
         return $empty;
     }
 
-    $courselayouts = ['course'];
-    if (!in_array($PAGE->pagelayout, $courselayouts)) {
+    $excludedlayouts = ['login', 'maintenance', 'print', 'redirect', 'embedded', 'popup', 'frametop'];
+    if (in_array($PAGE->pagelayout, $excludedlayouts)) {
         return $empty;
     }
 
-    $completion = new \completion_info($COURSE);
+    try {
+        $completion = new \completion_info($COURSE);
+    } catch (\Throwable $e) {
+        return $empty;
+    }
+
     if (!$completion->is_enabled()) {
         return $empty;
     }
@@ -280,23 +285,22 @@ function theme_active_get_course_progress_context(): array {
         return $empty;
     }
 
-    $percentage = \core_completion\progress::get_course_progress_percentage($COURSE, $USER->id);
-    if ($percentage === null) {
+    $activities = $completion->get_activities();
+    $total = count($activities);
+    if ($total === 0) {
         return $empty;
     }
 
-    $percent = (int) floor($percentage);
-
-    $activities = $completion->get_activities();
-    $total = count($activities);
     $completed = 0;
     foreach ($activities as $activity) {
         $data = $completion->get_data($activity, true, $USER->id);
-        if ($data->completionstate != COMPLETION_INCOMPLETE
-            && $data->completionstate != COMPLETION_COMPLETE_FAIL) {
+        if ($data->completionstate == COMPLETION_COMPLETE
+            || $data->completionstate == COMPLETION_COMPLETE_PASS) {
             $completed++;
         }
     }
+
+    $percent = (int) floor(($completed / $total) * 100);
 
     $progressurl = (new \moodle_url('/theme/active/courseprogress.php', ['id' => $COURSE->id]))->out(false);
 

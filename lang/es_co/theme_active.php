@@ -105,6 +105,9 @@ $string['student'] = 'Estudiante';
 $string['instructor'] = 'Docente';
 $string['restricted'] = 'Restringida';
 
+// Course calendar button.
+$string['coursecalendar'] = 'Calendario del curso';
+
 // Forum discussion navigation.
 $string['forumnav_aria'] = 'Navegación de la discusión';
 $string['forumnav_prev'] = 'Discusión anterior';

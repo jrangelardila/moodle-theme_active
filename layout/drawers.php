@@ -87,9 +87,43 @@ if ($PAGE->pagetype === 'mod-book-view') {
 // Calendar date-based color coding (past=red, today=orange, future=green).
 $PAGE->requires->js_call_amd('theme_active/calendar_colors', 'init');
 
+
 $secondarynavigation = false;
 $overflow = '';
 if ($PAGE->has_secondary_navigation()) {
+    // Inject the course calendar tab right after "participants" inside a real course.
+    if (!empty($COURSE->id) && $COURSE->id != SITEID) {
+        $calendarkey = 'coursecalendar';
+        if (!$PAGE->secondarynav->get($calendarkey)) {
+            $beforekey = null;
+            $foundparticipants = false;
+            foreach ($PAGE->secondarynav->children as $child) {
+                if ($foundparticipants) {
+                    $beforekey = $child->key;
+                    break;
+                }
+                if ($child->key === 'participants') {
+                    $foundparticipants = true;
+                }
+            }
+
+            $calendarlabel = get_string('coursecalendar', 'theme_active');
+            $calendartext = '<i class="fa fa-calendar mr-1" aria-hidden="true"></i>' . $calendarlabel;
+            $calendarnode = \navigation_node::create(
+                $calendartext,
+                new moodle_url('/calendar/view.php', [
+                    'view' => 'month',
+                    'course' => $COURSE->id,
+                ]),
+                \navigation_node::TYPE_CUSTOM,
+                null,
+                $calendarkey,
+                new pix_icon('i/calendar', $calendarlabel)
+            );
+            $PAGE->secondarynav->add_node($calendarnode, $beforekey);
+        }
+    }
+
     $tablistnav = $PAGE->has_tablist_secondary_navigation();
     $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
     $secondarynavigation = $moremenu->export_for_template($OUTPUT);

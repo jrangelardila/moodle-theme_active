@@ -54,9 +54,6 @@ $PAGE->set_title(get_string('courseprogress', 'theme_active') . ': ' . format_st
 $PAGE->set_heading(format_string($course->fullname));
 
 
-$percentage = \core_completion\progress::get_course_progress_percentage($course, $USER->id);
-$percent = $percentage !== null ? (int)floor($percentage) : 0;
-
 $activities = $completion->get_activities();
 $modinfo = get_fast_modinfo($course);
 $totalactivities = count($activities);
@@ -167,6 +164,8 @@ foreach ($activities as $cminfo) {
         'isoverdue' => $isoverdue,
     ];
 }
+
+$percent = $totalactivities > 0 ? (int) floor(($completedcount / $totalactivities) * 100) : 0;
 
 $sections = [];
 $sectionmap = [];

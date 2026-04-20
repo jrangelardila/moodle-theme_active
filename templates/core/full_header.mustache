@@ -53,6 +53,15 @@
             {{/hasheaderteachers}}
 
             <div class="tal-header-actions">
+                {{#hasbacktocourse}}
+                    <a href="{{backtocourseurl}}"
+                       class="tal-header-back-btn"
+                       title="{{backtocourselabel}}"
+                       aria-label="{{backtocourselabel}}">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        <span class="tal-header-back-btn__label">{{backtocourselabel}}</span>
+                    </a>
+                {{/hasbacktocourse}}
                 {{#headeractions}}
                     <div class="tal-header-action">{{{.}}}</div>
                 {{/headeractions}}
@@ -100,5 +109,6 @@
         </div>
     </div>
     {{/hasquicklinks}}
+
 
 </header>

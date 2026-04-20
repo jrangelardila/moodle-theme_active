@@ -21,7 +21,7 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-import $ from 'jquery';
+import Collapse from 'theme_boost/bootstrap/collapse';
 
 export const init = () => {
 
@@ -32,9 +32,13 @@ export const init = () => {
         expandBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            $('#tal-courseindex .collapse').collapse('show');
-            $('#tal-courseindex .tal-ci-sec-head').removeClass('collapsed')
-                .attr('aria-expanded', 'true');
+            document.querySelectorAll('#tal-courseindex .collapse').forEach(el => {
+                Collapse.getOrCreateInstance(el).show();
+            });
+            document.querySelectorAll('#tal-courseindex .tal-ci-sec-hd').forEach(el => {
+                el.classList.remove('collapsed');
+                el.setAttribute('aria-expanded', 'true');
+            });
         });
     }
 
@@ -42,14 +46,18 @@ export const init = () => {
         collapseBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            $('#tal-courseindex .collapse').collapse('hide');
-            $('#tal-courseindex .tal-ci-sec-head').addClass('collapsed')
-                .attr('aria-expanded', 'false');
+            document.querySelectorAll('#tal-courseindex .collapse').forEach(el => {
+                Collapse.getOrCreateInstance(el).hide();
+            });
+            document.querySelectorAll('#tal-courseindex .tal-ci-sec-hd').forEach(el => {
+                el.classList.add('collapsed');
+                el.setAttribute('aria-expanded', 'false');
+            });
         });
     }
 
     setTimeout(() => {
-        const active = document.querySelector('.tal-ci-item.is-active');
+        const active = document.querySelector('.tal-ci-tm-item.is-active');
         if (active) {
             active.scrollIntoView({behavior: 'smooth', block: 'center'});
         }

@@ -36,7 +36,8 @@
         <div class="tal-ci-sec {{#current}}is-cur{{/current}} {{#expanded}}is-open{{/expanded}}" data-sec="{{number}}">
 
             <a class="tal-ci-sec-hd {{^expanded}}collapsed{{/expanded}}"
-               data-toggle="collapse" href="#tal-s{{number}}"
+               data-bs-toggle="collapse" data-bs-target="#tal-s{{number}}"
+               role="button"
                aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}">
 
                 <span class="tal-ci-sec-node">
