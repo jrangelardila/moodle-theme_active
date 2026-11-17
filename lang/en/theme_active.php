@@ -25,115 +25,101 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Theme Active';
 $string['active:changesettings'] = 'Change theme settings';
-$string['configtitle'] = 'Theme Active';
-$string['generalsettings'] = 'General';
-
-// Branding.
+$string['activitylist'] = 'Activity checklist';
+$string['backtocourse'] = 'Back to course';
 $string['brandingsettings'] = 'Branding';
-$string['favicon'] = 'Favicon';
-$string['favicon_desc'] = 'Upload a favicon (.ico or .png) shown in the browser tab.';
-$string['logo'] = 'Logo';
-$string['logo_desc'] = 'Upload the site logo displayed in the navbar.';
-$string['loginlogo'] = 'Login logo';
-$string['loginlogo_desc'] = 'Upload a logo shown on the login page. If empty, the main logo is used.';
-
-// Login.
-$string['loginsettings'] = 'Login';
-$string['loginposition'] = 'Form position';
-$string['loginposition_desc'] = 'Horizontal position of the login form on desktop. On mobile it is always centered.';
-$string['loginposition_left'] = 'Left';
-$string['loginposition_center'] = 'Center';
-$string['loginposition_right'] = 'Right';
-$string['loginimage'] = 'Login image';
-$string['loginimage_desc'] = 'Logo or image displayed above the login form.';
-
-// Layout.
+$string['cachedef_courseimage'] = 'Course image of each course';
+$string['cachedef_courseprogress'] = 'User progress in each course (cards and progress bar)';
+$string['cachedef_courseteachers'] = 'Active teachers of each course (course header and cards)';
+$string['cardprogress'] = 'Course progress';
+$string['cardprogress_complete'] = 'Completed';
+$string['configtitle'] = 'Theme Active';
 $string['contentwidth'] = 'Content width';
 $string['contentwidth_desc'] = 'Maximum width of the main content area (60% to 100%).';
-
-// Colors.
-$string['primarycolor'] = 'Primary color';
-$string['primarycolor_desc'] = 'The main brand color used throughout the site (buttons, links, etc.).';
-$string['secondarycolor'] = 'Secondary color';
-$string['secondarycolor_desc'] = 'The secondary color used for secondary buttons and accents.';
-
-// Footer.
-$string['footersettings'] = 'Footer';
-$string['footersettings_desc'] = 'Configure the links and social media icons displayed in the site footer.';
-
+$string['coursecalendar'] = 'Course calendar';
+$string['coursehidden'] = 'Hidden';
+$string['courseprogress'] = 'Course progress';
+$string['downloadapp'] = 'Download the app';
+$string['exportprint'] = 'Export / Print';
 $string['facebook_url'] = 'Facebook';
 $string['facebook_url_desc'] = 'Full URL to your Facebook page (e.g. https://facebook.com/yourpage).';
-$string['twitter_url'] = 'Twitter / X';
-$string['twitter_url_desc'] = 'Full URL to your Twitter/X profile (e.g. https://x.com/yourprofile).';
+$string['favicon'] = 'Favicon';
+$string['favicon_desc'] = 'Upload a favicon (.ico or .png) shown in the browser tab.';
+$string['courseheaderimage'] = 'Course header image';
+$string['courseheaderimage_desc'] = 'Shown as the header banner of courses that have no course image of their own. If empty, the institution banner bundled with the theme is used.';
+$string['follow_social_media'] = 'Follow us';
+$string['footersettings'] = 'Footer';
+$string['footersettings_desc'] = 'Configure the links and social media icons displayed in the site footer.';
+$string['forumnav_aria'] = 'Discussion navigation';
+$string['forumnav_next'] = 'Next discussion';
+$string['forumnav_prev'] = 'Previous discussion';
+$string['generalsettings'] = 'General';
+$string['generatedon'] = 'Generated on';
+$string['information'] = 'Information';
 $string['instagram_url'] = 'Instagram';
 $string['instagram_url_desc'] = 'Full URL to your Instagram profile.';
+$string['instructor'] = 'Instructor';
 $string['linkedin_url'] = 'LinkedIn';
 $string['linkedin_url_desc'] = 'Full URL to your LinkedIn page.';
-$string['youtube_url'] = 'YouTube';
-$string['youtube_url_desc'] = 'Full URL to your YouTube channel.';
-$string['tiktok_url'] = 'TikTok';
-$string['tiktok_url_desc'] = 'Full URL to your TikTok profile.';
-
+$string['loginimage'] = 'Login image';
+$string['loginimage_desc'] = 'Logo or image displayed above the login form.';
+$string['loginlogo'] = 'Login logo';
+$string['loginlogo_desc'] = 'Upload a logo shown on the login page. If empty, the main logo is used.';
+$string['loginposition'] = 'Form position';
+$string['loginposition_center'] = 'Center';
+$string['loginposition_desc'] = 'Horizontal position of the login form on desktop. On mobile it is always centered.';
+$string['loginposition_left'] = 'Left';
+$string['loginposition_right'] = 'Right';
+$string['loginsettings'] = 'Login';
+$string['logo'] = 'Logo';
+$string['logo_desc'] = 'Upload the site logo displayed in the navbar.';
+$string['manualcompletion'] = 'Mark as done manually';
+$string['moodleapp_android'] = 'Google Play';
 $string['moodleapp_android_url'] = 'Moodle app — Android (Google Play)';
 $string['moodleapp_android_url_desc'] = 'URL to the Moodle app on Google Play Store.';
+$string['moodleapp_ios'] = 'App Store';
 $string['moodleapp_ios_url'] = 'Moodle app — iOS (App Store)';
 $string['moodleapp_ios_url_desc'] = 'URL to the Moodle app on the Apple App Store.';
-// Footer labels.
-$string['follow_social_media'] = 'Follow us';
-$string['downloadapp'] = 'Download the app';
-$string['information'] = 'Information';
-$string['moodleapp_android'] = 'Google Play';
-$string['moodleapp_ios'] = 'App Store';
-$string['privacy'] = 'Privacy policy';
-
-// Course progress.
-$string['courseprogress'] = 'Course progress';
-$string['progressof'] = '{$a->completed} of {$a->total} activities completed';
-$string['activitylist'] = 'Activity checklist';
-$string['viewdetails'] = 'View details';
 $string['overdue'] = 'Overdue';
-$string['manualcompletion'] = 'Mark as done manually';
-$string['backtocourse'] = 'Back to course';
-$string['exportprint'] = 'Export / Print';
-$string['teacherscontact'] = 'Course instructors';
-$string['sendmessage'] = 'Send message';
-$string['viewprofile'] = 'View profile';
-$string['generatedon'] = 'Generated on';
-$string['student'] = 'Student';
-$string['instructor'] = 'Instructor';
-$string['restricted'] = 'Restricted';
-
-// Course calendar button.
-$string['coursecalendar'] = 'Course calendar';
-
-// Forum discussion navigation.
-$string['forumnav_aria'] = 'Discussion navigation';
-$string['forumnav_prev'] = 'Previous discussion';
-$string['forumnav_next'] = 'Next discussion';
-
-// Calendar date-based color coding.
-$string['calendar_past'] = 'Overdue';
-$string['calendar_today'] = 'Today';
-$string['calendar_future'] = 'Upcoming';
-
-// Profile course listing.
-$string['showallcourses'] = 'Show all courses ({$a} hidden)';
-$string['showvisibleonly'] = 'Show visible only';
-$string['coursehidden'] = 'Hidden';
-
-// Quick links (dashboard).
-$string['quicklinks'] = 'Quick links';
-$string['quicklinks_desc'] = 'Configure shortcut buttons displayed on the dashboard. Leave label and URL empty to hide a slot.';
-$string['quicklink_number'] = 'Link {$a}';
-$string['quicklink_label'] = 'Label';
-$string['quicklink_label_desc'] = 'Text displayed on the button.';
-$string['quicklink_url'] = 'URL';
-$string['quicklink_url_desc'] = 'Full URL the button links to.';
+$string['pluginname'] = 'Theme Active';
+$string['primarycolor'] = 'Primary color';
+$string['primarycolor_desc'] = 'The main brand color used throughout the site (buttons, links, etc.).';
+$string['privacy'] = 'Privacy policy';
+$string['privacy:metadata'] = 'The Active theme does not store any personal data. It only reads the drawer preferences, which belong to the Boost theme.';
+$string['progressof'] = '{$a->completed} of {$a->total} activities completed';
 $string['quicklink_icon'] = 'Icon';
 $string['quicklink_icon_desc'] = 'FontAwesome class without the "fa-" prefix (e.g. "graduation-cap", "book", "globe"). Browse icons at <a href="https://fontawesome.com/v4/icons/" target="_blank">fontawesome.com/v4/icons</a>.';
+$string['quicklink_label'] = 'Label';
+$string['quicklink_label_desc'] = 'Text displayed on the button.';
+$string['quicklink_number'] = 'Link {$a}';
 $string['quicklink_target'] = 'Open in';
-$string['quicklink_target_desc'] = 'Where the link should open.';
 $string['quicklink_target_blank'] = 'New tab';
+$string['quicklink_target_desc'] = 'Where the link should open.';
 $string['quicklink_target_self'] = 'Same window';
+$string['quicklink_url'] = 'URL';
+$string['quicklink_url_desc'] = 'Full URL the button links to.';
+$string['quicklinks'] = 'Quick links';
+$string['quicklinks_desc'] = 'Configure shortcut buttons displayed on the dashboard. Leave label and URL empty to hide a slot.';
+$string['restricted'] = 'Restricted';
+$string['secondarycolor'] = 'Secondary color';
+$string['secondarycolor_desc'] = 'The secondary color used for secondary buttons and accents.';
+$string['sendmessage'] = 'Send message';
+$string['showallcourses'] = 'Show all courses ({$a} hidden)';
+$string['showcardprogress'] = 'Show progress on course cards';
+$string['showcardprogress_desc'] = 'Shows students their completion percentage on the course cards of the category listing and of their own profile. Only for courses with completion tracking.';
+$string['showvisibleonly'] = 'Show visible only';
+$string['student'] = 'Student';
+$string['headerteacher'] = 'Instructor: {$a}';
+$string['headerteachers'] = '{$a} instructors';
+$string['teacherscontact'] = 'Course instructors';
+$string['completionpending'] = 'Pending completion';
+$string['showfullpath'] = 'Show the full path';
+$string['tiktok_url'] = 'TikTok';
+$string['tiktok_url_desc'] = 'Full URL to your TikTok profile.';
+$string['twitter_url'] = 'Twitter / X';
+$string['twitter_url_desc'] = 'Full URL to your Twitter/X profile (e.g. https://x.com/yourprofile).';
+$string['viewdetails'] = 'View details';
+$string['viewprofile'] = 'View profile';
+$string['youtube_url'] = 'YouTube';
+$string['youtube_url_desc'] = 'Full URL to your YouTube channel.';

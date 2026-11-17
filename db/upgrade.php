@@ -41,5 +41,13 @@ function xmldb_theme_active_upgrade($oldversion) {
     // You will also have to create the db/install.xml file by using the XMLDB Editor.
     // Documentation for the XMLDB Editor can be found at {@link https://docs.moodle.org/dev/XMLDB_editor}.
 
+    if ($oldversion < 2026100601) {
+        // The "upcoming deadlines" card was removed: drop its settings.
+        foreach (['upcoming_enabled', 'upcoming_days', 'upcoming_maxitems', 'upcoming_showoverdue'] as $name) {
+            unset_config($name, 'theme_active');
+        }
+        upgrade_plugin_savepoint(true, 2026100601, 'theme', 'active');
+    }
+
     return true;
 }

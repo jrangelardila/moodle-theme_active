@@ -92,7 +92,7 @@
                             <div class="tal-cp-teacher-banner-pattern"></div>
                         </div>
                         <div class="tal-cp-teacher-avatar-wrap">
-                            <img src="{{avatarurl}}" alt="{{{fullname}}}" class="tal-cp-teacher-avatar">
+                            <img src="{{avatarurl}}" alt="{{fullname}}" class="tal-cp-teacher-avatar">
                             <span class="tal-cp-teacher-badge">
                         <i class="fa fa-chalkboard-user"></i>
                     </span>
@@ -100,9 +100,11 @@
                         <div class="tal-cp-teacher-body">
                             <h4 class="tal-cp-teacher-name">{{{fullname}}}</h4>
                             <span class="tal-cp-teacher-role">{{lbl_instructor}}</span>
+                            {{#email}}
                             <a href="mailto:{{email}}" class="tal-cp-teacher-email">
                                 <i class="fa fa-envelope"></i> {{email}}
                             </a>
+                            {{/email}}
                         </div>
                         <div class="tal-cp-teacher-actions d-print-none">
                             <a href="{{profileurl}}" class="tal-cp-teacher-action" title="{{lbl_viewprofile}}">

@@ -34,7 +34,7 @@
     <div class="tal-forum-nav-inner">
         <div class="tal-forum-nav-side tal-forum-nav-prev">
             {{#hasprev}}
-            <a href="{{prev.url}}" class="tal-forum-nav-btn tal-forum-nav-btn--prev" title="{{{prev.name}}}">
+            <a href="{{prev.url}}" class="tal-forum-nav-btn tal-forum-nav-btn--prev" title="{{prev.name}}">
                 <span class="tal-forum-nav-arrow">
                     <i class="fa fa-chevron-left"></i>
                 </span>
@@ -47,7 +47,7 @@
         </div>
         <div class="tal-forum-nav-center">
             {{#hasforumlink}}
-            <a href="{{forumurl}}" class="tal-forum-nav-back" title="{{{forumname}}}">
+            <a href="{{forumurl}}" class="tal-forum-nav-back" title="{{forumname}}">
                 <i class="fa fa-comments"></i>
                 <span class="tal-forum-nav-back-text">{{{forumname}}}</span>
             </a>
@@ -55,7 +55,7 @@
         </div>
         <div class="tal-forum-nav-side tal-forum-nav-next">
             {{#hasnext}}
-            <a href="{{next.url}}" class="tal-forum-nav-btn tal-forum-nav-btn--next" title="{{{next.name}}}">
+            <a href="{{next.url}}" class="tal-forum-nav-btn tal-forum-nav-btn--next" title="{{next.name}}">
                 <span class="tal-forum-nav-info tal-forum-nav-info--right">
                     <span class="tal-forum-nav-direction">{{#str}}forumnav_next, theme_active{{/str}}</span>
                     <span class="tal-forum-nav-name">{{{next.name}}}</span>

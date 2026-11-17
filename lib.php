@@ -38,7 +38,7 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool
  */
 function theme_active_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
-    if ($context->contextlevel == CONTEXT_SYSTEM && $filearea === 'loginimage') {
+    if ($context->contextlevel == CONTEXT_SYSTEM && in_array($filearea, ['loginimage', 'courseheaderimage'])) {
         $theme = theme_config::load('active');
         if (!array_key_exists('cacheability', $options)) {
             $options['cacheability'] = 'public';
@@ -80,12 +80,13 @@ function theme_active_get_main_scss_content($theme) {
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/courseprogress.scss');
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/activitynav.scss');
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/booknav.scss');
+    $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/activityinfo.scss');
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/forumnav.scss');
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/courseindex.scss');
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/layout.scss');
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/navicons.scss');
-    $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/calendar.scss');
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/tables.scss');
+    $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/maintenance.scss');
 
     return $scss;
 }
@@ -248,6 +249,106 @@ function theme_active_get_footer_context(): array {
 }
 
 /**
+ * Completion progress of a user in a course, shared by the header bar and the course cards.
+ *
+ * The result is cached per user and course. The key includes the course cacherev, so adding
+ * or removing activities invalidates it; completion changes are invalidated by
+ * \theme_active\event_observer.
+ *
+ * @param stdClass $course Course record (needs id, cacherev and enablecompletion).
+ * @param int $userid
+ * @return array|null ['percent', 'completed', 'total'] or null when the user is not tracked.
+ */
+function theme_active_get_user_course_progress(stdClass $course, int $userid): ?array {
+    global $CFG;
+    require_once($CFG->libdir . '/completionlib.php');
+
+    if (empty($course->id) || $course->id == SITEID || empty($course->enablecompletion)) {
+        return null;
+    }
+
+    $cache = \cache::make('theme_active', 'courseprogress');
+    $key = theme_active_course_progress_cache_key((int) $course->id, (int) ($course->cacherev ?? 0), $userid);
+    $cached = $cache->get($key);
+    if ($cached !== false) {
+        return $cached['tracked'] ? $cached['progress'] : null;
+    }
+
+    $progress = null;
+    $completion = new \completion_info($course);
+    if ($completion->is_enabled() && $completion->is_tracked_user($userid)) {
+        $activities = $completion->get_activities();
+        $total = count($activities);
+        if ($total > 0) {
+            $completed = 0;
+            foreach ($activities as $activity) {
+                $data = $completion->get_data($activity, true, $userid);
+                if ($data->completionstate == COMPLETION_COMPLETE
+                    || $data->completionstate == COMPLETION_COMPLETE_PASS) {
+                    $completed++;
+                }
+            }
+            $progress = [
+                'percent'   => (int) floor(($completed / $total) * 100),
+                'completed' => $completed,
+                'total'     => $total,
+            ];
+        }
+    }
+
+    $cache->set($key, ['tracked' => $progress !== null, 'progress' => $progress]);
+    return $progress;
+}
+
+/**
+ * Cache key for theme_active_get_user_course_progress().
+ *
+ * @param int $courseid
+ * @param int $cacherev
+ * @param int $userid
+ * @return string
+ */
+function theme_active_course_progress_cache_key(int $courseid, int $cacherev, int $userid): string {
+    return $courseid . '_' . $cacherev . '_' . $userid;
+}
+
+/**
+ * Render the progress strip for a course card (category listing and own profile).
+ *
+ * Only for the current user, when the setting is enabled and the user is tracked.
+ *
+ * @param stdClass $course Course record.
+ * @param renderer_base $output
+ * @return string HTML or empty string.
+ */
+function theme_active_render_card_progress(stdClass $course, \renderer_base $output): string {
+    global $USER;
+
+    if (!isloggedin() || isguestuser() || !get_config('theme_active', 'showcardprogress')) {
+        return '';
+    }
+
+    // The listing may pass a partial record: make sure the fields used by the cache key are present.
+    if (!isset($course->cacherev) || !isset($course->enablecompletion)) {
+        $course = get_course($course->id);
+    }
+
+    $progress = theme_active_get_user_course_progress($course, (int) $USER->id);
+    if ($progress === null) {
+        return '';
+    }
+
+    return $output->render_from_template('theme_active/card_progress', [
+        'percent'    => $progress['percent'],
+        'iscomplete' => $progress['percent'] >= 100,
+        'progressof' => get_string('progressof', 'theme_active', (object) [
+            'completed' => $progress['completed'],
+            'total'     => $progress['total'],
+        ]),
+    ]);
+}
+
+/**
  * Build the template context for the course completion progress bar.
  *
  * Returns progress data only when ALL conditions are met:
@@ -271,36 +372,11 @@ function theme_active_get_course_progress_context(): array {
         return $empty;
     }
 
-    try {
-        $completion = new \completion_info($COURSE);
-    } catch (\Throwable $e) {
+    $progress = theme_active_get_user_course_progress($COURSE, (int) $USER->id);
+    if ($progress === null) {
         return $empty;
     }
-
-    if (!$completion->is_enabled()) {
-        return $empty;
-    }
-
-    if (!$completion->is_tracked_user($USER->id)) {
-        return $empty;
-    }
-
-    $activities = $completion->get_activities();
-    $total = count($activities);
-    if ($total === 0) {
-        return $empty;
-    }
-
-    $completed = 0;
-    foreach ($activities as $activity) {
-        $data = $completion->get_data($activity, true, $USER->id);
-        if ($data->completionstate == COMPLETION_COMPLETE
-            || $data->completionstate == COMPLETION_COMPLETE_PASS) {
-            $completed++;
-        }
-    }
-
-    $percent = (int) floor(($completed / $total) * 100);
+    ['percent' => $percent, 'completed' => $completed, 'total' => $total] = $progress;
 
     $progressurl = (new \moodle_url('/theme/active/courseprogress.php', ['id' => $COURSE->id]))->out(false);
 
@@ -413,25 +489,89 @@ function theme_active_get_activity_navigation(\moodle_page $page, \renderer_base
 /**
  * Get users with teacher or editingteacher role in a course.
  *
+ * Solo con matrícula activa: método de matrícula habilitado, matrícula no suspendida y dentro de sus fechas
+ * (ya empezó y no ha vencido). Las matrículas suspendidas, futuras o vencidas no se muestran.
+ *
+ * Se guarda en caché por curso (theme_active/courseteachers): solo los campos de nombre, foto y correo,
+ * nunca el registro completo del usuario. La invalidan los cambios de roles, matrículas y usuarios
+ * (\theme_active\event_observer) y, por las fechas de matrícula, caduca a los 10 minutos.
+ *
  * @param int $courseid
  * @return array
  */
 function theme_active_get_course_teachers(int $courseid): array {
     global $DB;
 
-    $sql = "SELECT DISTINCT u.*
+    $cache = \cache::make('theme_active', 'courseteachers');
+    $teachers = $cache->get($courseid);
+    if ($teachers !== false) {
+        return $teachers;
+    }
+
+    // Redondeado a 100 segundos, como hace el núcleo en sus consultas de matrículas activas.
+    $now = round(time(), -2);
+    $fields = \core_user\fields::for_userpic()->including('email', 'maildisplay')->get_sql('u', false, '', '', false)->selects;
+
+    $sql = "SELECT DISTINCT {$fields}
               FROM {user} u
               JOIN {role_assignments} ra ON ra.userid = u.id
-              JOIN {context} ctx ON ctx.id = ra.contextid AND ctx.contextlevel = :contextlevel
+              JOIN {context} ctx ON ctx.id = ra.contextid
+                                AND ctx.contextlevel = :contextlevel
+                                AND ctx.instanceid = :courseid
               JOIN {role} r ON r.id = ra.roleid AND r.shortname IN ('editingteacher', 'teacher')
-             WHERE ctx.instanceid = :courseid AND u.deleted = 0
+              JOIN {enrol} e ON e.courseid = :courseid2 AND e.status = 0
+              JOIN {user_enrolments} ue ON ue.enrolid = e.id AND ue.userid = u.id AND ue.status = 0
+                                       AND ue.timestart <= :now1 AND (ue.timeend = 0 OR ue.timeend > :now2)
+             WHERE u.deleted = 0
           ORDER BY u.lastname, u.firstname";
 
-    return $DB->get_records_sql($sql, [
+    $teachers = $DB->get_records_sql($sql, [
         'contextlevel' => CONTEXT_COURSE,
-        'courseid' => $courseid,
+        'courseid'     => $courseid,
+        'courseid2'    => $courseid,
+        'now1'         => $now,
+        'now2'         => $now,
     ]);
+    $cache->set($courseid, $teachers);
+    return $teachers;
 }
+
+/**
+ * URL de la imagen del curso (la primera imagen válida de sus archivos de resumen), o '' si no tiene.
+ *
+ * En caché por curso (theme_active/courseimage): evita consultar los archivos en cada página.
+ * La invalidan la edición, restauración o borrado del curso (\theme_active\event_observer).
+ *
+ * @param int $courseid
+ * @return string
+ */
+function theme_active_get_course_image_url(int $courseid): string {
+    global $CFG;
+
+    $cache = \cache::make('theme_active', 'courseimage');
+    $url = $cache->get($courseid);
+    if ($url !== false) {
+        return $url;
+    }
+
+    $url = '';
+    $course = new \core_course_list_element(get_course($courseid));
+    foreach ($course->get_course_overviewfiles() as $file) {
+        if ($file->is_valid_image()) {
+            $url = \moodle_url::make_file_url(
+                "$CFG->wwwroot/pluginfile.php",
+                '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
+                $file->get_filearea() . $file->get_filepath() . $file->get_filename()
+            )->out(false);
+            break;
+        }
+    }
+    $cache->set($courseid, $url);
+    return $url;
+}
+
+/** Avatares de docentes que se muestran en la píldora del encabezado (el resto, como contador). */
+const THEME_ACTIVE_HEADER_TEACHERS_VISIBLE = 4;
 
 /**
  * Build template context for teacher avatars in the course header banner.
@@ -473,9 +613,20 @@ function theme_active_get_header_teachers_context(\moodle_page $page, \renderer_
         ];
     }
 
+    // En la píldora se ven hasta 4 avatares y un contador con el resto; la lista completa va en el desplegable.
+    $count = count($list);
+    $visible = array_slice($list, 0, THEME_ACTIVE_HEADER_TEACHERS_VISIBLE);
+    $label = $count === 1
+        ? get_string('headerteacher', 'theme_active', $list[0]['fullname'])
+        : get_string('headerteachers', 'theme_active', $count);
+
     return [
-        'hasheaderteachers' => true,
-        'headerteachers'    => $list,
+        'hasheaderteachers'     => true,
+        'headerteachers'        => $list,
+        'headerteachersvisible' => $visible,
+        'headerteachersextra'   => max(0, $count - count($visible)),
+        'headerteacherscount'   => $count,
+        'headerteacherslabel'   => $label,
     ];
 }
 

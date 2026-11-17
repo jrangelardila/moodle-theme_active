@@ -22,7 +22,7 @@
  */
 
 // Book chapter navigation — theme_active
-.block_book_toc {
+body:not(.editing) .block_book_toc {
   display: none !important;
 }
 

@@ -35,6 +35,8 @@ use core_text;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot . '/theme/active/lib.php');
+
 /**
  * Overridden myprofile renderer that shows enrolled courses as cards.
  */
@@ -162,6 +164,19 @@ class renderer extends \core_user\output\myprofile\renderer {
     }
 
     /**
+     * Whether the profile being viewed belongs to the current user.
+     *
+     * The card progress is personal: it is only shown on the user's own profile.
+     *
+     * @return bool
+     */
+    protected function is_own_profile(): bool {
+        global $USER;
+        $userid = (int) ($this->page->url->get_param('id') ?: $USER->id);
+        return $userid === (int) $USER->id;
+    }
+
+    /**
      * Render a single course as a card (same style as category cards).
      *
      * @param \stdClass $course
@@ -179,23 +194,16 @@ class renderer extends \core_user\output\myprofile\renderer {
 
         // Course image
         $imagehtml = '';
-        foreach ($courseel->get_course_overviewfiles() as $file) {
-            if ($file->is_valid_image()) {
-                $imgurl = moodle_url::make_file_url(
-                    "$CFG->wwwroot/pluginfile.php",
-                    '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
-                    $file->get_filearea() . $file->get_filepath() . $file->get_filename()
-                );
-                $imginner = html_writer::empty_tag('img', [
-                    'src' => $imgurl,
-                    'alt' => '',
-                    'class' => 'tal-course-img',
-                ]);
-                $imagehtml = html_writer::link($courseurl,
-                    html_writer::tag('div', $imginner, ['class' => 'tal-course-img-wrap'])
-                );
-                break;
-            }
+        $imgurl = theme_active_get_course_image_url((int) $course->id);
+        if ($imgurl !== '') {
+            $imginner = html_writer::empty_tag('img', [
+                'src' => $imgurl,
+                'alt' => '',
+                'class' => 'tal-course-img',
+            ]);
+            $imagehtml = html_writer::link($courseurl,
+                html_writer::tag('div', $imginner, ['class' => 'tal-course-img-wrap'])
+            );
         }
         if (empty($imagehtml)) {
             $shortlabel = format_string($courseel->shortname);
@@ -231,6 +239,9 @@ class renderer extends \core_user\output\myprofile\renderer {
         );
         $cardbody .= html_writer::tag('div', $shortnamehtml, ['class' => 'mb-2']);
         $cardbody .= $summaryhtml;
+        if ($this->is_own_profile()) {
+            $cardbody .= theme_active_render_card_progress($course, $this->output);
+        }
         $cardbody .= html_writer::end_tag('div');
 
         // Hidden course badge

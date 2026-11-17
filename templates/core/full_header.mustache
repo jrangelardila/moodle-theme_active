@@ -19,12 +19,17 @@
     theme_active — Redesigned page header with breadcrumbs.
 }}
 <header id="page-header" class="tal-header d-print-none">
-    <div class="tal-header-banner {{#courseimageurl}}tal-header-banner--hasimage{{/courseimageurl}}"
+    <div class="tal-header-banner {{#courseimageurl}}tal-header-banner--hasimage{{/courseimageurl}} {{#institutionalbanner}}tal-header-banner--institutional{{/institutionalbanner}}"
          {{#courseimageurl}}style="background-image: url('{{courseimageurl}}');"{{/courseimageurl}}>
         <div class="tal-header-banner-inner">
             <div class="tal-header-title-area">
                 <div class="tal-header-icon-accent">
-                    <i class="fa fa-layer-group"></i>
+                    {{#headerlogourl}}
+                        <img src="{{headerlogourl}}" alt="" class="tal-header-logo" width="36" height="36" aria-hidden="true">
+                    {{/headerlogourl}}
+                    {{^headerlogourl}}
+                        <i class="fa fa-layer-group"></i>
+                    {{/headerlogourl}}
                 </div>
                 <div class="tal-header-content">
                     {{#welcomemessage}}
@@ -39,18 +44,39 @@
                             </div>
                         {{/contextheader}}
                     {{/welcomemessage}}
+                    {{#hasheaderteachers}}
+                        <div class="tal-teachers dropdown">
+                            <button type="button" class="tal-teachers-pill" data-bs-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false"
+                                    title="{{#str}}teacherscontact, theme_active{{/str}}">
+                                <span class="tal-teachers-avatars" aria-hidden="true">
+                                    {{#headerteachersvisible}}
+                                        <img src="{{avatarurl}}" alt="" class="tal-teachers-avatar" title="{{fullname}}">
+                                    {{/headerteachersvisible}}
+                                    {{#headerteachersextra}}
+                                        <span class="tal-teachers-more">+{{.}}</span>
+                                    {{/headerteachersextra}}
+                                </span>
+                                <span class="tal-teachers-label">{{{headerteacherslabel}}}</span>
+                                <i class="fa fa-chevron-down tal-teachers-caret" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu tal-teachers-menu">
+                                <h6 class="dropdown-header">
+                                    {{#str}}teacherscontact, theme_active{{/str}} ({{headerteacherscount}})
+                                </h6>
+                                <div class="tal-teachers-menu-list">
+                                    {{#headerteachers}}
+                                        <a class="dropdown-item tal-teachers-menu-item" href="{{profileurl}}">
+                                            <img src="{{avatarurl}}" alt="" class="tal-teachers-menu-avatar">
+                                            <span class="tal-teachers-menu-name">{{{fullname}}}</span>
+                                        </a>
+                                    {{/headerteachers}}
+                                </div>
+                            </div>
+                        </div>
+                    {{/hasheaderteachers}}
                 </div>
             </div>
-
-            {{#hasheaderteachers}}
-                <div class="tal-header-teachers">
-                    {{#headerteachers}}
-                        <a href="{{profileurl}}" class="tal-header-teacher-link" title="{{{fullname}}}">
-                            <img src="{{avatarurl}}" alt="{{{fullname}}}" class="tal-header-teacher-avatar">
-                        </a>
-                    {{/headerteachers}}
-                </div>
-            {{/hasheaderteachers}}
 
             <div class="tal-header-actions">
                 {{#hasbacktocourse}}
@@ -62,6 +88,10 @@
                         <span class="tal-header-back-btn__label">{{backtocourselabel}}</span>
                     </a>
                 {{/hasbacktocourse}}
+                {{! Fechas de la actividad (apertura, cierre...): Moodle las agrega como "extras" del encabezado. }}
+                {{#headerextras}}
+                    <div class="tal-header-extra">{{{.}}}</div>
+                {{/headerextras}}
                 {{#headeractions}}
                     <div class="tal-header-action">{{{.}}}</div>
                 {{/headeractions}}
@@ -91,6 +121,34 @@
             var w = document.getElementById('tal-breadcrumb-wrapper');
             if (w && w.querySelector('.breadcrumb-item')) {
                 w.style.display = '';
+                // Nombre completo al pasar el mouse (los niveles largos se acortan con "…").
+                w.querySelectorAll('.breadcrumb-item > a, .breadcrumb-item > span:not(.separator)').forEach(function(el) {
+                    if (!el.getAttribute('title')) {
+                        el.setAttribute('title', el.textContent.trim());
+                    }
+                });
+                // Si aun así no cabe, se muestra el final: la página actual.
+                var list = w.querySelector('.breadcrumb');
+                if (list) {
+                    list.scrollLeft = list.scrollWidth;
+                    // En móvil, con más de 3 niveles, los intermedios se recogen tras un botón "…".
+                    if (list.children.length > 3) {
+                        var more = document.createElement('li');
+                        more.className = 'breadcrumb-item tal-bc-more';
+                        var btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.textContent = '…';
+                        btn.title = {{#quote}}{{#str}}showfullpath, theme_active{{/str}}{{/quote}};
+                        btn.setAttribute('aria-label', btn.title);
+                        btn.addEventListener('click', function() {
+                            list.classList.remove('tal-bc-collapsed');
+                            more.remove();
+                        });
+                        more.appendChild(btn);
+                        list.insertBefore(more, list.children[1]);
+                        list.classList.add('tal-bc-collapsed');
+                    }
+                }
             }
         })();
     {{/js}}

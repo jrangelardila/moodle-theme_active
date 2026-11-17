@@ -53,4 +53,13 @@ $setting = new admin_setting_configstoredfile('core_admin/logo',
 $setting->set_updatedcallback('theme_reset_all_caches');
 $page->add($setting);
 
+// Imagen del encabezado para los cursos sin imagen propia.
+$setting = new admin_setting_configstoredfile('theme_active/courseheaderimage',
+    get_string('courseheaderimage', 'theme_active'),
+    get_string('courseheaderimage_desc', 'theme_active'),
+    'courseheaderimage', 0,
+    ['maxfiles' => 1, 'accepted_types' => ['.png', '.jpg', '.jpeg', '.webp']]);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$page->add($setting);
+
 $settings->add($page);

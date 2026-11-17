@@ -36,11 +36,50 @@ require_once($CFG->dirroot . '/theme/active/lib.php');
  */
 class core_renderer extends \theme_boost\output\core_renderer {
 
+    // Fuerza el modo claro para anonimos e invitados. La logica vive en el trait porque
+    // la pagina de mantenimiento usa otro renderer, core_renderer_maintenance, que no
+    // hereda de este. Se hace en el tema, y no en el plugin, para no tocar codigo ajeno.
+    use forces_light_mode;
+
     /**
-     * Override full_header to inject teacher avatars into the header context.
+     * Contenido que los plugins anaden a la barra de navegacion.
      *
-     * @return string HTML for the full header.
+     * Se omite el conmutador de modo oscuro de local_boost_dark cuando no hay sesion
+     * iniciada: su preferencia se guarda contra la cuenta del usuario, asi que no tiene
+     * sentido ofrecerlo en la pagina de entrada ni a los invitados.
+     *
+     * @return string
      */
+    public function navbar_plugin_output() {
+        if (isloggedin() && !isguestuser()) {
+            return parent::navbar_plugin_output();
+        }
+
+        // Misma logica que core_renderer::navbar_plugin_output(), pero saltandose el
+        // conmutador de local_boost_dark. Se omite el plugin entero en lugar de recortar
+        // su HTML a posteriori, que es fragil.
+        $output = '';
+
+        foreach (\core_component::get_core_subsystems() as $name => $path) {
+            if ($path) {
+                $output .= component_callback($name, 'render_navbar_output', [$this], '');
+            }
+        }
+
+        if ($pluginsfunction = get_plugins_with_function('render_navbar_output')) {
+            foreach ($pluginsfunction as $plugintype => $plugins) {
+                foreach ($plugins as $pluginname => $pluginfunction) {
+                    if ($plugintype === 'local' && $pluginname === 'boost_dark') {
+                        continue;
+                    }
+                    $output .= $pluginfunction($this);
+                }
+            }
+        }
+
+        return $output;
+    }
+
     public function full_header() {
         $pagetype = $this->page->pagetype;
         $homepage = get_home_page();
@@ -67,17 +106,29 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $header->pageheadingbutton = $this->page_heading_button();
         $header->courseheader = $this->course_header();
         $header->headeractions = $this->page->get_header_actions();
+        // Desde Moodle 5.2 las fechas de la actividad (apertura, cierre...) llegan como extras del encabezado.
+        $header->headerextras = $this->page->get_header_extras();
         if (!empty($pagetype) && !empty($homepagetype) && $pagetype == $homepagetype) {
             $header->welcomemessage = \core_user::welcome_message();
         }
 
         // course teacher avatars
         $teacherctx = theme_active_get_header_teachers_context($this->page, $this);
-        $header->hasheaderteachers = $teacherctx['hasheaderteachers'];
-        $header->headerteachers = $teacherctx['headerteachers'];
+        foreach ($teacherctx as $key => $value) {
+            $header->$key = $value;
+        }
+
+        // Símbolo de la institución en blanco, en el recuadro del título (pix/logo_symbol_white.png).
+        $header->headerlogourl = $this->image_url('logo_symbol_white', 'theme')->out(false);
 
         // course overview image for header background
         $header->courseimageurl = $this->get_course_header_image();
+        // Sin imagen de curso (o fuera de un curso) se usa el banner de la institución, con su logo.
+        $header->institutionalbanner = false;
+        if (empty($header->courseimageurl)) {
+            $header->courseimageurl = $this->get_institutional_banner();
+            $header->institutionalbanner = !empty($header->courseimageurl);
+        }
 
         // Back to course button on the calendar view inside a course.
         global $COURSE;
@@ -103,28 +154,34 @@ class core_renderer extends \theme_boost\output\core_renderer {
     }
 
     /**
+     * Banner de la institución para el encabezado cuando no hay imagen de curso.
+     *
+     * Usa la imagen del ajuste courseheaderimage y, si no hay, la que trae el tema (pix/default/courseheader.jpg).
+     * Aplica en todas las páginas: portada, área personal, calendario, perfil y cursos sin imagen.
+     *
+     * @return string|null
+     */
+    protected function get_institutional_banner(): ?string {
+        $url = $this->page->theme->setting_file_url('courseheaderimage', 'courseheaderimage');
+        if (empty($url)) {
+            $url = $this->image_url('default/courseheader', 'theme')->out(false);
+        }
+        return $url;
+    }
+
+    /**
      * Get the course overview image URL for the header background.
      *
      * @return string|null The image URL or null if no image exists.
      */
     protected function get_course_header_image(): ?string {
-        global $COURSE, $CFG;
+        global $COURSE;
 
         if (empty($COURSE->id) || $COURSE->id == SITEID) {
             return null;
         }
-
-        $course = new \core_course_list_element($COURSE);
-        foreach ($course->get_course_overviewfiles() as $file) {
-            if ($file->is_valid_image()) {
-                return \moodle_url::make_file_url(
-                    "$CFG->wwwroot/pluginfile.php",
-                    '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
-                    $file->get_filearea() . $file->get_filepath() . $file->get_filename()
-                );
-            }
-        }
-
-        return null;
+        // En caché por curso: sin consultar los archivos del curso en cada página.
+        $url = theme_active_get_course_image_url((int) $COURSE->id);
+        return $url !== '' ? $url : null;
     }
 }

@@ -43,6 +43,10 @@ class mod_book_renderer extends \mod_book\output\renderer {
     public function render_main_action_menu(main_action_menu $actionmenu): string {
         global $DB, $CFG;
 
+        if ($this->page->user_is_editing()) {
+            return parent::render_main_action_menu($actionmenu);
+        }
+
         // Get base data
         $data = $actionmenu->export_for_template($this);
 

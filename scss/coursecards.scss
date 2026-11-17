@@ -203,3 +203,17 @@
         font-size: .85rem;
     }
 }
+
+// Course card progress strip.
+.tal-card-progress {
+    position: relative;
+    z-index: 2; // Above the card's stretched-link so the bar stays readable.
+    .tal-card-progress-track {
+        height: .4rem;
+        border-radius: 1rem;
+        background-color: var(--bs-secondary-bg, #e9ecef);
+    }
+    .progress-bar {
+        border-radius: 1rem;
+    }
+}

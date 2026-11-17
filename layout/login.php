@@ -28,11 +28,13 @@ $theme = theme_config::load('active');
 $loginposition  = $theme->settings->loginposition ?? 'center';
 $loginimageurl  = $theme->setting_file_url('loginimage', 'loginimage');
 
+// Las tres opciones deben producir una clase: con 'center' antes se devolvia una cadena
+// vacia y el formulario acababa pegado al borde izquierdo en lugar de centrado.
 $positionclass = [
-    'left'  => 'd-flex justify-content-start',
-    'right' => 'd-flex justify-content-end',
-    'center' => '',
-][$loginposition] ?? '';
+    'left'   => 'justify-content-start',
+    'center' => 'justify-content-center',
+    'right'  => 'justify-content-end',
+][$loginposition] ?? 'justify-content-center';
 
 $bodyattributes = $OUTPUT->body_attributes();
 

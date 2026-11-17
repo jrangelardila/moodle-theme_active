@@ -52,7 +52,11 @@ table.generaltable,
         letter-spacing: .01em;
     }
 
-    a {
+    // Se excluyen los enlaces que son botones. Un <a class="btn btn-primary"> ya trae su
+    // color del sistema de botones de Bootstrap, y ".generaltable a" tiene mas
+    // especificidad que ".btn-primary": el texto acababa del mismo color que el fondo del
+    // boton, o sea invisible. Pasaba en cualquier tabla con botones, no solo en una.
+    a:not(.btn) {
         color: $primary;
 
         &:hover {

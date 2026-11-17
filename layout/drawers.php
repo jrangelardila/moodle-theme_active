@@ -84,10 +84,6 @@ if ($PAGE->pagetype === 'mod-book-view') {
     $forceblockdraweropen = false;
 }
 
-// Calendar date-based color coding (past=red, today=orange, future=green).
-$PAGE->requires->js_call_amd('theme_active/calendar_colors', 'init');
-
-
 $secondarynavigation = false;
 $overflow = '';
 if ($PAGE->has_secondary_navigation()) {

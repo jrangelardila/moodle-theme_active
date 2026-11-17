@@ -1,0 +1,41 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template core_course/completion_status
+
+    Estado de finalización de la actividad en el encabezado, como píldora con fondo propio:
+    "Completado" (verde) o "Pendiente por completar" (ámbar). El núcleo solo muestra el primero.
+
+    Example context (json):
+    {
+        "istrackeduser": true,
+        "overallcomplete": true,
+        "overallincomplete": false
+    }
+}}
+{{#istrackeduser}}
+    {{#overallcomplete}}
+        <span class="completion-status tal-completion tal-completion--done">
+            <i class="fa fa-check" aria-hidden="true"></i> <span>{{#str}} done, core_completion {{/str}}</span>
+        </span>
+    {{/overallcomplete}}
+    {{#overallincomplete}}
+        <span class="completion-status tal-completion tal-completion--pending">
+            <i class="fa fa-hourglass-half" aria-hidden="true"></i> <span>{{#str}} completionpending, theme_active {{/str}}</span>
+        </span>
+    {{/overallincomplete}}
+{{/istrackeduser}}

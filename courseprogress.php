@@ -207,6 +207,7 @@ unset($sec);
 $teachers = theme_active_get_course_teachers($courseid);
 $teacherlist = [];
 $renderer = $PAGE->get_renderer('core');
+$canseeallemails = has_capability('moodle/course:useremail', $context);
 
 foreach ($teachers as $teacher) {
     $userpicture = new user_picture($teacher);
@@ -218,7 +219,9 @@ foreach ($teachers as $teacher) {
 
     $teacherlist[] = [
         'fullname' => format_string(fullname($teacher)),
-        'email' => $teacher->email,
+        'email' => ($canseeallemails
+            || in_array((int)$teacher->maildisplay, [\core_user::MAILDISPLAY_EVERYONE, \core_user::MAILDISPLAY_COURSE_MEMBERS_ONLY]))
+            ? $teacher->email : '',
         'avatarurl' => $avatarurl,
         'profileurl' => $profileurl,
         'messageurl' => $messageurl,
@@ -229,18 +232,7 @@ $studentpicture = new user_picture($USER);
 $studentpicture->size = 60;
 $studentavatarurl = $studentpicture->get_url($PAGE, $renderer)->out(false);
 
-$courseimageurl = '';
-$courseobj = new core_course_list_element($course);
-foreach ($courseobj->get_course_overviewfiles() as $file) {
-    if ($file->is_valid_image()) {
-        $courseimageurl = moodle_url::make_file_url(
-            "$CFG->wwwroot/pluginfile.php",
-            '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
-            $file->get_filearea() . $file->get_filepath() . $file->get_filename()
-        );
-        break;
-    }
-}
+$courseimageurl = theme_active_get_course_image_url($courseid);
 
 $courseurl = (new moodle_url('/course/view.php', ['id' => $courseid]))->out(false);
 $printurl = (new moodle_url('/theme/active/courseprogress.php', ['id' => $courseid, 'print' => 1]))->out(false);

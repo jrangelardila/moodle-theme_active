@@ -26,6 +26,8 @@
     margin-bottom: 0;
     position: relative;
     z-index: 5;
+    // Contenedor de referencia para el alto del banner de la institución (unidades cqw).
+    container-type: inline-size;
 }
 
 // Gradient background with title + actions
@@ -93,6 +95,72 @@
             display: none;
         }
     }
+
+    // Banner de la institución (sin imagen de curso): se ve completo, de lado a lado, como en theme_stream;
+    // solo un velo blanco muy suave. El título va en un recuadro del color principal para que se lea.
+    &--institutional {
+        background-position: right center;
+        border: 1px solid rgba($primary, .15);
+        // Alto proporcional al ancho del encabezado: 1/8 (la imagen es 16:3; así se recorta poco arriba y abajo
+        // y el logo, que está en el centro vertical, se ve completo), con un mínimo de 140px. Se mide con una
+        // consulta de contenedor (cqw) para no forzar un ancho mínimo; si el contenido necesita más alto, crece.
+        min-height: max(140px, 12.5cqw);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .tal-header-banner-inner {
+            width: 100%;
+        }
+
+        &::before {
+            background: rgba(#fff, .12);
+        }
+
+        .tal-header-title-area {
+            flex: 0 1 auto;
+            // Deja libre la parte derecha, donde va el logo.
+            max-width: 62%;
+            padding: .5rem 1.1rem .5rem .5rem;
+            border-radius: 14px;
+            background: rgba($primary, .94);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .18);
+        }
+
+        // Botones del encabezado ("Restablecer página a por defecto", "Volver al curso"...): sobre el banner claro,
+        // el estilo general (blanco translúcido, pensado para fondos oscuros) no se leía. Aquí van sólidos y en su
+        // propia fila, debajo del título y a la izquierda: así nunca quedan encima del logo, sea cual sea el título.
+        .tal-header-banner-inner {
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            row-gap: .75rem;
+        }
+
+        .tal-header-actions:not(:empty) {
+            flex-basis: 100%;
+        }
+
+        .tal-header-actions .tal-header-action .btn,
+        .tal-header-actions > div .btn,
+        .tal-header-back-btn {
+            background: #fff;
+            backdrop-filter: none;
+            border: 1px solid rgba($primary, .35);
+            color: $primary !important;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .12);
+
+            i, .icon, span {
+                color: inherit !important;
+            }
+
+            &:hover,
+            &:focus-visible {
+                background: $primary;
+                border-color: $primary;
+                color: #fff !important;
+            }
+        }
+    }
 }
 
 //  Title area  ─────────────────────────────
@@ -126,6 +194,14 @@
         transform: scale(1.08) rotate(-3deg);
         box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
     }
+}
+
+// Símbolo de la institución dentro del recuadro (en blanco).
+.tal-header-logo {
+    display: block;
+    width: 72%;
+    height: 72%;
+    object-fit: contain;
 }
 
 // Title content
@@ -279,6 +355,38 @@ body[class*="path-mod"] {
 }
 
 //  Action buttons ──────────────────────────────────────────
+// Estado de finalización: píldora con fondo propio, para que se distinga de la imagen de fondo.
+.tal-header-banner .tal-completion {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .4rem .9rem;
+    border-radius: 999px;
+    font-size: .85rem;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+
+    &--done {
+        background: #198754;
+        border: 1px solid rgba(#fff, .35);
+
+        &, span, i {
+            color: #fff !important;
+        }
+    }
+
+    &--pending {
+        background: #ffc107;
+        border: 1px solid rgba(#000, .08);
+
+        &, span, i {
+            color: #3d2c00 !important;
+        }
+    }
+}
+
 .tal-header-actions {
     display: flex;
     align-items: center;
@@ -325,45 +433,212 @@ body[class*="path-mod"] {
     }
 }
 
-//  Teacher avatars in banner ──────────────────────────────
-.tal-header-teachers {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
+//  Fechas de la actividad (apertura, cierre...) junto a la finalización ─────────
+// Con fechas, la finalización va arriba y las fechas debajo, en una columna: así le quitan menos ancho al título.
+.tal-header-actions:has(.tal-header-extra) {
+    flex-direction: column;
+    align-items: flex-end;
+
+    .tal-header-extra {
+        order: 1;
+    }
 }
 
-.tal-header-teacher-link {
-    position: relative;
-    margin-left: -10px;
-    transition: transform .25s cubic-bezier(.34, 1.56, .64, 1), z-index 0s;
-    z-index: 1;
+
+// Tarjeta con fondo propio: se lee igual sobre la imagen del curso y sobre el banner institucional claro.
+.tal-header-extra .activity-dates {
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+    padding: .4rem .85rem;
+    border-radius: .75rem;
+    background: rgba(#fff, .95);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+    color: $gray-900 !important;
+    font-size: .76rem;
+    line-height: 1.3;
+
+    .date-item {
+        white-space: nowrap;
+        color: inherit !important;
+
+        &::before {
+            content: "\f073";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-right: .35rem;
+            color: $primary;
+        }
+    }
+
+    // El banner pinta de blanco el texto de sus elementos; aquí la tarjeta es clara.
+    .date-item-label {
+        font-weight: 700;
+        color: $primary !important;
+    }
+}
+
+[data-bs-theme="dark"] .tal-header-extra .activity-dates {
+    background: rgba(33, 37, 41, .95);
+    color: #e9ecef !important;
+
+    .date-item::before,
+    .date-item-label {
+        color: lighten($primary, 35%) !important;
+    }
+}
+
+//  Docentes del curso: píldora dentro del recuadro del título ─────────
+// Hasta 4 avatares, un contador con el resto y la etiqueta; al hacer clic, la lista completa.
+.tal-teachers {
+    margin-top: .45rem;
+}
+
+.tal-teachers-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    max-width: 100%;
+    padding: .25rem .75rem .25rem .3rem;
+    border: 1px solid rgba(#fff, .35);
+    border-radius: 999px;
+    background: rgba(#fff, .14);
+    color: #fff;
+    font-size: .82rem;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease;
+
+    &:hover,
+    &:focus-visible,
+    &[aria-expanded="true"] {
+        background: rgba(#fff, .26);
+        border-color: rgba(#fff, .6);
+    }
+
+    &:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+    }
+}
+
+.tal-teachers-avatars {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.tal-teachers-avatar,
+.tal-teachers-more {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    margin-left: -8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
 
     &:first-child {
         margin-left: 0;
     }
-
-    &:hover {
-        transform: scale(1.18);
-        z-index: 10;
-
-        .tal-header-teacher-avatar {
-            border-color: rgba(#fff, .95);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, .25);
-        }
-    }
 }
 
-.tal-header-teacher-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: 3px solid rgba(#fff, .5);
+.tal-teachers-avatar {
     object-fit: cover;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
-    transition: border-color .25s ease, box-shadow .25s ease;
-    display: block;
+    background: #fff;
+}
+
+.tal-teachers-more {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    font-size: .68rem;
+    font-weight: 800;
+}
+
+.tal-header-banner .tal-teachers-more {
+    color: $primary !important;
+}
+
+.tal-teachers-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tal-teachers-caret {
+    font-size: .65rem;
+    opacity: .85;
+    transition: transform .2s ease;
+}
+
+.tal-teachers-pill[aria-expanded="true"] .tal-teachers-caret {
+    transform: rotate(180deg);
+}
+
+// Con la lista abierta, el encabezado y el banner suben por encima de todo: la ruta de navegación
+// (#page-navbar, z-index 100), el navbar fijo (1031) y los cajones. Por debajo de los modales (1050).
+.tal-header:has(.tal-teachers-menu.show),
+.tal-header-banner-inner:has(.tal-teachers-menu.show) {
+    z-index: 1045;
+}
+
+// Lista desplegable: fondo claro, así que se anulan los colores blancos del banner.
+.tal-header-banner .tal-teachers-menu {
+    min-width: 260px;
+    max-width: 340px;
+    padding: .35rem 0;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+
+    .dropdown-header {
+        color: var(--bs-secondary-color) !important;
+        font-size: .72rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+    }
+
+    .tal-teachers-menu-list {
+        max-height: 320px;
+        overflow-y: auto;
+    }
+
+    a.tal-teachers-menu-item {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        padding: .4rem 1rem;
+        color: var(--bs-body-color) !important;
+        text-decoration: none;
+
+        span {
+            color: inherit !important;
+        }
+
+        &:hover,
+        &:focus {
+            background: rgba($primary, .08);
+            color: $primary !important;
+        }
+    }
+
+    .tal-teachers-menu-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+
+    .tal-teachers-menu-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: .875rem;
+    }
 }
 
 // Course header area
@@ -500,6 +775,39 @@ body[class*="path-mod"] {
                 &:nth-child(#{$i}) {
                     z-index: #{15 - $i};
                 }
+            }
+        }
+    }
+}
+
+// Ruta larga: los niveles intermedios se acortan con "…" (el nombre completo sale al pasar el mouse);
+// el primero (periodo) y la página actual no se encogen, para que siempre se vea dónde está el usuario.
+@media (min-width: 768px) {
+    .tal-breadcrumb-nav .breadcrumb .breadcrumb-item {
+        flex: 0 1 auto;
+        min-width: 4.5rem;
+
+        a,
+        > span:not(.separator) {
+            display: block;
+            min-width: 0;
+            max-width: 16rem;
+            line-height: 38px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        &:first-child {
+            flex-shrink: 0;
+        }
+
+        &:last-child {
+            flex-shrink: 0;
+            max-width: 28rem;
+
+            a,
+            > span:not(.separator) {
+                max-width: 28rem;
             }
         }
     }
@@ -656,6 +964,22 @@ body[class*="path-mod"] {
 
 // MOBILE RESPONSIVE
 @media (max-width: 767.98px) {
+    // Banner de la institución en pantallas pequeñas: alto según el contenido, el logo sigue anclado
+    // a la derecha y el título ocupa la parte izquierda sin taparlo.
+    // Arriba, una franja con la imagen anclada a la derecha (logo completo, ~130px de ancho); debajo,
+    // el título a todo el ancho. El resto del fondo, del mismo tono claro de la imagen.
+    .tal-header-banner.tal-header-banner--institutional {
+        min-height: 0;
+        padding-top: 128px;
+        background-size: auto 120px;
+        background-position: right top;
+        background-color: #e9e5e2;
+
+        .tal-header-title-area {
+            max-width: 100%;
+        }
+    }
+
     .tal-header-banner {
         padding: 1rem;
 
@@ -695,30 +1019,30 @@ body[class*="path-mod"] {
         font-size: 1.2rem;
     }
 
-    .tal-header-teachers {
-        order: -1;
-        width: 100%;
-    }
-
-    .tal-header-teacher-link {
-        margin-left: -8px;
-
-        &:first-child {
-            margin-left: 0;
-        }
-    }
-
-    .tal-header-teacher-avatar {
-        width: 36px;
-        height: 36px;
-        border-width: 2px;
-    }
-
     .tal-header-actions {
         width: 100%;
-        justify-content: flex-end;
+        justify-content: flex-start;
         flex-wrap: wrap;
         gap: .4rem;
+    }
+
+    .tal-header-extra .activity-dates .date-item {
+        white-space: normal;
+    }
+
+    .tal-header-actions:has(.tal-header-extra) {
+        align-items: flex-start;
+    }
+
+    // Con imagen de curso se mantiene la capa oscura (sin ella, el texto de la imagen choca con el título).
+    .tal-header-banner.tal-header-banner--hasimage:not(.tal-header-banner--institutional)::before {
+        display: block;
+        background: rgba(#000, .6);
+    }
+
+    // Ruta larga en móvil: primero, "…", anterior y página actual; "…" despliega la ruta completa.
+    .tal-breadcrumb-nav .breadcrumb.tal-bc-collapsed .breadcrumb-item:not(:first-child):not(:last-child):not(:nth-last-child(2)):not(.tal-bc-more) {
+        display: none;
     }
 
     .tal-quicklinks-section {
@@ -768,7 +1092,12 @@ body[class*="path-mod"] {
                 min-height: 30px;
                 font-size: .72rem;
                 white-space: nowrap;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
+
+            max-width: 100%;
 
             &:first-child {
                 margin-left: 0;
@@ -942,6 +1271,7 @@ body[class*="path-mod"] {
             padding: 0 20px;
             font-size: .75rem;
             height: 34px;
+            line-height: 34px;
         }
 
         &:first-child {
@@ -987,5 +1317,29 @@ body[class*="path-mod"] {
     .tal-breadcrumb-wrapper {
         margin: .75rem 1rem 0;
         margin-bottom: .75rem;
+    }
+}
+
+// Botón "…" de la ruta de navegación (solo se usa en móvil).
+.tal-breadcrumb-nav .breadcrumb .breadcrumb-item.tal-bc-more {
+    button {
+        min-height: 30px;
+        padding: .3rem .8rem;
+        border: 0;
+        border-radius: 1rem;
+        background: $secondary;
+        color: #fff;
+        font-weight: 800;
+        line-height: 1;
+        cursor: pointer;
+
+        &:hover,
+        &:focus-visible {
+            filter: brightness(1.15);
+        }
+    }
+
+    @media (min-width: 768px) {
+        display: none !important;
     }
 }

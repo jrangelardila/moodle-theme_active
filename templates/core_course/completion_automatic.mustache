@@ -1,0 +1,66 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template core_course/completion_automatic
+
+    Un requisito de finalización automática con su estado, en theme_active: píldora con ícono y estado visible.
+
+    Example context (json):
+    {
+        "statuscomplete": 1,
+        "description": "Ver",
+        "istrackeduser": true,
+        "accessibledescription": "Hecho: Ver"
+    }
+}}
+{{#istrackeduser}}
+    {{#statuscomplete}}
+    <li class="tal-req is-complete">
+        <div class="automatic-completion-is-complete"{{#accessibledescription}} title="{{.}}" aria-label="{{.}}"{{/accessibledescription}}>
+            <span class="tal-req-icon" aria-hidden="true"><i class="fa fa-check"></i></span>
+            <strong class="tal-req-status">{{#str}}completion_automatic:done, core_course{{/str}}</strong>
+            <span class="tal-req-text">{{description}}</span>
+        </div>
+    </li>
+    {{/statuscomplete}}
+    {{#statuscompletefail}}
+    <li class="tal-req is-failed">
+        <div class="automatic-completion-is-failed"{{#accessibledescription}} title="{{.}}" aria-label="{{.}}"{{/accessibledescription}}>
+            <span class="tal-req-icon" aria-hidden="true"><i class="fa fa-xmark"></i></span>
+            <strong class="tal-req-status">{{#str}}completion_automatic:failed, core_course{{/str}}</strong>
+            <span class="tal-req-text">{{description}}</span>
+        </div>
+    </li>
+    {{/statuscompletefail}}
+    {{#statusincomplete}}
+    <li class="tal-req is-incomplete">
+        <div class="automatic-completion-is-incomplete"{{#accessibledescription}} title="{{.}}" aria-label="{{.}}"{{/accessibledescription}}>
+            <span class="tal-req-icon" aria-hidden="true"><i class="fa fa-hourglass-half"></i></span>
+            <strong class="tal-req-status">{{#str}}completion_automatic:todo, core_course{{/str}}</strong>
+            <span class="tal-req-text">{{description}}</span>
+        </div>
+    </li>
+    {{/statusincomplete}}
+{{/istrackeduser}}
+{{^istrackeduser}}
+    <li class="tal-req is-info">
+        <div>
+            <span class="tal-req-icon" aria-hidden="true"><i class="fa fa-circle-info"></i></span>
+            <span class="tal-req-text">{{description}}</span>
+        </div>
+    </li>
+{{/istrackeduser}}

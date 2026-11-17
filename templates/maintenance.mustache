@@ -1,0 +1,97 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_active/maintenance
+
+    Pagina que se muestra mientras el sitio esta en mantenimiento.
+
+    Sustituye a theme_boost/maintenance, que presenta el aviso como un cuadro suelto sobre
+    la pagina en blanco. Aqui se centra en una tarjeta, con el nombre del sitio y el
+    logotipo, para que se lea como una pagina pensada y no como un error.
+
+    Se usa tambien durante la instalacion y la actualizacion: no debe depender de que la
+    base de datos exista.
+
+    Context variables required for this template:
+    * sitename - Nombre corto del sitio.
+    * output - Renderer principal.
+
+    Optional context variables:
+    * logourl - URL del logotipo del sitio, si hay uno configurado.
+
+    Example context (json):
+    {
+        "sitename": "Moodle",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Sitio en mantenimiento",
+            "favicon": "favicon.ico",
+            "main_content": "<h2>Este sitio esta en fase de mantenimiento</h2>"
+        }
+    }
+}}
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+<head>
+    <title>{{{ output.page_title }}}</title>
+    <link rel="shortcut icon" href="{{{ output.favicon }}}" />
+    {{{ output.standard_head_html }}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body {{{ output.body_attributes }}}>
+{{> core/local/toast/wrapper}}
+
+<div id="page-wrapper" class="active-maintenance">
+
+    {{{ output.standard_top_of_body_html }}}
+
+    <main id="page" class="active-maintenance__page">
+        <div class="active-maintenance__card">
+
+            <div class="active-maintenance__brand">
+                {{#logourl}}
+                    <img src="{{logourl}}" alt="{{sitename}}" class="active-maintenance__logo">
+                {{/logourl}}
+                {{^logourl}}
+                    <span class="active-maintenance__sitename">{{sitename}}</span>
+                {{/logourl}}
+            </div>
+
+            {{! Engranajes: decorativos, por eso aria-hidden. El giro se desactiva si el
+                usuario ha pedido menos animacion, regla que se aplica en el SCSS. }}
+            <div class="active-maintenance__icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" role="presentation" focusable="false">
+                    <g class="active-maintenance__cog active-maintenance__cog--lg">
+                        <path d="M32 20.5a11.5 11.5 0 1 0 0 23 11.5 11.5 0 0 0 0-23Zm0 17a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11Z"/>
+                        <path d="m55.4 28.3-4.2-.7a19.7 19.7 0 0 0-1.9-4.6l2.5-3.5a1.6 1.6 0 0 0-.2-2.1l-4-4a1.6 1.6 0 0 0-2.1-.2l-3.5 2.5a19.7 19.7 0 0 0-4.6-1.9l-.7-4.2A1.6 1.6 0 0 0 35.1 8h-6.2a1.6 1.6 0 0 0-1.6 1.6l-.7 4.2a19.7 19.7 0 0 0-4.6 1.9l-3.5-2.5a1.6 1.6 0 0 0-2.1.2l-4 4a1.6 1.6 0 0 0-.2 2.1l2.5 3.5a19.7 19.7 0 0 0-1.9 4.6l-4.2.7A1.6 1.6 0 0 0 7 29.9v6.2a1.6 1.6 0 0 0 1.6 1.6l4.2.7a19.7 19.7 0 0 0 1.9 4.6l-2.5 3.5a1.6 1.6 0 0 0 .2 2.1l4 4a1.6 1.6 0 0 0 2.1.2l3.5-2.5a19.7 19.7 0 0 0 4.6 1.9l.7 4.2a1.6 1.6 0 0 0 1.6 1.6h6.2a1.6 1.6 0 0 0 1.6-1.6l.7-4.2a19.7 19.7 0 0 0 4.6-1.9l3.5 2.5a1.6 1.6 0 0 0 2.1-.2l4-4a1.6 1.6 0 0 0 .2-2.1l-2.5-3.5a19.7 19.7 0 0 0 1.9-4.6l4.2-.7a1.6 1.6 0 0 0 1.6-1.6v-6.2a1.6 1.6 0 0 0-1.6-1.6Zm-4.4 6.4-3.6.6a3.6 3.6 0 0 0-2.9 2.7 15.7 15.7 0 0 1-1.5 3.7 3.6 3.6 0 0 0 .2 4l2.1 3-1.6 1.6-3-2.1a3.6 3.6 0 0 0-4-.2 15.7 15.7 0 0 1-3.7 1.5 3.6 3.6 0 0 0-2.7 2.9l-.6 3.6h-2.4l-.6-3.6a3.6 3.6 0 0 0-2.7-2.9 15.7 15.7 0 0 1-3.7-1.5 3.6 3.6 0 0 0-4 .2l-3 2.1-1.6-1.6 2.1-3a3.6 3.6 0 0 0 .2-4 15.7 15.7 0 0 1-1.5-3.7 3.6 3.6 0 0 0-2.9-2.7l-3.6-.6v-2.4l3.6-.6a3.6 3.6 0 0 0 2.9-2.7 15.7 15.7 0 0 1 1.5-3.7 3.6 3.6 0 0 0-.2-4l-2.1-3 1.6-1.6 3 2.1a3.6 3.6 0 0 0 4 .2 15.7 15.7 0 0 1 3.7-1.5 3.6 3.6 0 0 0 2.7-2.9l.6-3.6h2.4l.6 3.6a3.6 3.6 0 0 0 2.7 2.9 15.7 15.7 0 0 1 3.7 1.5 3.6 3.6 0 0 0 4-.2l3-2.1 1.6 1.6-2.1 3a3.6 3.6 0 0 0-.2 4 15.7 15.7 0 0 1 1.5 3.7 3.6 3.6 0 0 0 2.9 2.7l3.6.6Z"/>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="active-maintenance__content">
+                {{{ output.main_content }}}
+            </div>
+
+        </div>
+    </main>
+
+</div>
+
+{{{ output.standard_end_of_body_html }}}
+</body>
+</html>

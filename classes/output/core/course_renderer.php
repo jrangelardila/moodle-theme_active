@@ -18,6 +18,8 @@ namespace theme_active\output\core;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot . '/theme/active/lib.php');
+
 use html_writer;
 use moodle_url;
 use core_text;
@@ -35,6 +37,9 @@ use coursecat_helper;
  */
 class course_renderer extends \core_course_renderer {
 
+    /** @var array Datos de avance (id, cacherev, enablecompletion) de los cursos de la lista actual. */
+    protected $cardprogressdata = [];
+
     /**
      * Renders the course grid wrapper and iterates over courses to produce cards.
      *
@@ -44,7 +49,7 @@ class course_renderer extends \core_course_renderer {
      * @return string
      */
     protected function coursecat_courses(coursecat_helper $chelper, $courses, $totalcount = null) {
-        global $CFG;
+        global $CFG, $DB;
 
         if ($totalcount === null) {
             $totalcount = count($courses);
@@ -89,6 +94,13 @@ class course_renderer extends \core_course_renderer {
         $content  = $paginghtml;
         $content .= html_writer::start_tag('div', ['class' => 'tal-course-grid row']);
 
+        // El avance de cada tarjeta necesita cacherev y enablecompletion, que el listado no trae:
+        // se leen de una vez para toda la página en lugar de un get_course() por tarjeta.
+        $ids = array_map(fn($c) => (int) $c->id, is_array($courses) ? $courses : iterator_to_array($courses));
+        $this->cardprogressdata = $ids
+            ? $DB->get_records_list('course', 'id', $ids, '', 'id, cacherev, enablecompletion')
+            : [];
+
         $i = 0;
         foreach ($courses as $course) {
             $content .= $this->coursecat_coursebox($chelper, $course, $i % 2 == 0 ? 'even' : 'odd');
@@ -124,23 +136,17 @@ class course_renderer extends \core_course_renderer {
         // --- Course image ---
         global $CFG;
         $imagehtml = '';
-        foreach ($course->get_course_overviewfiles() as $file) {
-            if ($file->is_valid_image()) {
-                $imgurl = moodle_url::make_file_url(
-                    "$CFG->wwwroot/pluginfile.php",
-                    '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
-                    $file->get_filearea() . $file->get_filepath() . $file->get_filename()
-                );
-                $imginner = html_writer::empty_tag('img', [
-                    'src'   => $imgurl,
-                    'alt'   => '',
-                    'class' => 'tal-course-img',
-                ]);
-                $imagehtml = html_writer::link($courseurl,
-                    html_writer::tag('div', $imginner, ['class' => 'tal-course-img-wrap'])
-                );
-                break;
-            }
+        // URL en caché por curso (theme_active_get_course_image_url): sin consultar los archivos en cada tarjeta.
+        $imgurl = theme_active_get_course_image_url((int) $course->id);
+        if ($imgurl !== '') {
+            $imginner = html_writer::empty_tag('img', [
+                'src'   => $imgurl,
+                'alt'   => '',
+                'class' => 'tal-course-img',
+            ]);
+            $imagehtml = html_writer::link($courseurl,
+                html_writer::tag('div', $imginner, ['class' => 'tal-course-img-wrap'])
+            );
         }
         if (empty($imagehtml)) {
             $shortlabel = format_string($course->shortname);
@@ -175,7 +181,7 @@ class course_renderer extends \core_course_renderer {
 
         // --- Teachers ---
         $teachershtml = '';
-        $teachers = $this->get_course_teachers($course->id);
+        $teachers = theme_active_get_course_teachers((int) $course->id);
         if (!empty($teachers)) {
             $avatars = '';
             foreach ($teachers as $teacher) {
@@ -204,6 +210,11 @@ class course_renderer extends \core_course_renderer {
         if ($teachershtml) {
             $cardbody .= $teachershtml;
         }
+        // Datos precargados en coursecat_courses() (una sola consulta para toda la lista).
+        $cardbody .= theme_active_render_card_progress(
+            $this->cardprogressdata[$course->id] ?? (object) ['id' => $course->id],
+            $this->output
+        );
         $cardbody .= html_writer::end_tag('div');
 
         $card  = html_writer::start_tag('div', ['class' => 'card h-100 tal-course-card position-relative' . ($course->visible ? '' : ' tal-course-dimmed')]);
@@ -215,29 +226,6 @@ class course_renderer extends \core_course_renderer {
             'class'           => 'col-12 col-sm-6 col-lg-4 mb-4 ' . $additionalclasses,
             'data-courseid'   => $course->id,
             'data-type'       => self::COURSECAT_TYPE_COURSE,
-        ]);
-    }
-
-    /**
-     * Get users with teacher or editingteacher role in a course.
-     *
-     * @param int $courseid
-     * @return array
-     */
-    protected function get_course_teachers(int $courseid): array {
-        global $DB;
-
-        $sql = "SELECT DISTINCT u.*
-                  FROM {user} u
-                  JOIN {role_assignments} ra ON ra.userid = u.id
-                  JOIN {context} ctx ON ctx.id = ra.contextid AND ctx.contextlevel = :contextlevel
-                  JOIN {role} r ON r.id = ra.roleid AND r.shortname IN ('editingteacher', 'teacher')
-                 WHERE ctx.instanceid = :courseid AND u.deleted = 0
-              ORDER BY u.lastname, u.firstname";
-
-        return $DB->get_records_sql($sql, [
-            'contextlevel' => CONTEXT_COURSE,
-            'courseid' => $courseid,
         ]);
     }
 }

@@ -60,6 +60,13 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 
+    // Course cards progress.
+    $name = 'theme_active/showcardprogress';
+    $title = get_string('showcardprogress', 'theme_active');
+    $description = get_string('showcardprogress_desc', 'theme_active');
+    $setting = new admin_setting_configcheckbox($name, $title, $description, 1);
+    $page->add($setting);
+
     $settings->add($page);
 
     require_once('settings/branding.php');
