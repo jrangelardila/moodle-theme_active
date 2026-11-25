@@ -22,9 +22,10 @@
  */
 
 // theme_active — Footer styles
-$taf-bg: darken($secondary, 32%);
-$taf-bg-alt: darken($secondary, 26%);
-$taf-accent: lighten($secondary, 14%);
+// Footer background and accent: footercolor and accentcolor settings (see palette.scss). If empty, based on the secondary color.
+$taf-bg: if($tal-footer-bg, $tal-footer-bg, darken($secondary, 32%));
+$taf-bg-alt: if($tal-footer-bg, lighten($tal-footer-bg, 6%), darken($secondary, 26%));
+$taf-accent: if($tal-accent, $tal-accent, lighten($secondary, 14%));
 $taf-text: rgba(255, 255, 255, .7);
 $taf-text-hi: rgba(255, 255, 255, .92);
 

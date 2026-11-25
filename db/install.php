@@ -27,6 +27,11 @@
  * Custom code to be run on installing the plugin.
  */
 function xmldb_theme_active_install() {
+    global $CFG;
+    require_once($CFG->dirroot . '/theme/active/lib.php');
+
+    // Load the default banner and symbol into their settings so they can be seen and replaced.
+    theme_active_load_default_images();
 
     return true;
 }

@@ -30,12 +30,12 @@ table.generaltable,
 
     border: 0;
     border-collapse: collapse;
-    color: $body-color;
+    color: var(--bs-body-color);
 
     th,
     td {
         border: 0;
-        color: $body-color;
+        color: var(--bs-body-color);
         font-size: .9rem;
         line-height: 1.4;
         vertical-align: middle;
@@ -52,10 +52,8 @@ table.generaltable,
         letter-spacing: .01em;
     }
 
-    // Se excluyen los enlaces que son botones. Un <a class="btn btn-primary"> ya trae su
-    // color del sistema de botones de Bootstrap, y ".generaltable a" tiene mas
-    // especificidad que ".btn-primary": el texto acababa del mismo color que el fondo del
-    // boton, o sea invisible. Pasaba en cualquier tabla con botones, no solo en una.
+    // Skip links styled as buttons: ".generaltable a" is more specific than ".btn-primary",
+    // so button text ended up the same color as the button background.
     a:not(.btn) {
         color: $primary;
 

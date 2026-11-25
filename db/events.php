@@ -25,11 +25,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 $observers = [
-    // Imagen del curso y docentes: al editar, restaurar o borrar el curso.
+    // Course image and teachers: when a course is updated, restored or deleted.
     ['eventname' => '\core\event\course_updated', 'callback' => '\theme_active\event_observer::course_changed'],
     ['eventname' => '\core\event\course_restored', 'callback' => '\theme_active\event_observer::course_changed'],
     ['eventname' => '\core\event\course_deleted', 'callback' => '\theme_active\event_observer::course_changed'],
-    // Docentes del curso: cambios de roles y matrículas.
+    // Course teachers: role and enrolment changes.
     ['eventname' => '\core\event\role_assigned', 'callback' => '\theme_active\event_observer::teachers_changed'],
     ['eventname' => '\core\event\role_unassigned', 'callback' => '\theme_active\event_observer::teachers_changed'],
     ['eventname' => '\core\event\user_enrolment_created', 'callback' => '\theme_active\event_observer::teachers_changed'],
@@ -37,7 +37,7 @@ $observers = [
     ['eventname' => '\core\event\user_enrolment_deleted', 'callback' => '\theme_active\event_observer::teachers_changed'],
     ['eventname' => '\core\event\enrol_instance_updated', 'callback' => '\theme_active\event_observer::teachers_changed'],
     ['eventname' => '\core\event\enrol_instance_deleted', 'callback' => '\theme_active\event_observer::teachers_changed'],
-    // Nombre o foto de un usuario: puede ser docente de varios cursos, se vacía toda la caché de docentes.
+    // User name or picture: a user may teach many courses, so the whole teacher cache is purged.
     ['eventname' => '\core\event\user_updated', 'callback' => '\theme_active\event_observer::user_changed'],
     ['eventname' => '\core\event\user_deleted', 'callback' => '\theme_active\event_observer::user_changed'],
     [

@@ -49,8 +49,8 @@ body:not(.editing) .block_book_toc {
 
 // Main navigation container ──────────────────────────────────────────
 .tal-booknav {
-  background: #fff;
-  border: 1px solid #e2e8f0;
+  background: var(--tal-surface);
+  border: 1px solid var(--tal-border);
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, .04), 0 4px 12px rgba(0, 0, 0, .03);
@@ -91,9 +91,9 @@ body:not(.editing) .block_book_toc {
   width: 38px;
   height: 38px;
   border-radius: .625rem;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  color: $primary;
+  background: var(--tal-surface);
+  border: 1px solid var(--tal-border);
+  color: var(--tal-primary-text);
   font-size: 1rem;
   display: flex;
   align-items: center;
@@ -123,10 +123,10 @@ body:not(.editing) .block_book_toc {
   text-transform: uppercase;
   letter-spacing: .6px;
   font-weight: 700;
-  color: #94a3b8;
+  color: var(--tal-text-faint);
 
   i {
-    color: $primary;
+    color: var(--tal-primary-text);
     margin-right: .25rem;
   }
 }
@@ -134,7 +134,7 @@ body:not(.editing) .block_book_toc {
 .tal-booknav-chapter-title {
   font-size: .92rem;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--tal-text-strong);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -216,7 +216,7 @@ body:not(.editing) .block_book_toc {
   }
 
   &--pending .tal-booknav-seg-inner {
-    background: #e2e8f0;
+    background: var(--tal-border);
   }
 
   &--sub {
@@ -239,7 +239,7 @@ body:not(.editing) .block_book_toc {
   }
 
   &--pending:hover .tal-booknav-seg-inner {
-    background: #cbd5e1;
+    background: var(--tal-border-strong);
   }
 }
 
@@ -256,7 +256,7 @@ body:not(.editing) .block_book_toc {
   flex-shrink: 0;
   font-size: .7rem;
   font-weight: 800;
-  color: $primary;
+  color: var(--tal-primary-text);
   letter-spacing: -.02em;
   font-variant-numeric: tabular-nums;
   min-width: 32px;
@@ -267,7 +267,7 @@ body:not(.editing) .block_book_toc {
 .tal-booknav-controls {
   display: flex;
   align-items: stretch;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--tal-border-soft);
 }
 
 .tal-booknav-side {
@@ -275,7 +275,7 @@ body:not(.editing) .block_book_toc {
   min-width: 0;
 
   &--right {
-    border-left: 1px solid #f1f5f9;
+    border-left: 1px solid var(--tal-border-soft);
   }
 }
 
@@ -285,14 +285,14 @@ body:not(.editing) .block_book_toc {
   gap: .875rem;
   padding: 1rem 1.25rem;
   text-decoration: none !important;
-  color: #334155;
+  color: var(--tal-text);
   transition: all .2s ease;
   width: 100%;
   min-height: 72px;
 
   &:hover {
     background: rgba($primary, .03);
-    color: #334155;
+    color: var(--tal-text);
 
     .tal-booknav-btn-arrow {
       background: $primary;
@@ -302,7 +302,7 @@ body:not(.editing) .block_book_toc {
     }
 
     .tal-booknav-btn-name {
-      color: $primary;
+      color: var(--tal-primary-text);
     }
   }
 
@@ -324,8 +324,8 @@ body:not(.editing) .block_book_toc {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: #f1f5f9;
-  color: #64748b;
+  background: var(--tal-muted-bg);
+  color: var(--tal-text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -350,14 +350,14 @@ body:not(.editing) .block_book_toc {
   text-transform: uppercase;
   letter-spacing: .7px;
   font-weight: 700;
-  color: #94a3b8;
+  color: var(--tal-text-faint);
   display: block;
 }
 
 .tal-booknav-btn-name {
   font-size: .88rem;
   font-weight: 600;
-  color: #334155;
+  color: var(--tal-text);
   transition: color .2s ease;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -373,7 +373,7 @@ body:not(.editing) .block_book_toc {
 
 .tal-booknav-sub {
   font-size: .55rem;
-  color: #94a3b8;
+  color: var(--tal-text-faint);
 }
 
 // TOC SLIDE-OUT PANEL
@@ -400,7 +400,7 @@ body:not(.editing) .block_book_toc {
   bottom: 0;
   width: min(380px, 85vw);
   z-index: 1070;
-  background: #fff;
+  background: var(--tal-surface);
   box-shadow: 8px 0 32px rgba(0, 0, 0, .15);
   transform: translateX(-100%);
   transition: transform .35s cubic-bezier(.4, 0, .2, 1);
@@ -418,7 +418,7 @@ body:not(.editing) .block_book_toc {
   align-items: center;
   justify-content: space-between;
   padding: 1.25rem 1.25rem 1rem;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--tal-border-soft);
   flex-shrink: 0;
 }
 
@@ -428,10 +428,10 @@ body:not(.editing) .block_book_toc {
   gap: .5rem;
   font-size: 1rem;
   font-weight: 800;
-  color: #1e293b;
+  color: var(--tal-text-strong);
 
   i {
-    color: $primary;
+    color: var(--tal-primary-text);
     font-size: 1.1rem;
   }
 
@@ -446,9 +446,9 @@ body:not(.editing) .block_book_toc {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1px solid #e2e8f0;
-  background: #f8fafc;
-  color: #64748b;
+  border: 1px solid var(--tal-border);
+  background: var(--tal-surface-alt);
+  color: var(--tal-text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -457,9 +457,9 @@ body:not(.editing) .block_book_toc {
   flex-shrink: 0;
 
   &:hover {
-    background: #fee2e2;
+    background: var(--tal-danger-bg-hover);
     color: #ef4444;
-    border-color: #fecaca;
+    border-color: var(--tal-danger-border);
   }
 }
 
@@ -469,8 +469,8 @@ body:not(.editing) .block_book_toc {
   align-items: center;
   gap: .75rem;
   padding: .875rem 1.25rem;
-  background: #f8fafc;
-  border-bottom: 1px solid #f1f5f9;
+  background: var(--tal-surface-alt);
+  border-bottom: 1px solid var(--tal-border-soft);
   flex-shrink: 0;
 }
 
@@ -485,7 +485,7 @@ body:not(.editing) .block_book_toc {
   flex: 1;
   height: 5px;
   border-radius: 3px;
-  background: #e2e8f0;
+  background: var(--tal-border);
   transition: background .2s ease;
 
   &--done {
@@ -501,7 +501,7 @@ body:not(.editing) .block_book_toc {
 .tal-booknav-toc-progress-label {
   font-size: .7rem;
   font-weight: 700;
-  color: $primary;
+  color: var(--tal-primary-text);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
@@ -544,24 +544,24 @@ body:not(.editing) .block_book_toc {
   gap: .75rem;
   padding: .65rem 1.25rem;
   text-decoration: none !important;
-  color: #475569;
+  color: var(--tal-text-soft);
   font-size: .82rem;
   transition: all .15s ease;
   position: relative;
 
   &:hover {
     background: rgba($primary, .04);
-    color: $primary;
+    color: var(--tal-primary-text);
 
     .tal-booknav-toc-bullet {
       border-color: $primary;
-      color: $primary;
+      color: var(--tal-primary-text);
     }
   }
 
   &--active {
     background: linear-gradient(90deg, rgba($primary, .08), rgba($primary, .02));
-    color: $primary;
+    color: var(--tal-primary-text);
     font-weight: 700;
     cursor: default;
     border-left: 3px solid $primary;
@@ -580,9 +580,9 @@ body:not(.editing) .block_book_toc {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 2px solid #e2e8f0;
-  background: #fff;
-  color: #94a3b8;
+  border: 2px solid var(--tal-border);
+  background: var(--tal-surface);
+  color: var(--tal-text-faint);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -594,11 +594,11 @@ body:not(.editing) .block_book_toc {
   .tal-booknav-toc-bullet {
     background: rgba($primary, .08);
     border-color: rgba($primary, .2);
-    color: $primary;
+    color: var(--tal-primary-text);
   }
 
   .tal-booknav-toc-text {
-    color: #94a3b8;
+    color: var(--tal-text-faint);
   }
 }
 
@@ -651,7 +651,7 @@ body:not(.editing) .block_book_toc {
 
   .tal-booknav-side--right {
     border-left: none;
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid var(--tal-border-soft);
   }
 
   .tal-booknav-btn {

@@ -72,7 +72,7 @@ $navbar-height: 70px;
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, $primary, $secondary, lighten($primary, 15%));
+    background: linear-gradient(90deg, $primary, $secondary, if($tal-accent, $tal-accent, lighten($primary, 15%)));
     background-size: 200% 100%;
     animation: gradient-shift 6s ease infinite;
   }
@@ -246,12 +246,12 @@ $navbar-height: 70px;
 
       input[type="text"] {
         border-radius: .5rem 0 0 .5rem;
-        border: 1px solid #e0e0e0;
-        background: #f8f9fa;
+        border: 1px solid var(--tal-border);
+        background: var(--tal-surface-alt);
         transition: all .2s ease;
 
         &:focus {
-          background: #fff;
+          background: var(--tal-surface);
           border-color: $primary;
           box-shadow: 0 0 0 3px rgba($primary, .1);
         }
@@ -333,7 +333,7 @@ $navbar-height: 70px;
   }
 }
 
-//  EDIT SWITCH — PREMIUM MODERN ────────────────────────
+//  EDIT MODE SWITCH ────────────────────────
 
 @keyframes tal-pulse-white {
   0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
@@ -456,7 +456,7 @@ $navbar-height: 70px;
       flex-direction: row-reverse;
       box-shadow: 0 6px 15px -3px rgba($primary, 0.4);
 
-      // Efecto brillo premium
+      // Shine effect
       &::before {
         content: '';
         position: absolute;
@@ -658,8 +658,8 @@ $tal-login-shine:     rgba(#fff, 0.15);
   }
 }
 
-// Tableta (768-991px): los enlaces principales no caben y terminaban todos en "Más";
-// se usa el menú de hamburguesa, como en móvil, y se ocultan los enlaces.
+// Tablet (768-991px): the main links do not fit and all ended up under "More",
+// so use the hamburger menu, as on mobile, and hide the links.
 @media (min-width: 768px) and (max-width: 991.98px) {
     .navbar .navbar-toggler[data-target="theme_boost-drawers-primary"] {
         display: block !important;

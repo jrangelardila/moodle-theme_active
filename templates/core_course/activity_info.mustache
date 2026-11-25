@@ -17,20 +17,20 @@
 {{!
     @template core_course/activity_info
 
-    Información de la actividad en theme_active: los requisitos de finalización van primero, en una tarjeta,
-    y la descripción debajo. Conserva las regiones y clases del núcleo (las usa el JavaScript de finalización).
+    Activity information in theme_active: completion requirements first, in a card, then the description.
+    Keeps the core regions and classes (the completion JavaScript uses them).
 
     Example context (json):
     {
-        "activityname": "Proyecto final",
+        "activityname": "Final project",
         "hascompletion": true,
         "uservisible": true,
         "isautomatic": true,
-        "istrackeduser": true,
+        "description": "<p>Write a document…</p>",
         "description": "<p>Elabore un documento…</p>",
         "completiondetails": [
-            {"statuscomplete": 1, "description": "Ver", "istrackeduser": true},
-            {"statusincomplete": 1, "description": "Hacer un envío", "istrackeduser": true}
+            {"statuscomplete": 1, "description": "View", "istrackeduser": true},
+            {"statusincomplete": 1, "description": "Make a submission", "istrackeduser": true}
         ]
     }
 }}

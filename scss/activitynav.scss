@@ -26,7 +26,7 @@
   margin-top: 2.5rem;
   margin-bottom: 1rem;
   padding-top: 1.25rem;
-  border-top: 2px solid #f1f5f9;
+  border-top: 2px solid var(--tal-border-soft);
 }
 
 .tal-activity-nav-inner {
@@ -58,10 +58,10 @@
   gap: .875rem;
   padding: .875rem 1.125rem;
   border-radius: .75rem;
-  background: #fff;
-  border: 1px solid #e2e8f0;
+  background: var(--tal-surface);
+  border: 1px solid var(--tal-border);
   text-decoration: none !important;
-  color: #1e293b;
+  color: var(--tal-text-strong);
   transition: all .2s ease;
   max-width: 100%;
   min-width: 0;
@@ -71,7 +71,7 @@
     background: rgba($primary, .03);
     box-shadow: 0 4px 16px rgba($primary, .1);
     transform: translateY(-1px);
-    color: #1e293b;
+    color: var(--tal-text-strong);
 
     .tal-nav-arrow {
       background: $primary;
@@ -80,7 +80,7 @@
     }
 
     .tal-nav-name {
-      color: $primary;
+      color: var(--tal-primary-text);
     }
   }
 
@@ -96,8 +96,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #f1f5f9;
-  color: #64748b;
+  background: var(--tal-muted-bg);
+  color: var(--tal-text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,13 +123,13 @@
   text-transform: uppercase;
   letter-spacing: .8px;
   font-weight: 700;
-  color: #94a3b8;
+  color: var(--tal-text-faint);
 }
 
 .tal-nav-name {
   font-size: .85rem;
   font-weight: 600;
-  color: #334155;
+  color: var(--tal-text);
   display: flex;
   align-items: center;
   gap: .4rem;
@@ -152,7 +152,7 @@
 
 .tal-nav-modtype {
   font-size: .7rem;
-  color: #94a3b8;
+  color: var(--tal-text-faint);
   font-weight: 400;
 }
 
@@ -167,9 +167,9 @@
 .tal-nav-position {
   font-size: .72rem;
   font-weight: 600;
-  color: #94a3b8;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  color: var(--tal-text-faint);
+  background: var(--tal-surface-alt);
+  border: 1px solid var(--tal-border);
   border-radius: 2rem;
   padding: .3rem .75rem;
   white-space: nowrap;

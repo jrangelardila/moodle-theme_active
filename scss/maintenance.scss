@@ -21,11 +21,9 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// Misma familia visual que el login: tarjeta redondeada, sombra suave y acento con el
-// color primario del tema.
+// Same look as the login page: rounded card, soft shadow and primary color accent.
 .active-maintenance {
-    // El degradado va en el wrapper y no en el body: el body lleva clases del core que
-    // conviene no pisar.
+    // The gradient is on the wrapper, not the body, to avoid overriding core body classes.
     min-height: 100vh;
     background:
         radial-gradient(circle at 15% 10%, rgba($primary, .16), transparent 45%),
@@ -51,7 +49,7 @@
     box-shadow: 0 1.5rem 3.5rem rgba($black, .16);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    // Filo superior con el color del tema, para que la tarjeta no quede anodina.
+    // Top border in the theme color.
     border-top: 4px solid $primary;
 
     @media (max-width: 575.98px) {
@@ -59,7 +57,7 @@
     }
 }
 
-// --- Marca -----------------------------------------------------------------------------
+// --- Brand -----------------------------------------------------------------------------
 
 .active-maintenance__brand {
     margin-bottom: 1.75rem;
@@ -71,8 +69,7 @@
     width: auto;
 }
 
-// Cuando no hay logotipo configurado se muestra el nombre del sitio con el mismo peso
-// visual, para que la cabecera de la tarjeta no quede vacia.
+// Without a logo, show the site name instead so the card header is not empty.
 .active-maintenance__sitename {
     display: inline-block;
     font-size: .8125rem;
@@ -82,7 +79,7 @@
     color: $primary;
 }
 
-// --- Engranajes ------------------------------------------------------------------------
+// --- Gears ------------------------------------------------------------------------
 
 .active-maintenance__icon {
     margin: 0 auto 1.5rem;
@@ -92,7 +89,7 @@
     svg {
         width: 100%;
         height: 100%;
-        // El SVG no trae color propio: lo hereda, asi se adapta a claro y oscuro.
+        // The SVG inherits its color, so it works in light and dark mode.
         fill: $primary;
         opacity: .9;
     }
@@ -109,19 +106,18 @@
     }
 }
 
-// --- Texto -----------------------------------------------------------------------------
+// --- Text -----------------------------------------------------------------------------
 
-// El contenido lo genera el core: un <h2> con el aviso y, si hay mensaje configurado, una
-// caja .maintenance_message. Se reestiliza en lugar de duplicarlo en la plantilla.
+// Core renders the content: an <h2> with the notice and, if set, a .maintenance_message box.
+// It is restyled here instead of being duplicated in the template.
 .active-maintenance__content {
     h2 {
         margin-bottom: 1rem;
         font-size: 1.625rem;
         font-weight: 600;
         line-height: 1.3;
-        // El color se deja a Bootstrap. Fijarlo con la variable SCSS $body-color grabaria
-        // el valor del modo claro y en oscuro quedaria texto oscuro sobre fondo oscuro,
-        // que es justo lo que se estaba corrigiendo en esta pagina.
+        // Use the Bootstrap CSS variable. The $body-color SCSS variable is fixed to the light mode
+        // value and would give dark text on a dark background.
         color: var(--bs-body-color);
 
         @media (max-width: 575.98px) {
@@ -142,15 +138,14 @@
             margin-bottom: 0;
         }
 
-        // El mensaje lo escribe un administrador con el editor, asi que puede traer
-        // parrafos vacios; se evita que dejen huecos grandes.
+        // The message comes from the editor and may contain empty paragraphs; hide them.
         p:empty {
             display: none;
         }
     }
 }
 
-// --- Modo oscuro -----------------------------------------------------------------------
+// --- Dark mode -----------------------------------------------------------------------
 
 [data-bs-theme="dark"] {
     .active-maintenance {
@@ -170,9 +165,9 @@
     }
 }
 
-// --- Accesibilidad ---------------------------------------------------------------------
+// --- Accessibility ---------------------------------------------------------------------
 
-// Sin movimiento para quien lo ha pedido en su sistema.
+// No animation for users who prefer reduced motion.
 @media (prefers-reduced-motion: reduce) {
     .active-maintenance__cog {
         animation: none;

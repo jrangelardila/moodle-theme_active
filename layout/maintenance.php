@@ -24,16 +24,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Ojo: este layout tambien se usa durante la instalacion y la actualizacion, cuando aun no
-// hay tablas en la base de datos. Por eso no se llama a format_string() con contexto ni se
-// toca nada que dependa de la BD sin comprobarlo antes.
+// This layout is also used during install and upgrade, when the database may have no tables.
+// So do not use anything that needs the database without checking first.
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['escape' => false]),
     'output' => $OUTPUT,
 ];
 
-// El logotipo solo se pide con el sitio ya instalado: get_logo_url() lee configuracion y
-// el area de archivos, que durante la instalacion todavia no existen.
+// Only ask for the logo once the site is installed: get_logo_url() reads config and
+// files, which do not exist yet during install.
 if (!during_initial_install()) {
     $logourl = $OUTPUT->get_logo_url(null, 120);
     if ($logourl) {

@@ -99,9 +99,9 @@
 .tal-course-shortname {
     font-size: .78rem;
     font-weight: 500;
-    color: $text-muted;
-    background-color: darken(#f8f9fa, 2%);
-    border: 1px solid rgba(0,0,0,.06);
+    color: var(--bs-secondary-color);
+    background-color: var(--tal-muted-bg);
+    border: 1px solid var(--tal-border);
 }
 
 
@@ -116,7 +116,7 @@
     }
 
     &.dimmed {
-        color: $text-muted;
+        color: var(--bs-secondary-color);
     }
 }
 

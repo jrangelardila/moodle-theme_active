@@ -26,7 +26,7 @@
     margin-bottom: 0;
     position: relative;
     z-index: 5;
-    // Contenedor de referencia para el alto del banner de la institución (unidades cqw).
+    // Size container for the institution banner height (cqw units).
     container-type: inline-size;
 }
 
@@ -96,14 +96,14 @@
         }
     }
 
-    // Banner de la institución (sin imagen de curso): se ve completo, de lado a lado, como en theme_stream;
-    // solo un velo blanco muy suave. El título va en un recuadro del color principal para que se lea.
+    // Institution banner (no course image): shown full width, as in theme_stream, with a very light
+    // white overlay. The title sits in a primary color box so it is readable.
     &--institutional {
         background-position: right center;
         border: 1px solid rgba($primary, .15);
-        // Alto proporcional al ancho del encabezado: 1/8 (la imagen es 16:3; así se recorta poco arriba y abajo
-        // y el logo, que está en el centro vertical, se ve completo), con un mínimo de 140px. Se mide con una
-        // consulta de contenedor (cqw) para no forzar un ancho mínimo; si el contenido necesita más alto, crece.
+        // Height is 1/8 of the header width (the image is 16:3, so little is cropped and the centred logo
+        // stays visible), with a 140px minimum. Uses a container query (cqw) so no minimum width is forced;
+        // it grows if the content needs more height.
         min-height: max(140px, 12.5cqw);
         display: flex;
         flex-direction: column;
@@ -119,7 +119,7 @@
 
         .tal-header-title-area {
             flex: 0 1 auto;
-            // Deja libre la parte derecha, donde va el logo.
+            // Keep the right side free for the logo.
             max-width: 62%;
             padding: .5rem 1.1rem .5rem .5rem;
             border-radius: 14px;
@@ -127,9 +127,9 @@
             box-shadow: 0 4px 14px rgba(0, 0, 0, .18);
         }
 
-        // Botones del encabezado ("Restablecer página a por defecto", "Volver al curso"...): sobre el banner claro,
-        // el estilo general (blanco translúcido, pensado para fondos oscuros) no se leía. Aquí van sólidos y en su
-        // propia fila, debajo del título y a la izquierda: así nunca quedan encima del logo, sea cual sea el título.
+        // Header buttons ("Reset page to default", "Back to course"...): the default translucent white style
+        // was unreadable on the light banner. Here they are solid, on their own row below the title and
+        // on the left, so they never cover the logo.
         .tal-header-banner-inner {
             justify-content: flex-start;
             flex-wrap: wrap;
@@ -196,7 +196,7 @@
     }
 }
 
-// Símbolo de la institución dentro del recuadro (en blanco).
+// Institution symbol inside the title box (white).
 .tal-header-logo {
     display: block;
     width: 72%;
@@ -270,7 +270,7 @@
     }
 }
 
-// Ícono de módulo en vista de actividad (path-mod-*)
+// Module icon on activity pages (path-mod-*)
 body[class*="path-mod"] {
     .tal-context-header .page-context-header .page-header-image {
         .activityiconcontainer {
@@ -355,7 +355,7 @@ body[class*="path-mod"] {
 }
 
 //  Action buttons ──────────────────────────────────────────
-// Estado de finalización: píldora con fondo propio, para que se distinga de la imagen de fondo.
+// Completion status: a pill with its own background so it stands out from the header image.
 .tal-header-banner .tal-completion {
     display: inline-flex;
     align-items: center;
@@ -433,8 +433,8 @@ body[class*="path-mod"] {
     }
 }
 
-//  Fechas de la actividad (apertura, cierre...) junto a la finalización ─────────
-// Con fechas, la finalización va arriba y las fechas debajo, en una columna: así le quitan menos ancho al título.
+//  Activity dates (open, due...) next to the completion status ─────────
+// With dates, completion goes on top and dates below, in one column, so they take less width from the title.
 .tal-header-actions:has(.tal-header-extra) {
     flex-direction: column;
     align-items: flex-end;
@@ -445,7 +445,7 @@ body[class*="path-mod"] {
 }
 
 
-// Tarjeta con fondo propio: se lee igual sobre la imagen del curso y sobre el banner institucional claro.
+// Card with its own background: readable on both the course image and the light institution banner.
 .tal-header-extra .activity-dates {
     display: flex;
     flex-direction: column;
@@ -471,7 +471,7 @@ body[class*="path-mod"] {
         }
     }
 
-    // El banner pinta de blanco el texto de sus elementos; aquí la tarjeta es clara.
+    // The banner makes its text white; this card is light, so reset it.
     .date-item-label {
         font-weight: 700;
         color: $primary !important;
@@ -488,8 +488,8 @@ body[class*="path-mod"] {
     }
 }
 
-//  Docentes del curso: píldora dentro del recuadro del título ─────────
-// Hasta 4 avatares, un contador con el resto y la etiqueta; al hacer clic, la lista completa.
+//  Course teachers: a pill inside the title box ─────────
+// Up to 4 avatars, a counter for the rest and a label; click to see the full list.
 .tal-teachers {
     margin-top: .45rem;
 }
@@ -578,14 +578,14 @@ body[class*="path-mod"] {
     transform: rotate(180deg);
 }
 
-// Con la lista abierta, el encabezado y el banner suben por encima de todo: la ruta de navegación
-// (#page-navbar, z-index 100), el navbar fijo (1031) y los cajones. Por debajo de los modales (1050).
+// While the list is open, the header goes above the breadcrumb (#page-navbar, z-index 100),
+// the fixed navbar (1031) and the drawers, but below modals (1050).
 .tal-header:has(.tal-teachers-menu.show),
 .tal-header-banner-inner:has(.tal-teachers-menu.show) {
     z-index: 1045;
 }
 
-// Lista desplegable: fondo claro, así que se anulan los colores blancos del banner.
+// Dropdown list: light background, so undo the banner's white text colors.
 .tal-header-banner .tal-teachers-menu {
     min-width: 260px;
     max-width: 340px;
@@ -694,7 +694,7 @@ body[class*="path-mod"] {
             display: flex;
             align-items: center;
             position: relative;
-            // Solapar exactamente el ancho de la flecha para que encajen
+            // Overlap by the arrow width so the items fit together
             margin-left: -18px;
 
             &::before {
@@ -780,8 +780,8 @@ body[class*="path-mod"] {
     }
 }
 
-// Ruta larga: los niveles intermedios se acortan con "…" (el nombre completo sale al pasar el mouse);
-// el primero (periodo) y la página actual no se encogen, para que siempre se vea dónde está el usuario.
+// Long breadcrumb: middle levels are shortened with "…" (full name on hover). The first level
+// (term) and the current page do not shrink, so the user always sees where they are.
 @media (min-width: 768px) {
     .tal-breadcrumb-nav .breadcrumb .breadcrumb-item {
         flex: 0 1 auto;
@@ -910,10 +910,10 @@ body[class*="path-mod"] {
   align-items: center;
   gap: 0.5rem;
   padding: 0.55rem 1.1rem 0.55rem 0.65rem;
-  background: #f8fafc;
-  border: 1.5px solid #e2e8f0;
+  background: var(--tal-surface-alt);
+  border: 1.5px solid var(--tal-border);
   border-radius: 10px;
-  color: #1e293b !important;
+  color: var(--tal-text-strong) !important;
   text-decoration: none !important;
   font-size: 0.82rem;
   font-weight: 600;
@@ -922,7 +922,7 @@ body[class*="path-mod"] {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 
   &:hover {
-    background: #fff;
+    background: var(--tal-surface);
     border-color: $secondary;
     color: $secondary !important;
     transform: translateY(-2px);
@@ -964,10 +964,8 @@ body[class*="path-mod"] {
 
 // MOBILE RESPONSIVE
 @media (max-width: 767.98px) {
-    // Banner de la institución en pantallas pequeñas: alto según el contenido, el logo sigue anclado
-    // a la derecha y el título ocupa la parte izquierda sin taparlo.
-    // Arriba, una franja con la imagen anclada a la derecha (logo completo, ~130px de ancho); debajo,
-    // el título a todo el ancho. El resto del fondo, del mismo tono claro de la imagen.
+    // Institution banner on small screens: on top, a strip with the image aligned right (full logo,
+    // ~130px wide); below, the title at full width. The rest of the background uses the image's light tone.
     .tal-header-banner.tal-header-banner--institutional {
         min-height: 0;
         padding-top: 128px;
@@ -1034,13 +1032,13 @@ body[class*="path-mod"] {
         align-items: flex-start;
     }
 
-    // Con imagen de curso se mantiene la capa oscura (sin ella, el texto de la imagen choca con el título).
+    // With a course image, keep the dark overlay (otherwise text in the image clashes with the title).
     .tal-header-banner.tal-header-banner--hasimage:not(.tal-header-banner--institutional)::before {
         display: block;
         background: rgba(#000, .6);
     }
 
-    // Ruta larga en móvil: primero, "…", anterior y página actual; "…" despliega la ruta completa.
+    // Long breadcrumb on mobile: first, "…", previous and current page; "…" opens the full path.
     .tal-breadcrumb-nav .breadcrumb.tal-bc-collapsed .breadcrumb-item:not(:first-child):not(:last-child):not(:nth-last-child(2)):not(.tal-bc-more) {
         display: none;
     }
@@ -1320,7 +1318,7 @@ body[class*="path-mod"] {
     }
 }
 
-// Botón "…" de la ruta de navegación (solo se usa en móvil).
+// Breadcrumb "…" button (mobile only).
 .tal-breadcrumb-nav .breadcrumb .breadcrumb-item.tal-bc-more {
     button {
         min-height: 30px;
@@ -1341,5 +1339,20 @@ body[class*="path-mod"] {
 
     @media (min-width: 768px) {
         display: none !important;
+    }
+}
+
+// Quick links in dark mode: the icon box and hover color come from the secondary color, which is
+// usually dark, so they are lightened to be readable on the dark surface.
+[data-bs-theme="dark"] {
+    .tal-quicklink-icon {
+        background: rgba($secondary, .3);
+        border-color: rgba($secondary, .6);
+        color: mix($secondary, #fff, 35%) !important;
+    }
+
+    .tal-quicklink:hover {
+        color: var(--tal-text-strong) !important;
+        border-color: mix($secondary, #fff, 50%);
     }
 }

@@ -17,7 +17,7 @@
 /**
  * Course progress landing page for students.
  *
- * Displays a professional overview of the student's completion status:
+ * Shows the student's completion status:
  * activities grouped by section, completion requirements, deadlines,
  * and teacher contact information.
  *
@@ -207,6 +207,8 @@ unset($sec);
 $teachers = theme_active_get_course_teachers($courseid);
 $teacherlist = [];
 $renderer = $PAGE->get_renderer('core');
+// The teacher email is shown only if the teacher allows it (to everyone, or to course members)
+// or if the viewer can see course emails. Same rule as the Moodle profile page.
 $canseeallemails = has_capability('moodle/course:useremail', $context);
 
 foreach ($teachers as $teacher) {

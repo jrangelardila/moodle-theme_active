@@ -23,16 +23,15 @@
 
 // Login page styles for theme_active.
 
-// El wrapper es siempre flex: la clase justify-content-* que pone el layout segun el
-// ajuste "loginposition" solo tiene efecto sobre un contenedor flex.
+// The wrapper is always flex: the justify-content-* class set from the "loginposition"
+// setting only works on a flex container.
 .login-wrapper {
     display: flex;
     align-items: center;
     min-height: calc(100vh - 8rem);
 }
 
-// Panel del formulario. Sin el, cuando hay imagen de fondo configurada el formulario
-// queda flotando sobre la foto y las etiquetas resultan ilegibles.
+// Form panel. Without it, the form floats over the background image and labels are hard to read.
 .login-container {
     width: 100%;
     padding: 2.5rem;
@@ -54,23 +53,19 @@
 }
 
 
-// Los dos campos del formulario deben ocupar el mismo ancho. El de usuario se quedaba
-// en su ancho intrinseco (~196px) en lugar del 100% de .form-control; antes lo tapaba
-// el JS del tema, que lo metia en un flex con flex:1.
+// Both form fields must have the same width (the username field used to stay at ~196px).
 .pagelayout-login .login-form .form-control {
     width: 100%;
 }
 
-// Conmutador de visibilidad de la contrasena.
+// Password visibility toggle.
 //
-// Moodle ya trae uno propio (.toggle-sensitive-btn) y el tema tenia ademas otro hecho
-// a mano en JS que se superponia y no funcionaba. Se quito el del tema y aqui se adapta
-// el del core: por defecto va como addon de un .input-group, lo que dejaba el campo de
-// contrasena mas corto que el de usuario. Se saca del flujo y se coloca dentro del
-// campo, para que los dos inputs midan exactamente igual.
+// Uses the core toggle (.toggle-sensitive-btn). By default it is an .input-group addon, which
+// makes the password field shorter than the username field. Here it is placed inside the field
+// so both inputs have the same width.
 //
-// Los selectores repiten .small-screens-only.input-group:not(.has-validation) a proposito:
-// es la especificidad que usa el core para ocultar el boton en pantallas grandes.
+// The selectors repeat .small-screens-only.input-group:not(.has-validation) on purpose:
+// it is the specificity core uses to hide the button on large screens.
 .pagelayout-login {
     .toggle-sensitive-wrapper.small-screens-only.input-group:not(.has-validation) {
         position: relative;

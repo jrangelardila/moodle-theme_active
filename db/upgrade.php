@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool
  */
 function xmldb_theme_active_upgrade($oldversion) {
-    global $DB;
+    global $CFG, $DB;
 
     $dbman = $DB->get_manager();
 
@@ -47,6 +47,13 @@ function xmldb_theme_active_upgrade($oldversion) {
             unset_config($name, 'theme_active');
         }
         upgrade_plugin_savepoint(true, 2026100601, 'theme', 'active');
+    }
+
+    if ($oldversion < 2026112401) {
+        // Load the default banner and symbol into their settings (only if they are empty).
+        require_once($CFG->dirroot . '/theme/active/lib.php');
+        theme_active_load_default_images();
+        upgrade_plugin_savepoint(true, 2026112401, 'theme', 'active');
     }
 
     return true;

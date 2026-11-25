@@ -28,8 +28,9 @@ namespace theme_active\privacy;
 /**
  * The theme does not store any personal data.
  *
- * Solo lee las preferencias de los cajones (drawer-open-index, drawer-open-block),
- * que pertenecen a theme_boost y ya se declaran en su propio provider.
+ * It only reads preferences owned by other plugins, which declare them in their own provider:
+ * the drawer preferences (drawer-open-index, drawer-open-block) from theme_boost and the
+ * dark mode preference (darkmode) from local_boost_dark. The theme caches are temporary.
  */
 class provider implements \core_privacy\local\metadata\null_provider {
     /**

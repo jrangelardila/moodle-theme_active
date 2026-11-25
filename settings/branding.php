@@ -53,12 +53,22 @@ $setting = new admin_setting_configstoredfile('core_admin/logo',
 $setting->set_updatedcallback('theme_reset_all_caches');
 $page->add($setting);
 
-// Imagen del encabezado para los cursos sin imagen propia.
+// Header image for courses without their own image.
 $setting = new admin_setting_configstoredfile('theme_active/courseheaderimage',
     get_string('courseheaderimage', 'theme_active'),
     get_string('courseheaderimage_desc', 'theme_active'),
     'courseheaderimage', 0,
     ['maxfiles' => 1, 'accepted_types' => ['.png', '.jpg', '.jpeg', '.webp']]);
+$setting->set_updatedcallback('theme_reset_all_caches');
+$page->add($setting);
+
+// Header symbol: shown in the box next to the page title. If empty, the theme default is used
+// (pix/logo_symbol_white.png).
+$setting = new admin_setting_configstoredfile('theme_active/headersymbol',
+    get_string('headersymbol', 'theme_active'),
+    get_string('headersymbol_desc', 'theme_active'),
+    'headersymbol', 0,
+    ['maxfiles' => 1, 'accepted_types' => ['.png', '.svg', '.webp']]);
 $setting->set_updatedcallback('theme_reset_all_caches');
 $page->add($setting);
 

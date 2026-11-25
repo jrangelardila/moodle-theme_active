@@ -36,17 +36,15 @@ require_once($CFG->dirroot . '/theme/active/lib.php');
  */
 class core_renderer extends \theme_boost\output\core_renderer {
 
-    // Fuerza el modo claro para anonimos e invitados. La logica vive en el trait porque
-    // la pagina de mantenimiento usa otro renderer, core_renderer_maintenance, que no
-    // hereda de este. Se hace en el tema, y no en el plugin, para no tocar codigo ajeno.
+    // Force light mode for guests and logged-out users. The logic is in a trait because the
+    // maintenance page uses a different renderer (core_renderer_maintenance).
     use forces_light_mode;
 
     /**
-     * Contenido que los plugins anaden a la barra de navegacion.
+     * Content added by plugins to the navigation bar.
      *
-     * Se omite el conmutador de modo oscuro de local_boost_dark cuando no hay sesion
-     * iniciada: su preferencia se guarda contra la cuenta del usuario, asi que no tiene
-     * sentido ofrecerlo en la pagina de entrada ni a los invitados.
+     * Hides the local_boost_dark toggle for guests and logged-out users: the preference is
+     * saved in the user account, so it is useless without a session.
      *
      * @return string
      */
@@ -55,9 +53,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
             return parent::navbar_plugin_output();
         }
 
-        // Misma logica que core_renderer::navbar_plugin_output(), pero saltandose el
-        // conmutador de local_boost_dark. Se omite el plugin entero en lugar de recortar
-        // su HTML a posteriori, que es fragil.
+        // Same as core_renderer::navbar_plugin_output(), but skipping local_boost_dark.
+        // Skipping the whole plugin is safer than removing its HTML afterwards.
         $output = '';
 
         foreach (\core_component::get_core_subsystems() as $name => $path) {
@@ -106,24 +103,28 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $header->pageheadingbutton = $this->page_heading_button();
         $header->courseheader = $this->course_header();
         $header->headeractions = $this->page->get_header_actions();
-        // Desde Moodle 5.2 las fechas de la actividad (apertura, cierre...) llegan como extras del encabezado.
+        // Since Moodle 5.2, activity dates (open, due...) come as header extras.
         $header->headerextras = $this->page->get_header_extras();
         if (!empty($pagetype) && !empty($homepagetype) && $pagetype == $homepagetype) {
             $header->welcomemessage = \core_user::welcome_message();
         }
 
-        // course teacher avatars
+        // Course teacher avatars.
         $teacherctx = theme_active_get_header_teachers_context($this->page, $this);
         foreach ($teacherctx as $key => $value) {
             $header->$key = $value;
         }
 
-        // Símbolo de la institución en blanco, en el recuadro del título (pix/logo_symbol_white.png).
-        $header->headerlogourl = $this->image_url('logo_symbol_white', 'theme')->out(false);
+        // Institution symbol next to the page title: the headersymbol setting, or the theme default
+        // (pix/logo_symbol_white.png).
+        $header->headerlogourl = $this->page->theme->setting_file_url('headersymbol', 'headersymbol');
+        if (empty($header->headerlogourl)) {
+            $header->headerlogourl = $this->image_url('logo_symbol_white', 'theme')->out(false);
+        }
 
-        // course overview image for header background
+        // Course image for the header background.
         $header->courseimageurl = $this->get_course_header_image();
-        // Sin imagen de curso (o fuera de un curso) se usa el banner de la institución, con su logo.
+        // Without a course image (or outside a course), use the institution banner.
         $header->institutionalbanner = false;
         if (empty($header->courseimageurl)) {
             $header->courseimageurl = $this->get_institutional_banner();
@@ -154,10 +155,9 @@ class core_renderer extends \theme_boost\output\core_renderer {
     }
 
     /**
-     * Banner de la institución para el encabezado cuando no hay imagen de curso.
+     * Institution banner for the header when there is no course image.
      *
-     * Usa la imagen del ajuste courseheaderimage y, si no hay, la que trae el tema (pix/default/courseheader.jpg).
-     * Aplica en todas las páginas: portada, área personal, calendario, perfil y cursos sin imagen.
+     * Uses the courseheaderimage setting, or the theme default (pix/default/courseheader.jpg).
      *
      * @return string|null
      */
@@ -180,7 +180,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
         if (empty($COURSE->id) || $COURSE->id == SITEID) {
             return null;
         }
-        // En caché por curso: sin consultar los archivos del curso en cada página.
+        // Cached per course, so the course files are not queried on every page.
         $url = theme_active_get_course_image_url((int) $COURSE->id);
         return $url !== '' ? $url : null;
     }

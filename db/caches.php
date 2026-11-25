@@ -26,8 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $definitions = [
-    // Docentes con matrícula activa de cada curso (campos de nombre, foto y correo), por curso.
-    // La invalida el observador con los cambios de roles, matrículas y usuarios; caduca a los 10 minutos por las fechas.
+    // Teachers with an active enrolment, per course (only name, picture and email fields).
+    // Purged by the event observer on role, enrolment and user changes. Expires after 10 minutes.
     'courseteachers' => [
         'mode' => cache_store::MODE_APPLICATION,
         'simplekeys' => true,
@@ -36,7 +36,7 @@ $definitions = [
         'staticaccelerationsize' => 30,
         'ttl' => 600,
     ],
-    // URL de la imagen de cada curso ('' si no tiene), por curso. La invalida el observador al editar el curso.
+    // Course image URL ('' if none), per course. Purged by the event observer when the course changes.
     'courseimage' => [
         'mode' => cache_store::MODE_APPLICATION,
         'simplekeys' => true,
@@ -45,8 +45,8 @@ $definitions = [
         'staticaccelerationsize' => 100,
         'ttl' => 86400,
     ],
-    // Avance del usuario en un curso (porcentaje, completadas, total), por usuario y curso.
-    // La clave incluye el cacherev del curso; los cambios de avance los invalida el observador.
+    // User progress in a course (percent, completed, total), per user and course.
+    // The key includes the course cacherev; completion changes are purged by the event observer.
     'courseprogress' => [
         'mode' => cache_store::MODE_APPLICATION,
         'simplekeys' => true,

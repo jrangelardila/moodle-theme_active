@@ -19,22 +19,17 @@ namespace theme_active\output;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Fuerza el modo claro cuando no hay sesion iniciada.
+ * Forces light mode for guests and logged-out users.
  *
- * El plugin local_boost_dark escucha el hook before_html_attributes y escribe
- * data-bs-theme. Sin sesion emite "auto", que no significa "claro" sino "sigue la
- * preferencia del sistema operativo": un visitante con el equipo en oscuro ve el sitio
- * oscuro sin haberlo pedido. Lo mismo con una cookie darkmode heredada o con
- * ?darkmode=dark en la URL.
+ * local_boost_dark sets data-bs-theme. Without a session it uses "auto", which follows the
+ * operating system, so visitors with a dark system see a dark site they did not ask for.
+ * The same happens with an old darkmode cookie or ?darkmode=dark in the URL.
  *
- * El trait existe porque hace falta el mismo ajuste en dos renderers distintos: el normal
- * y el de mantenimiento. Moodle usa core_renderer_maintenance en cuanto el pagelayout es
- * 'maintenance', y ese no hereda del renderer del tema, de modo que sin esto la pagina de
- * mantenimiento se quedaba en "auto".
+ * This is a trait because two renderers need it: the normal one and the maintenance one
+ * (core_renderer_maintenance does not extend the theme renderer).
  *
- * Con sesion iniciada se respeta la preferencia guardada del usuario. Si nunca ha usado
- * el interruptor, el plugin tambien emite "auto": se cambia por "light" para que las
- * cuentas nuevas empiecen en claro y el interruptor coincida con lo que se ve.
+ * Logged-in users keep their saved preference. If they never used the toggle, the plugin
+ * also sends "auto": it is changed to "light" so new accounts start in light mode.
  *
  * @package    theme_active
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -42,7 +37,7 @@ defined('MOODLE_INTERNAL') || die();
 trait forces_light_mode {
 
     /**
-     * Atributos del <html>, con el modo claro forzado para anonimos e invitados.
+     * Attributes for the <html> tag, with light mode forced for guests and logged-out users.
      *
      * @return string
      */
@@ -50,15 +45,15 @@ trait forces_light_mode {
         $attributes = parent::htmlattributes();
 
         if (isloggedin() && !isguestuser()) {
-            // Sin preferencia guardada, "auto" pasa a "light". Cualquier otro valor
-            // (preferencia "dark"/"light" o ?darkmode= en la URL) se deja tal cual.
+            // No saved preference: "auto" becomes "light". Any other value
+            // (a "dark"/"light" preference or ?darkmode= in the URL) is kept.
             if (get_user_preferences('darkmode') === null) {
                 $attributes = str_replace('data-bs-theme="auto"', 'data-bs-theme="light"', $attributes);
             }
             return $attributes;
         }
 
-        // Se quita el data-bs-theme que venga del plugin y se fija en claro.
+        // Remove the plugin's data-bs-theme and set it to light.
         $attributes = preg_replace('/\s*data-bs-theme="[^"]*"/', '', $attributes);
 
         return $attributes . ' data-bs-theme="light"';

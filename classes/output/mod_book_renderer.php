@@ -17,8 +17,8 @@
 /**
  * Theme override for the mod_book renderer.
  *
- * Enriches the book chapter navigation with chapter titles, hierarchy
- * indicators, and positional context for a premium navigation experience.
+ * Adds chapter titles, hierarchy and position (chapter X of Y)
+ * to the book chapter navigation.
  *
  * @package     theme_active
  * @copyright   2024 Jhon Rangel <jrangelardila@gmail.com>

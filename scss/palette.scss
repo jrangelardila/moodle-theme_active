@@ -1,0 +1,84 @@
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * Neutral color palette for theme_active, with a dark mode version.
+ *
+ * The theme components (activity and book navigation, course progress, quick links...) use these
+ * variables instead of fixed colors. In light mode they keep the original greys; in dark mode
+ * (data-bs-theme="dark", set by local_boost_dark) they switch to dark surfaces and light text.
+ *
+ * @package    theme_active
+ * @copyright  2026 Jhon Rangel <jrangelardila@gmail.com>
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+// Optional colors from the theme settings (set by theme_active_get_pre_scss when configured).
+// Accent: third color of the navbar stripe and footer details. Footer: footer background.
+$tal-accent: null !default;
+$tal-footer-bg: null !default;
+
+:root,
+[data-bs-theme="light"] {
+    --tal-surface: #fff;
+    --tal-surface-alt: #f8fafc;
+    --tal-surface-hover: #fafbfc;
+    --tal-muted-bg: #f1f5f9;
+    --tal-border: #e2e8f0;
+    --tal-border-soft: #f1f5f9;
+    --tal-border-strong: #cbd5e1;
+    --tal-text-strong: #1e293b;
+    --tal-text: #334155;
+    --tal-text-soft: #475569;
+    --tal-text-muted: #64748b;
+    --tal-text-faint: #94a3b8;
+    // Text in the primary color (lighter in dark mode so it is readable).
+    --tal-primary-text: #{$primary};
+    // States: overdue / error, restriction and success.
+    --tal-danger-bg: #fef2f2;
+    --tal-danger-bg-hover: #fee2e2;
+    --tal-danger-border: #fecaca;
+    --tal-danger-text: #991b1b;
+    --tal-warning-bg: #fffbeb;
+    --tal-warning-border: #fde68a;
+    --tal-warning-text: #92400e;
+    --tal-success-bg: #dcfce7;
+    --tal-success-text: #166534;
+}
+
+[data-bs-theme="dark"] {
+    --tal-surface: #1e2128;
+    --tal-surface-alt: #23262e;
+    --tal-surface-hover: #272b34;
+    --tal-muted-bg: #2b2f39;
+    --tal-border: #3a3f4b;
+    --tal-border-soft: #2f333d;
+    --tal-border-strong: #4a5060;
+    --tal-text-strong: #e8eaed;
+    --tal-text: #d5d9de;
+    --tal-text-soft: #bcc3cc;
+    --tal-text-muted: #9aa3b2;
+    --tal-text-faint: #7f8898;
+    --tal-primary-text: #{mix($primary, #fff, 45%)};
+    --tal-danger-bg: rgba(239, 68, 68, .1);
+    --tal-danger-bg-hover: rgba(239, 68, 68, .16);
+    --tal-danger-border: rgba(239, 68, 68, .35);
+    --tal-danger-text: #fca5a5;
+    --tal-warning-bg: rgba(245, 158, 11, .1);
+    --tal-warning-border: rgba(245, 158, 11, .35);
+    --tal-warning-text: #fcd34d;
+    --tal-success-bg: rgba(34, 197, 94, .14);
+    --tal-success-text: #86efac;
+}

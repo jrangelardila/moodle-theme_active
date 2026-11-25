@@ -38,7 +38,7 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool
  */
 function theme_active_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
-    if ($context->contextlevel == CONTEXT_SYSTEM && in_array($filearea, ['loginimage', 'courseheaderimage'])) {
+    if ($context->contextlevel == CONTEXT_SYSTEM && in_array($filearea, ['loginimage', 'courseheaderimage', 'headersymbol'])) {
         $theme = theme_config::load('active');
         if (!array_key_exists('cacheability', $options)) {
             $options['cacheability'] = 'public';
@@ -46,6 +46,41 @@ function theme_active_pluginfile($course, $cm, $context, $filearea, $args, $forc
         return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
     }
     send_file_not_found();
+}
+
+/**
+ * Load the default theme images into the image settings, so they show up and can be replaced.
+ *
+ * Only fills empty settings: an image already uploaded by the institution is kept.
+ * Banner: pix/default/courseheader.jpg -> courseheaderimage. Symbol: pix/logo_symbol_white.png -> headersymbol.
+ */
+function theme_active_load_default_images(): void {
+    global $CFG;
+
+    $defaults = [
+        'courseheaderimage' => $CFG->dirroot . '/theme/active/pix/default/courseheader.jpg',
+        'headersymbol' => $CFG->dirroot . '/theme/active/pix/logo_symbol_white.png',
+    ];
+    $context = context_system::instance();
+    $fs = get_file_storage();
+
+    foreach ($defaults as $setting => $path) {
+        if (!is_readable($path) || !$fs->is_area_empty($context->id, 'theme_active', $setting, 0, false)) {
+            continue;
+        }
+        $filename = basename($path);
+        $fs->create_file_from_pathname([
+            'contextid' => $context->id,
+            'component' => 'theme_active',
+            'filearea' => $setting,
+            'itemid' => 0,
+            'filepath' => '/',
+            'filename' => $filename,
+        ], $path);
+        // Same value format that admin_setting_configstoredfile saves: path and file name.
+        set_config($setting, '/' . $filename, 'theme_active');
+    }
+    theme_reset_all_caches();
 }
 
 /**
@@ -72,6 +107,8 @@ function theme_active_get_main_scss_content($theme) {
         $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');
     }
 
+    // The palette goes first: it defines the color variables used by the other files.
+    $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/palette.scss');
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/footer.scss');
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/login.scss');
     $scss .= file_get_contents($CFG->dirroot . '/theme/active/scss/navbar.scss');
@@ -113,6 +150,18 @@ function theme_active_get_pre_scss($theme) {
         array_map(function($target) use (&$scss, $value) {
             $scss .= '$' . $target . ': ' . $value . ";\n";
         }, (array) $targets);
+    }
+
+    // Optional colors: accent and footer background. If empty, the SCSS derives them from the secondary color.
+    $optional = [
+        'accentcolor' => 'tal-accent',
+        'footercolor' => 'tal-footer-bg',
+    ];
+    foreach ($optional as $configkey => $target) {
+        $value = $theme->settings->{$configkey} ?? '';
+        if (trim($value) !== '') {
+            $scss .= '$' . $target . ': ' . $value . ";\n";
+        }
     }
 
     // Widen the default content
@@ -489,12 +538,11 @@ function theme_active_get_activity_navigation(\moodle_page $page, \renderer_base
 /**
  * Get users with teacher or editingteacher role in a course.
  *
- * Solo con matrícula activa: método de matrícula habilitado, matrícula no suspendida y dentro de sus fechas
- * (ya empezó y no ha vencido). Las matrículas suspendidas, futuras o vencidas no se muestran.
+ * Only active enrolments: enabled enrolment method, not suspended, and within its dates.
  *
- * Se guarda en caché por curso (theme_active/courseteachers): solo los campos de nombre, foto y correo,
- * nunca el registro completo del usuario. La invalidan los cambios de roles, matrículas y usuarios
- * (\theme_active\event_observer) y, por las fechas de matrícula, caduca a los 10 minutos.
+ * Cached per course (theme_active/courseteachers) with only name, picture and email fields,
+ * never the full user record. Purged on role, enrolment and user changes
+ * (\theme_active\event_observer), and expires after 10 minutes because of enrolment dates.
  *
  * @param int $courseid
  * @return array
@@ -508,7 +556,7 @@ function theme_active_get_course_teachers(int $courseid): array {
         return $teachers;
     }
 
-    // Redondeado a 100 segundos, como hace el núcleo en sus consultas de matrículas activas.
+    // Rounded to 100 seconds, like core does for active enrolment queries.
     $now = round(time(), -2);
     $fields = \core_user\fields::for_userpic()->including('email', 'maildisplay')->get_sql('u', false, '', '', false)->selects;
 
@@ -537,10 +585,10 @@ function theme_active_get_course_teachers(int $courseid): array {
 }
 
 /**
- * URL de la imagen del curso (la primera imagen válida de sus archivos de resumen), o '' si no tiene.
+ * URL of the course image (the first valid image in the course summary files), or '' if none.
  *
- * En caché por curso (theme_active/courseimage): evita consultar los archivos en cada página.
- * La invalidan la edición, restauración o borrado del curso (\theme_active\event_observer).
+ * Cached per course (theme_active/courseimage) so files are not queried on every page.
+ * Purged when the course is updated, restored or deleted (\theme_active\event_observer).
  *
  * @param int $courseid
  * @return string
@@ -570,7 +618,7 @@ function theme_active_get_course_image_url(int $courseid): string {
     return $url;
 }
 
-/** Avatares de docentes que se muestran en la píldora del encabezado (el resto, como contador). */
+/** Number of teacher avatars shown in the header pill (the rest are shown as a counter). */
 const THEME_ACTIVE_HEADER_TEACHERS_VISIBLE = 4;
 
 /**
@@ -613,7 +661,7 @@ function theme_active_get_header_teachers_context(\moodle_page $page, \renderer_
         ];
     }
 
-    // En la píldora se ven hasta 4 avatares y un contador con el resto; la lista completa va en el desplegable.
+    // The pill shows up to 4 avatars and a counter for the rest; the dropdown has the full list.
     $count = count($list);
     $visible = array_slice($list, 0, THEME_ACTIVE_HEADER_TEACHERS_VISIBLE);
     $label = $count === 1

@@ -88,7 +88,7 @@
                         <span class="tal-header-back-btn__label">{{backtocourselabel}}</span>
                     </a>
                 {{/hasbacktocourse}}
-                {{! Fechas de la actividad (apertura, cierre...): Moodle las agrega como "extras" del encabezado. }}
+                {{! Activity dates (open, due...): Moodle adds them as header "extras". }}
                 {{#headerextras}}
                     <div class="tal-header-extra">{{{.}}}</div>
                 {{/headerextras}}
@@ -121,17 +121,17 @@
             var w = document.getElementById('tal-breadcrumb-wrapper');
             if (w && w.querySelector('.breadcrumb-item')) {
                 w.style.display = '';
-                // Nombre completo al pasar el mouse (los niveles largos se acortan con "…").
+                // Full name on hover (long levels are shortened with "…").
                 w.querySelectorAll('.breadcrumb-item > a, .breadcrumb-item > span:not(.separator)').forEach(function(el) {
                     if (!el.getAttribute('title')) {
                         el.setAttribute('title', el.textContent.trim());
                     }
                 });
-                // Si aun así no cabe, se muestra el final: la página actual.
+                // If it still does not fit, scroll to the end: the current page.
                 var list = w.querySelector('.breadcrumb');
                 if (list) {
                     list.scrollLeft = list.scrollWidth;
-                    // En móvil, con más de 3 niveles, los intermedios se recogen tras un botón "…".
+                    // On mobile, with more than 3 levels, the middle ones go behind a "…" button.
                     if (list.children.length > 3) {
                         var more = document.createElement('li');
                         more.className = 'breadcrumb-item tal-bc-more';

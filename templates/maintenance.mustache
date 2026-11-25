@@ -17,30 +17,28 @@
 {{!
     @template theme_active/maintenance
 
-    Pagina que se muestra mientras el sitio esta en mantenimiento.
+    Page shown while the site is in maintenance mode.
 
-    Sustituye a theme_boost/maintenance, que presenta el aviso como un cuadro suelto sobre
-    la pagina en blanco. Aqui se centra en una tarjeta, con el nombre del sitio y el
-    logotipo, para que se lea como una pagina pensada y no como un error.
+    Replaces theme_boost/maintenance with a centred card that shows the site name and logo,
+    so the page looks intentional and not like an error.
 
-    Se usa tambien durante la instalacion y la actualizacion: no debe depender de que la
-    base de datos exista.
+    It is also used during install and upgrade, so it must not depend on the database.
 
     Context variables required for this template:
-    * sitename - Nombre corto del sitio.
-    * output - Renderer principal.
+    * sitename - Site short name.
+    * output - Core renderer.
 
     Optional context variables:
-    * logourl - URL del logotipo del sitio, si hay uno configurado.
+    * logourl - Site logo URL, if one is set.
 
     Example context (json):
     {
         "sitename": "Moodle",
         "output": {
             "doctype": "<!DOCTYPE html>",
-            "page_title": "Sitio en mantenimiento",
+            "page_title": "Site under maintenance",
             "favicon": "favicon.ico",
-            "main_content": "<h2>Este sitio esta en fase de mantenimiento</h2>"
+            "main_content": "<h2>This site is undergoing maintenance</h2>"
         }
     }
 }}
@@ -72,8 +70,8 @@
                 {{/logourl}}
             </div>
 
-            {{! Engranajes: decorativos, por eso aria-hidden. El giro se desactiva si el
-                usuario ha pedido menos animacion, regla que se aplica en el SCSS. }}
+            {{! Decorative gears, hence aria-hidden. The SCSS stops the spin when the
+                user prefers reduced motion. }}
             <div class="active-maintenance__icon" aria-hidden="true">
                 <svg viewBox="0 0 64 64" role="presentation" focusable="false">
                     <g class="active-maintenance__cog active-maintenance__cog--lg">

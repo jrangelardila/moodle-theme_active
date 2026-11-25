@@ -60,6 +60,22 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 
+    // Accent color (optional).
+    $name = 'theme_active/accentcolor';
+    $title = get_string('accentcolor', 'theme_active');
+    $description = get_string('accentcolor_desc', 'theme_active');
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, '');
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $page->add($setting);
+
+    // Footer background color (optional).
+    $name = 'theme_active/footercolor';
+    $title = get_string('footercolor', 'theme_active');
+    $description = get_string('footercolor_desc', 'theme_active');
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, '');
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $page->add($setting);
+
     // Course cards progress.
     $name = 'theme_active/showcardprogress';
     $title = get_string('showcardprogress', 'theme_active');
@@ -69,8 +85,9 @@ if ($ADMIN->fulltree) {
 
     $settings->add($page);
 
-    require_once('settings/branding.php');
-    require_once('settings/login.php');
-    require_once('settings/quicklinks.php');
-    require_once('settings/footer.php');
+    require_once(__DIR__ . '/settings/branding.php');
+    require_once(__DIR__ . '/settings/login.php');
+    require_once(__DIR__ . '/settings/quicklinks.php');
+    require_once(__DIR__ . '/settings/footer.php');
+    require_once(__DIR__ . '/settings/advanced.php');
 }

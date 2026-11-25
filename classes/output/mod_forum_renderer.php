@@ -17,8 +17,8 @@
 /**
  * Forum renderer override for theme_active.
  *
- * Replaces the default prev/next discussion navigation with a premium
- * card-based design including forum context and discussion names.
+ * Replaces the default prev/next discussion navigation with cards
+ * that show the forum and discussion names.
  *
  * @package    theme_active
  * @copyright  2026 Jhon Rangel <jrangelardila@gmail.com>
@@ -34,8 +34,7 @@ require_once($CFG->dirroot . '/mod/forum/renderer.php');
 /**
  * Forum renderer for theme_active.
  *
- * Overrides the neighbouring discussion navigation to render a premium
- * template with enhanced UX.
+ * Renders the previous/next discussion links with the theme template.
  */
 class mod_forum_renderer extends \mod_forum_renderer {
 

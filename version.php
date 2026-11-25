@@ -26,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'theme_active';
 $plugin->release = '0.1.0';
-$plugin->version = 2026110400;
-$plugin->requires = 2025041400; // Moodle 5.0 o superior.
+$plugin->version = 2026112401;
+$plugin->requires = 2025041400; // Moodle 5.0 or later.
 $plugin->maturity = MATURITY_ALPHA;

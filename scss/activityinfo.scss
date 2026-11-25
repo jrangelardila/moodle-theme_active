@@ -14,14 +14,14 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Finalización de la actividad dentro de la actividad (mismo diseño de theme_stream).
+ * Activity completion shown inside the activity page (same design as theme_stream).
  *
  * @package    theme_active
  * @copyright  2026 Jhon Rangel <jrangelardila@gmail.com>
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// Requisitos de finalización de la actividad: tarjeta encima de la descripción, cada requisito como píldora con su estado.
+// Activity completion requirements: a card above the description, each requirement as a pill with its status.
 .activity-information.tal-activity-info {
     .tal-completion {
         margin-bottom: 1rem;
@@ -54,7 +54,7 @@
         padding: 0;
         list-style: none;
     }
-    // Se anulan la viñeta y el sangrado que el núcleo pone a cada requisito.
+    // Remove the bullet and indent that core adds to each requirement.
     .automatic-completion-conditions li.tal-req {
         padding: 0;
         color: inherit;
@@ -118,17 +118,17 @@
         background-color: var(--bs-warning-bg-subtle);
         box-shadow: none;
     }
-    // La descripción ya no lleva la línea que la separaba de los requisitos (ahora van arriba).
+    // No separator line above the description (the requirements are now on top).
     .activity-description.tal-activity-description {
         border-bottom: 0;
     }
 }
-// El núcleo pinta este recuadro con $gray-100 fijo, que se queda claro en modo oscuro;
-// --bs-tertiary-bg es el mismo gris en modo claro y cambia solo en el oscuro.
+// Core uses a fixed $gray-100 here, which stays light in dark mode.
+// --bs-tertiary-bg is the same grey in light mode and changes in dark mode.
 .path-mod .activity-details:not(:empty) {
     background-color: var(--bs-tertiary-bg);
 }
-// Modo oscuro: el color principal casi no se ve sobre fondo oscuro; el borde y el ícono pasan a un tono más claro.
+// Dark mode: the primary color is hard to see on a dark background, so the border and icon use a lighter tone.
 [data-bs-theme=dark] .activity-information.tal-activity-info {
     --tal-req-accent: #{tint-color($primary, 45%)};
     --tal-req-title: var(--bs-emphasis-color);

@@ -37,7 +37,7 @@ use coursecat_helper;
  */
 class course_renderer extends \core_course_renderer {
 
-    /** @var array Datos de avance (id, cacherev, enablecompletion) de los cursos de la lista actual. */
+    /** @var array Progress data (id, cacherev, enablecompletion) for the courses in the current list. */
     protected $cardprogressdata = [];
 
     /**
@@ -94,8 +94,8 @@ class course_renderer extends \core_course_renderer {
         $content  = $paginghtml;
         $content .= html_writer::start_tag('div', ['class' => 'tal-course-grid row']);
 
-        // El avance de cada tarjeta necesita cacherev y enablecompletion, que el listado no trae:
-        // se leen de una vez para toda la página en lugar de un get_course() por tarjeta.
+        // Card progress needs cacherev and enablecompletion, which the list does not include.
+        // Load them once for the whole page instead of calling get_course() per card.
         $ids = array_map(fn($c) => (int) $c->id, is_array($courses) ? $courses : iterator_to_array($courses));
         $this->cardprogressdata = $ids
             ? $DB->get_records_list('course', 'id', $ids, '', 'id, cacherev, enablecompletion')
@@ -136,7 +136,7 @@ class course_renderer extends \core_course_renderer {
         // --- Course image ---
         global $CFG;
         $imagehtml = '';
-        // URL en caché por curso (theme_active_get_course_image_url): sin consultar los archivos en cada tarjeta.
+        // Cached per course (theme_active_get_course_image_url), so files are not queried for each card.
         $imgurl = theme_active_get_course_image_url((int) $course->id);
         if ($imgurl !== '') {
             $imginner = html_writer::empty_tag('img', [
@@ -210,7 +210,7 @@ class course_renderer extends \core_course_renderer {
         if ($teachershtml) {
             $cardbody .= $teachershtml;
         }
-        // Datos precargados en coursecat_courses() (una sola consulta para toda la lista).
+        // Data preloaded in coursecat_courses() (one query for the whole list).
         $cardbody .= theme_active_render_card_progress(
             $this->cardprogressdata[$course->id] ?? (object) ['id' => $course->id],
             $this->output

@@ -48,7 +48,7 @@ class event_observer {
     }
 
     /**
-     * Curso editado, restaurado o borrado: su imagen y sus docentes pueden haber cambiado.
+     * Course edited, restored or deleted: its image and teachers may have changed.
      *
      * @param \core\event\base $event
      */
@@ -61,7 +61,7 @@ class event_observer {
     }
 
     /**
-     * Cambio de roles o matrículas en un curso: se recalcula su lista de docentes.
+     * Role or enrolment change in a course: rebuild its teacher list.
      *
      * @param \core\event\base $event
      */
@@ -73,7 +73,7 @@ class event_observer {
     }
 
     /**
-     * Usuario editado (nombre, foto, correo) o borrado: puede ser docente de varios cursos, se vacía la caché.
+     * User edited (name, picture, email) or deleted: they may teach many courses, so purge the whole cache.
      *
      * @param \core\event\base $event
      */

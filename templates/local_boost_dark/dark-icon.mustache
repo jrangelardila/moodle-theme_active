@@ -17,17 +17,16 @@
 {{!
     @template local_boost_dark/dark-icon
 
-    Sobrescritura del conmutador de modo oscuro de local_boost_dark para theme_active.
+    Theme override of the local_boost_dark dark mode toggle.
 
-    Sustituye los dos botones tipo pildora del plugin por el componente core/toggle,
-    el mismo interruptor que usa theme_moove. Vive en el tema para no modificar el
-    plugin de terceros.
+    Replaces the plugin's two pill buttons with the core/toggle switch (the same one
+    theme_moove uses). It lives in the theme so the third-party plugin is not modified.
 
-    El estado inicial se lee del atributo data-bs-theme del <html> en cuanto carga,
-    porque el plugin no pasa esa informacion en el contexto de la plantilla.
+    The initial state is read from the data-bs-theme attribute of <html> on load,
+    because the plugin does not pass it in the template context.
 
     Context variables required for this template:
-    * enable - boolean, si el plugin esta activo
+    * enable - boolean, whether the plugin is enabled
 
     Example context (json):
     {
@@ -56,7 +55,7 @@
     require(["jquery", "core/ajax"], function($, ajax) {
         var $input = $("#toggle-darkmode-input");
 
-        // Estado inicial segun el modo activo en el documento.
+        // Initial state from the current mode of the page.
         $input.prop("checked", $("html").attr("data-bs-theme") === "dark");
 
         $input.on("change", function() {

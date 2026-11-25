@@ -62,7 +62,7 @@ $ci-smooth: cubic-bezier(.22, 1, .36, 1);
   gap: 8px;
   padding: 6px 10px;
   border-radius: 8px;
-  color: $ci-primary;
+  color: var(--tal-primary-text);
   background: rgba($ci-primary, .06);
   text-decoration: none;
   transition: all $ci-speed ease;
@@ -75,7 +75,7 @@ $ci-smooth: cubic-bezier(.22, 1, .36, 1);
   &:hover {
     background: rgba($ci-primary, .14);
     text-decoration: none;
-    color: $ci-primary;
+    color: var(--tal-primary-text);
     transform: translateX(2px);
   }
 
@@ -146,7 +146,7 @@ $ci-smooth: cubic-bezier(.22, 1, .36, 1);
   gap: 10px;
   padding: 8px 8px;
   border-radius: $ci-radius;
-  color: $body-color;
+  color: var(--bs-body-color);
   text-decoration: none;
   transition: background $ci-speed ease;
   cursor: pointer;
@@ -155,7 +155,7 @@ $ci-smooth: cubic-bezier(.22, 1, .36, 1);
   &:hover, &:focus {
     background: rgba(0, 0, 0, .04);
     text-decoration: none;
-    color: $body-color;
+    color: var(--bs-body-color);
   }
 }
 
@@ -233,7 +233,7 @@ $ci-smooth: cubic-bezier(.22, 1, .36, 1);
   }
 
   .tal-ci-sec-hd:hover & {
-    color: $ci-primary;
+    color: var(--tal-primary-text);
   }
 }
 
@@ -307,7 +307,7 @@ $ci-smooth: cubic-bezier(.22, 1, .36, 1);
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--tal-surface);
   border: $ci-line-w solid $ci-gray;
   transition: all $ci-speed;
 
@@ -379,7 +379,7 @@ $ci-smooth: cubic-bezier(.22, 1, .36, 1);
   border-radius: $ci-card-r;
   background: rgba(0, 0, 0, .02);
   border: 1px solid transparent;
-  color: $body-color;
+  color: var(--bs-body-color);
   text-decoration: none;
   transition: all $ci-speed ease;
 
@@ -388,7 +388,7 @@ $ci-smooth: cubic-bezier(.22, 1, .36, 1);
     border-color: rgba(0, 0, 0, .06);
     transform: translateX(2px);
     text-decoration: none;
-    color: $ci-primary;
+    color: var(--tal-primary-text);
   }
 
   // ── Active state: highlighted card ──
@@ -398,7 +398,7 @@ $ci-smooth: cubic-bezier(.22, 1, .36, 1);
     box-shadow: 0 2px 8px rgba($ci-primary, .08);
 
     .tal-ci-tm-name {
-      color: $ci-primary;
+      color: var(--tal-primary-text);
       font-weight: 600;
     }
   }

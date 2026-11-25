@@ -19,14 +19,11 @@ namespace theme_active\output;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Renderer que Moodle usa mientras el sitio esta en mantenimiento.
+ * Renderer used by Moodle while the site is in maintenance mode.
  *
- * En cuanto el pagelayout es 'maintenance', moodle_page::get_renderer() fuerza el destino
- * a RENDERER_TARGET_MAINTENANCE y la fabrica busca core_renderer_maintenance, no
- * core_renderer. Como el tema no lo definia, se usaba el del core, que hereda del
- * core_renderer del core y no del de theme_active: el ajuste de modo claro se saltaba y la
- * pagina de mantenimiento salia con data-bs-theme="auto". Con el equipo del visitante en
- * oscuro, el texto quedaba casi ilegible.
+ * With the 'maintenance' page layout, Moodle looks for core_renderer_maintenance instead of
+ * core_renderer. Without this class the core one was used, which skips the theme's light mode
+ * fix, so the page showed data-bs-theme="auto" and was hard to read on dark systems.
  *
  * @package    theme_active
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

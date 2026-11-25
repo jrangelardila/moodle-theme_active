@@ -28,8 +28,8 @@ $theme = theme_config::load('active');
 $loginposition  = $theme->settings->loginposition ?? 'center';
 $loginimageurl  = $theme->setting_file_url('loginimage', 'loginimage');
 
-// Las tres opciones deben producir una clase: con 'center' antes se devolvia una cadena
-// vacia y el formulario acababa pegado al borde izquierdo en lugar de centrado.
+// Every option must return a class. Before, 'center' returned an empty string
+// and the form was stuck to the left edge.
 $positionclass = [
     'left'   => 'justify-content-start',
     'center' => 'justify-content-center',
